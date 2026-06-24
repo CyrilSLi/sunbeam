@@ -17,51 +17,46 @@ export default function Step4() {
 	}
 
 	return (
-		<div
-			className="relative w-full min-h-screen"
-			style={{
-				background:
-					"linear-gradient(to bottom, rgb(234,242,233) 0%, rgb(251,246,231) 3%, rgb(250,239,211) 100%)",
-			}}
-		>
-			<div className="relative mx-[2.5%] mt-[7vh] mb-[4vh]">
+		<div className="relative w-full min-h-screen">
+			<img src="/imgs/sand.png" className="absolute inset-0 w-full h-full object-cover z-0" alt="" />
+			<div className="relative mx-[2.5%] mt-[7vh] mb-[4vh] z-[1]">
 				<img
-					src="/imgs/planks.png"
+					src="/imgs/boardwalk.png"
 					className="absolute inset-0 w-full h-full object-fill pointer-events-none rounded-sm"
 					alt=""
 				/>
 
 				<div className="relative z-10 w-[86%] mx-auto pt-[5vh] pb-[8vh]">
-					<h1 className="galindo text-[#D88127] text-[3.5vw] leading-snug mb-[6vh]">
+					<h1 className="galindo pink-outlined-text text-[4.2vw] leading-snug mb-[6vh]">
 						Thanks! Now tell us a little bit more about your event.
 					</h1>
 
 					<div className="flex flex-col gap-[5vh]">
 						<div className="flex flex-col gap-[6px]">
-							<label className="galindo text-[#2E599C] text-[1.5vw] leading-tight">
+							<label className="galindo text-[#2E599C] text-[1.8vw] leading-tight">
 								What city or region are you planning to host your Sunbeam Social in?
-								<span className="outfit text-[#359BBF] text-[1.1vw] ml-1">*</span>
+								<span className="outfit text-[#359BBF] text-[1.32vw] ml-1">*</span>
 							</label>
 							<input
 								type="text"
 								value={form.host_city}
 								onChange={(e) => setForm((f) => ({ ...f, host_city: e.target.value }))}
-								className="outfit bg-white w-[45%] px-3 py-[6px] text-[1vw] text-[#2E599C] border border-[#c8d8f0] rounded-sm outline-none focus:border-[#2E599C] transition-colors"
+								className="outfit bg-white w-[45%] px-3 py-[6px] text-[1.2vw] text-[#2E599C] border-[3px] border-[#0e387a] rounded-2xl outline-none focus:border-[#0e387a] transition-colors"
 							/>
 						</div>
 
 						<div className="flex flex-col gap-[6px]">
-							<label className="galindo text-[#2E599C] text-[1.5vw] leading-tight">
+							<label className="galindo text-[#2E599C] text-[1.8vw] leading-tight">
 								How many attendees are you planning on hosting?
-								<span className="outfit text-[#359BBF] text-[1.1vw] ml-1">*</span>
+								<span className="outfit text-[#359BBF] text-[1.32vw] ml-1">*</span>
 							</label>
-							<p className="outfit text-[#359BBF] text-[1vw] -mt-1">(be realistic!)</p>
+							<p className="outfit text-[#359BBF] text-[1.2vw] -mt-1">(be realistic!)</p>
 							<input
 								type="number"
 								min="1"
 								value={form.expected_attendee_count}
 								onChange={(e) => setForm((f) => ({ ...f, expected_attendee_count: e.target.value }))}
-								className="outfit bg-white w-[45%] px-3 py-[6px] text-[1vw] text-[#2E599C] border border-[#c8d8f0] rounded-sm outline-none focus:border-[#2E599C] transition-colors"
+								className="outfit bg-white w-[45%] px-3 py-[6px] text-[1.2vw] text-[#2E599C] border-[3px] border-[#0e387a] rounded-2xl outline-none focus:border-[#0e387a] transition-colors"
 							/>
 						</div>
 
@@ -70,9 +65,9 @@ export default function Step4() {
 								type="checkbox"
 								checked={form.different_to_home_address}
 								onChange={(e) => setForm((f) => ({ ...f, different_to_home_address: e.target.checked }))}
-								className="mt-1 w-[1.8vw] h-[1.8vw] flex-shrink-0 cursor-pointer accent-[#D88127]"
+								className="mt-1 w-[1.8vw] h-[1.8vw] flex-shrink-0 cursor-pointer accent-[#F393B4]"
 							/>
-							<span className="galindo text-[#F9A636] text-[1.5vw] leading-snug">
+							<span className="galindo pink-outlined-text-sm text-[1.8vw] leading-snug">
 								Is the city/region you&apos;re hosting your Sunbeam Social in different to your home city?
 							</span>
 						</div>
