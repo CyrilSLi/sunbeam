@@ -29,30 +29,25 @@ export default function Step7() {
 	}
 
 	return (
-		<div
-			className="relative w-full min-h-screen"
-			style={{
-				background:
-					"linear-gradient(to bottom, rgb(234,242,233) 0%, rgb(251,246,231) 3%, rgb(250,239,211) 100%)",
-			}}
-		>
-			<div className="relative mx-[1.7%] mt-[7vh] mb-[4vh]">
+		<div className="relative w-full min-h-screen">
+			<img src="/imgs/sand.png" className="absolute inset-0 w-full h-full object-cover z-0" alt="" />
+			<div className="relative mx-[1.7%] mt-[7vh] mb-[4vh] z-[1]">
 				<img
-					src="/imgs/planks.png"
+					src="/imgs/boardwalk.png"
 					className="absolute inset-0 w-full h-full object-fill pointer-events-none rounded-sm"
 					alt=""
 				/>
 
 				<div className="relative z-10 w-[86%] mx-auto pt-[5vh] pb-[8vh]">
-					<h1 className="galindo text-[#D88127] text-[4vw] leading-tight">
+					<h1 className="galindo pink-outlined-text text-[4.8vw] leading-tight">
 						Last thing...
 					</h1>
 
-					<p className="galindo text-[#2E599C] text-[2.9vw] leading-snug mt-[3vh]">
+					<p className="galindo text-[#2E599C] text-[3.48vw] leading-snug mt-[3vh]">
 						Are YOU committed?
 					</p>
 
-					<div className="outfit text-[#359BBF] text-[1.6vw] leading-relaxed mt-[2vh]">
+					<div className="outfit text-[#359BBF] text-[1.92vw] leading-relaxed mt-[2vh]">
 						<p className="font-semibold mb-[1vh]">Being committed means:</p>
 						<ul className="list-disc list-inside flex flex-col gap-[0.8vh]">
 							<li>attending all check-in calls (as POC it will be required, as org it is highly recommended)</li>
@@ -65,11 +60,11 @@ export default function Step7() {
 					<div className="flex items-start gap-[1.5vw] mt-[4vh]">
 						<div
 							onClick={() => setCommitted((v) => !v)}
-							className="flex-shrink-0 w-[1.8vw] h-[1.8vw] bg-white border border-[#c8d8f0] rounded-sm cursor-pointer mt-[0.3vw] flex items-center justify-center"
+							className="flex-shrink-0 w-[1.8vw] h-[1.8vw] bg-white border-[3px] border-[#0e387a] rounded-md cursor-pointer mt-[0.3vw] flex items-center justify-center"
 						>
-							{committed && <span className="text-[#D88127] text-[1.2vw] leading-none">✓</span>}
+							{committed && <span className="pink-gradient-text text-[1.44vw] leading-none">✓</span>}
 						</div>
-						<span className="galindo text-[#F9A636] text-[2vw] leading-snug">
+						<span className="galindo pink-outlined-text text-[2.4vw] leading-snug">
 							Check this box if you&apos;re committed to running the best Sunbeam social ever
 						</span>
 					</div>
@@ -78,15 +73,15 @@ export default function Step7() {
 						<div className="flex items-start gap-[1.5vw]">
 							<div
 								onClick={() => setComfortableWithPoc((v) => !v)}
-								className="flex-shrink-0 w-[1.8vw] h-[1.8vw] bg-white border border-[#c8d8f0] rounded-sm cursor-pointer mt-[0.3vw] flex items-center justify-center"
+								className="flex-shrink-0 w-[1.8vw] h-[1.8vw] bg-white border-[3px] border-[#0e387a] rounded-md cursor-pointer mt-[0.3vw] flex items-center justify-center"
 							>
-								{comfortable_with_poc && <span className="text-[#D88127] text-[1.2vw] leading-none">✓</span>}
+								{comfortable_with_poc && <span className="pink-gradient-text text-[1.44vw] leading-none">✓</span>}
 							</div>
-							<span className="galindo text-[#F9A636] text-[2vw] leading-snug">
+							<span className="galindo pink-outlined-text text-[2.4vw] leading-snug">
 								Check this box if you are comfortable being the Point of Contact for your city.
 							</span>
 						</div>
-						<p className="outfit text-[#359BBF] text-[1.6vw] leading-relaxed mt-[1.5vh] ml-[5.3vw]">
+						<p className="outfit font-bold text-[#359BBF] text-[1.92vw] leading-relaxed mt-[1.5vh] ml-[5.3vw]">
 							This would include being the &ldquo;lead organizer&rdquo; of your group, being responsible for
 							completing weekly check-ins, and attending pre-event support calls and being the main
 							point of contact for your city.

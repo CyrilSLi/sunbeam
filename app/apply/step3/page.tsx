@@ -23,18 +23,18 @@ function Field({
 }) {
 	return (
 		<div className="flex flex-col gap-[4px]">
-			<label className="galindo text-[#2E599C] text-[1.4vw] leading-none">
+			<label className="galindo text-[#2E599C] text-[1.68vw] leading-none">
 				{label}
-				{required && <span className="outfit text-[#359BBF] text-[1.1vw] ml-1">*</span>}
-				{optional && <span className="outfit text-[#359BBF] text-[0.95vw] ml-2">(optional)</span>}
+				{required && <span className="outfit text-[#359BBF] text-[1.32vw] ml-1">*</span>}
+				{optional && <span className="outfit text-[#359BBF] text-[1.14vw] ml-2">(optional)</span>}
 			</label>
-			{hint && <p className="outfit text-[#359BBF] text-[0.85vw] leading-snug">{hint}</p>}
+			{hint && <p className="outfit text-[#359BBF] text-[1.02vw] leading-snug">{hint}</p>}
 			<input
 				type={type}
 				name={name}
 				value={value}
 				onChange={(e) => onChange(name, e.target.value)}
-				className="outfit bg-white w-full px-3 py-[6px] text-[1vw] text-[#2E599C] border border-[#c8d8f0] rounded-sm outline-none focus:border-[#2E599C] transition-colors placeholder:text-[#b0c4de]"
+				className="outfit bg-white w-full px-3 py-[6px] text-[1.2vw] text-[#2E599C] border-[3px] border-[#0e387a] rounded-2xl outline-none focus:border-[#0e387a] transition-colors placeholder:text-[#b0c4de]"
 			/>
 		</div>
 	);
@@ -60,21 +60,16 @@ export default function Step3() {
 	}
 
 	return (
-		<div
-			className="relative w-full min-h-screen"
-			style={{
-				background:
-					"linear-gradient(to bottom, rgb(234,242,233) 0%, rgb(251,246,231) 3%, rgb(250,239,211) 100%)",
-			}}
-		>
-			<div className="relative mx-[2.5%] mt-[7vh] mb-[4vh]">
+		<div className="relative w-full min-h-screen">
+			<img src="/imgs/sand.png" className="absolute inset-0 w-full h-full object-cover z-0" alt="" />
+			<div className="relative mx-[2.5%] mt-[7vh] mb-[4vh] z-[1]">
 				<img
-					src="/imgs/planks.png"
+					src="/imgs/boardwalk.png"
 					className="absolute inset-0 w-full h-full object-fill pointer-events-none rounded-sm"
 					alt=""
 				/>
 				<div className="relative z-10 w-[82%] mx-auto pt-[5vh] pb-[6vh]">
-					<h1 className="galindo text-[#D88127] text-center text-[2.8vw] mb-[4vh] whitespace-nowrap">
+					<h1 className="galindo pink-outlined-text text-center text-[3.36vw] mb-[4vh] whitespace-nowrap">
 						Sign-up to organize a Sunbeam Social now!
 					</h1>
 
@@ -108,9 +103,9 @@ export default function Step3() {
 								type="checkbox"
 								checked={form.certified}
 								onChange={(e) => setForm((f) => ({ ...f, certified: e.target.checked }))}
-								className="w-[1.8vw] h-[1.8vw] flex-shrink-0 cursor-pointer accent-[#D88127]"
+								className="w-[1.8vw] h-[1.8vw] flex-shrink-0 cursor-pointer accent-[#F393B4]"
 							/>
-							<span className="galindo text-[#F9A636] text-[1.3vw]">
+							<span className="galindo pink-outlined-text-sm text-[1.56vw]">
 								I certify that I will be 18 or under on August 29th
 							</span>
 						</div>

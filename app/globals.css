@@ -8,6 +8,31 @@
 	font-family: "Outfit", serif;
 }
 
+.pink-gradient-text {
+	background: linear-gradient(to bottom right, rgb(243,147,180), rgb(255,198,217));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.pink-outlined-text {
+	background: linear-gradient(to bottom right, #F393B4, #FFC7DA);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	-webkit-text-stroke: 1.75px #0E387A;
+	paint-order: stroke fill;
+}
+
+.pink-outlined-text-sm {
+	background: linear-gradient(to bottom right, #F393B4, #FFC7DA);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	-webkit-text-stroke: 1px #0E387A;
+	paint-order: stroke fill;
+}
+
 .gradient-text {
 	background: linear-gradient(to bottom, #ffffff 0%, #f393b4 100%);
 	-webkit-background-clip: text;
