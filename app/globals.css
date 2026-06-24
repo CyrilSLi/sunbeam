@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.galindo {
+	font-family: "Galindo", sans-serif;
+}
+
+.outfit {
+	font-family: "Outfit", serif;
+}
+
+.gradient-text {
+	background: linear-gradient(to bottom, #ffffff 0%, #f393b4 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+
+	-webkit-text-stroke: 1.75px #0e387a;
+	/* 
+	text-shadow: 1px 1px 0 #0e387a, -1px 1px 0 #0e387a, 1px -1px 0 #0e387a,
+		-1px -1px 0 #0e387a; */
+}
