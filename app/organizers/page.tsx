@@ -1,13 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 export default function Organizers() {
   const daysUntilEvent = dayjs("2026-08-29").diff(dayjs(), "day");
   const checkInCallDates = ["2026-06-07", "2026-06-14"];
-  const soonestCheckIn = checkInCallDates.reduce(
-    (a: string, b: string) => (dayjs(a).isBefore(dayjs(b)) ? a : b),
+  const soonestCheckIn = checkInCallDates.reduce((a: string, b: string) =>
+    dayjs(a).isBefore(dayjs(b)) ? a : b,
   );
   const daysUntilNextCheckIn = dayjs(soonestCheckIn).diff(dayjs(), "day");
+  const [sidebarClosed, setSidebarClosed] = useState(false);
 
   return (
     <div
@@ -20,35 +24,45 @@ export default function Organizers() {
     >
       {/* sidebar */}
       <div
-        className="w-1/3 h-screen flex flex-col lg:px-4 2xl:px-9 lg:py-8 2xl:py-12 gap-8 2xl:gap-10"
+        // className="w-1/3 h-screen flex flex-col lg:px-4 2xl:px-9 lg:py-8 2xl:py-12 gap-8 2xl:gap-10"
+        className={
+          sidebarClosed
+            ? "w-1/12 transition-all duration-500 ease-in-out"
+            : "w-1/3 h-screen flex flex-col lg:px-4 2xl:px-9 lg:py-8 2xl:py-12 gap-8 2xl:gap-10 transition-all duration-500 ease-in-out"
+        }
         style={{
           backgroundImage: "url('/imgs/sidebar-water-desktop.png')",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "right",
         }}
       >
-        <div></div>
-        <Link href="/">
+        <div
+          className={
+            sidebarClosed ? "opacity-0 hidden" : "opacity-100 transition-all duration-500 ease-in-out flex flex-col gap-8 2xl:gap-10"
+          }
+        >
+          <Link href="/">
+            <img
+              src="/imgs/logo_orgportal.png"
+              className="w-3/4 hover:scale-105 duration-200"
+            ></img>
+          </Link>
+          <SidebarItem href="/organizers" text="Home" />
+          <SidebarItem href="/organizers/docs" text="Docs" />
+          <SidebarItem href="/organizers/docs" text="More Resources" />
+          <SidebarItem href="/organizers/docs" text="Branding & Social Media" />
+          <SidebarItem href="/organizers/docs" text="Contact HQ" />
+        </div>
+        <button onClick={() => setSidebarClosed(!sidebarClosed)} className={sidebarClosed ? "absolute bottom-12 w-1/5 transition-all duration-500 ease-in-out focus:outline-none" : "absolute focus:outline-none bottom-12 w-5/16 transition-all duration-500 ease-in-out"}>
           <img
-            src="/imgs/logo_orgportal.png"
-            className="w-3/4 hover:scale-105 duration-200"
-          ></img>
-        </Link>
-        <SidebarItem href="/organizers" text="Home" />
-        <SidebarItem href="/organizers/docs" text="Docs" />
-        <SidebarItem href="/organizers/docs" text="More Resources" />
-        <SidebarItem href="/organizers/docs" text="Branding & Social Media" />
-        <SidebarItem href="/organizers/docs" text="Contact HQ" />
-        <button>
-          <img
-            src="/imgs/ray_back.png"
+            src={sidebarClosed ? "/imgs/ray_open.png" : "/imgs/ray_back.png"}
             alt=""
             className="w-5/8 -m-6 hover:translate-x-5 duration-200"
           ></img>
         </button>
       </div>
       {/* homepage */}
-      <div className="h-screen w-2/3 2xl:p-9">
+      <div className="h-screen 2xl:p-9 justify-center align-middle">
         <h1 className="2xl:text-5xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
           Welcome, Sunbeamer!
         </h1>
@@ -66,7 +80,9 @@ export default function Organizers() {
             </div>
             {/* check-in call countdown */}
             <div className="glassbox-white w-1/2 2xl:p-12 2xl:m-6 2xl:rounded-2xl text-center duration-200 hover:scale-102">
-              <h1 className="galindo 2xl:text-[112px] text-pink-dark">{daysUntilNextCheckIn}</h1>
+              <h1 className="galindo 2xl:text-[112px] text-pink-dark">
+                {daysUntilNextCheckIn}
+              </h1>
               <h3 className="galindo text-[32px] -mt-10 text-orange-dark leading-9">
                 days until the next check-in call
               </h3>
@@ -84,7 +100,14 @@ export default function Organizers() {
                   <strong>1.</strong> Sign up to be an organizer in your city!
                   (wait for approval - you’ll receive an email from us soon)
                   <br /> <strong>2.</strong> once approved, join
-                  <a href="https://hackclub.enterprise.slack.com/archives/C0BCUSTJQTG" target="_blank" className="p-1 px-2 m-1 bg-blue-bright/20  outline-blue-dark/65 hover:bg-blue-bright/25 hover:outline-2 hover:m-2 duration-200 rounded-xl text-nowrap ">#sunbeam-organizers</a> on Slack!
+                  <a
+                    href="https://hackclub.enterprise.slack.com/archives/C0BCUSTJQTG"
+                    target="_blank"
+                    className="p-1 px-2 m-1 bg-blue-bright/20  outline-blue-dark/65 hover:bg-blue-bright/25 hover:outline-2 hover:m-2 duration-200 rounded-xl text-nowrap "
+                  >
+                    #sunbeam-organizers
+                  </a>{" "}
+                  on Slack!
                   <br /> <strong>3.</strong> share feedback on our ULTIMATE
                   ORGANIZER GUIDE
                   <br /> <strong>4.</strong> join the very first check in call
