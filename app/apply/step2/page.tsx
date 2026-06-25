@@ -1,37 +1,61 @@
+"use client";
+import { useState } from "react";
+import GuideContent from "../GuideContent";
+
 export default function Step2() {
+	const [revealed, setRevealed] = useState(false);
+
 	return (
-		<div className="relative w-full h-screen overflow-hidden bg-white">
-			{/* Left placeholder panel (unfinished) */}
+		<div className="relative">
+			{/* Guide content — blurred until revealed */}
 			<div
-				className="absolute top-0 left-0 h-full"
-				style={{ width: "30.9%", background: "rgb(217,217,217)" }}
-			/>
-
-			{/* "Read the ultimate organizer guide!" */}
-			<h1
-				className="galindo absolute z-10 text-[#F393B4] whitespace-nowrap"
 				style={{
-					top: "38%",
-					left: "50%",
-					transform: "translateX(-50%)",
-					fontSize: "2.9vw",
+					filter: revealed ? "none" : "blur(8px)",
+					transition: "filter 0.7s ease",
+					pointerEvents: revealed ? "auto" : "none",
 				}}
 			>
-				Read the ultimate organizer guide!
-			</h1>
+				<GuideContent />
 
-			{/* Surfboard "OK!" button */}
-			<a
-				href="/apply/step3"
-				className="absolute z-10 hover:scale-105 transition-transform cursor-pointer"
+				{/* Continue button at bottom */}
+				<div
+					className="flex justify-center py-[8vh]"
+					style={{ background: "rgb(250,240,212)" }}
+				>
+					<a
+						href="/apply/step3"
+						className="hover:scale-105 transition-transform cursor-pointer"
+						style={{ width: "25vw", display: "block" }}
+					>
+						<img src="/imgs/surfboard_next2.png" className="w-full" alt="continue to apply!" />
+					</a>
+				</div>
+			</div>
+
+			{/* Overlay — fades out on reveal */}
+			<div
+				className="fixed inset-0 z-10 flex flex-col items-center justify-center"
 				style={{
-					left: "37%",
-					top: "50%",
-					width: "25vw",
+					background: "rgba(250,240,212,0.9)",
+					opacity: revealed ? 0 : 1,
+					pointerEvents: revealed ? "none" : "auto",
+					transition: "opacity 0.7s ease",
 				}}
 			>
-				<img src="/imgs/surfboard_ok.png" className="w-full" alt="OK!" />
-			</a>
+				<h1
+					className="galindo pink-outlined-text text-center mb-[4vh]"
+					style={{ fontSize: "3.5vw" }}
+				>
+					Read the ultimate organizer guide!
+				</h1>
+				<button
+					onClick={() => setRevealed(true)}
+					className="hover:scale-105 transition-transform cursor-pointer bg-transparent border-none p-0"
+					style={{ width: "25vw" }}
+				>
+					<img src="/imgs/surfboard_ok.png" className="w-full" alt="OK!" />
+				</button>
+			</div>
 		</div>
 	);
 }
