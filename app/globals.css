@@ -7,6 +7,7 @@
   --color-yellow-light: #fee48b;
   --color-pink-bright: #f393b4;
   --color-pink-dark: #c54390;
+  --color-pink-dropshadow: #f4c2d6;
   --color-blue-dark: #0e387a;
   --color-blue-bright: #359bbf;
 }
@@ -83,11 +84,16 @@
 }
 
 .boardwalk {
-  background-image: url("/imgs/planks2.png");
+    background-image:
+    linear-gradient(
+      color-mix(in srgb, #FFE4E9 60%, transparent),
+      color-mix(in srgb, var(--color-pink-bright) 30%, transparent)
+    ),
+    url("/imgs/planks-pink-h.png");
   background-size: 150%;
   background-position: center;
-  backdrop-filter: blur(32px);
-  box-shadow: 0 -32px 0px #dab6c2;
+  outline: 1px solid var(--color-pink-dropshadow);
+  box-shadow: 0 -16px 0px var(--color-pink-dropshadow);
 }
 
 @media (max-width: 1280px) {
