@@ -1,4 +1,10 @@
+"use client";
+import { useSearchParams } from "next/navigation";
+
 export default function Submitted() {
+	const params = useSearchParams();
+	const firstName = params.get("name") || "";
+
 	return (
 		<div className="relative w-full min-h-screen overflow-hidden">
 			{/* Sky gradient */}
@@ -49,7 +55,7 @@ export default function Submitted() {
 				{/* Thank-you text */}
 				<div className="text-center mt-[6vh]" style={{ width: "58%" }}>
 					<p className="galindo text-[#2E599C] text-[1.7vw] leading-snug">
-						Thanks &#123;firstName&#125; for applying to organize a Sunbeam Social!
+						Thanks {firstName} for applying to organize a Sunbeam Social!
 					</p>
 					<p className="galindo text-[#2E599C] text-[1.7vw] leading-snug mt-[4vh]">
 						We&apos;ll review applications and send you an email within the next two weeks.

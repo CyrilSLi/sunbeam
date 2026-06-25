@@ -20,8 +20,9 @@ export default function Step7() {
 		});
 
 		if (res.ok) {
+			const name = encodeURIComponent(saved.preferred_name || saved.first_name || "");
 			localStorage.removeItem("sunbeam_app");
-			router.push("/apply/submitted");
+			router.push(`/apply/submitted?name=${name}`);
 		} else {
 			alert("Something went wrong. Please try again.");
 			setSubmitting(false);
