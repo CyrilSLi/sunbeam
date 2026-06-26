@@ -12,7 +12,7 @@ export default function DocsSidebar() {
       className={
         sidebarClosed
           ? "max-lg:hidden w-1/12 transition-all duration-500 ease-in-out"
-          : "max-lg:hidden w-1/3 h-screen flex flex-col lg:px-4 2xl:px-9 lg:py-8 2xl:py-12 gap-8 2xl:gap-10 transition-all duration-500 ease-in-out"
+          : "max-lg:hidden w-56 h-screen flex flex-col lg:px-4 2xl:px-6 lg:py-6 2xl:py-10 gap-4 2xl:gap-5 transition-all duration-500 ease-in-out"
       }
       style={{
         backgroundImage: "url('/imgs/sidebar-water-desktop.png')",
@@ -24,14 +24,14 @@ export default function DocsSidebar() {
         className={
           sidebarClosed
             ? "opacity-0 hidden"
-            : "opacity-100 transition-all duration-500 ease-in-out flex flex-col gap-8 2xl:gap-10"
+            : "opacity-100 transition-all duration-500 ease-in-out flex flex-col gap-4 2xl:gap-5"
         }
       >
         <Link href="/organizers" className="grid grid-rows-1 grid-cols-1 transform hover:translate-x-5 duration-200">
-          <h2 className="text-3xl outfit pink-outlined-text-drop-shadow -mb-8 -mt-4 font-bold">
+          <h2 className="text-xl outfit pink-outlined-text-drop-shadow -mb-5 -mt-3 font-bold">
             &larr; back
           </h2>
-          <h2 className="text-3xl outfit text-yellow-light -mb-8 -mt-4 font-bold">
+          <h2 className="text-xl outfit text-yellow-light -mb-5 -mt-3 font-bold">
             &larr; back
           </h2>
         </Link>
