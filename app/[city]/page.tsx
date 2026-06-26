@@ -1,3 +1,5 @@
+import SignUpButton from "./SignUpButton";
+
 export default async function Page({
   params,
 }: {
@@ -71,16 +73,7 @@ const cityName = record["City"]
 					<h1 className="galindo text-[6.5vh] leading-[6.5vh] md:leading-[8vh] text-center gradient-text mt-[1.5vh]">
 						No experience necessary - join today!
 					</h1>
-					<a
-						href="/sign-up"
-						className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto"
-					>
-						<img
-							src="/imgs/sign-up.png"
-							className="w-[65vw] md:w-[25vw] mx-auto"
-							alt="apply!"
-						/>
-					</a>
+					<SignUpButton city={city} />
 				</div>
 			</div>
 
