@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+//import { useState } from "react";
 import SidebarItem from "../components/SidebarItem";
 
 export default function MobileNavbar() {

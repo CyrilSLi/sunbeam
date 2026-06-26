@@ -1,4 +1,6 @@
 import DocsSidebar from "../../../../components/DocsSidebar"
+import MobileNavbar from "../../../../components/MobileNavbar"
+import GuideContent from "../../../apply/GuideContent"
 
 export default function DocsQuickstart() {
   return (
@@ -12,11 +14,12 @@ export default function DocsQuickstart() {
     >
       <DocsSidebar />
       {/* desktop content */}
-      <div className="max-lg:hidden">
-        <div className="flex flex-1 flex-col h-full"></div>
+      <div className="max-lg:hidden flex-1 h-screen overflow-y-auto">
+        <GuideContent />
       </div>
       {/* mobile content */}
-      <div className="lg:hidden">quickstart</div>
+      <div className="lg:hidden"><GuideContent /></div>
+      <MobileNavbar />
     </div>
   );
 }
