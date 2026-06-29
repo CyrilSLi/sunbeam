@@ -16,6 +16,7 @@ export default function HCASignInButton({ authUrl }: { authUrl: string }) {
 					src="/imgs/boardwalk.png"
 					fill
 					alt=""
+					priority
 					className="pointer-events-none rounded-sm object-fill"
 					sizes="95vw"
 				/>

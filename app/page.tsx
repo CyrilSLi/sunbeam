@@ -158,6 +158,7 @@ export default function Home() {
 										src="/imgs/img1.png"
 										fill
 										alt=""
+										sizes="(max-width: 768px) 90vw, 23vw"
 										className="object-cover rounded-lg"
 									/>
 								</div>
@@ -177,6 +178,7 @@ export default function Home() {
 										src="/imgs/img2.png"
 										fill
 										alt=""
+										sizes="(max-width: 768px) 90vw, 23vw"
 										className="object-cover rounded-lg"
 									/>
 								</div>
@@ -199,6 +201,7 @@ export default function Home() {
 										src="/imgs/img3.png"
 										fill
 										alt=""
+										sizes="(max-width: 768px) 90vw, 23vw"
 										className="object-cover rounded-lg"
 									/>
 								</div>
