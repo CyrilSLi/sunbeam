@@ -59,6 +59,15 @@
 	text-shadow: 0px 2.5px 2.5px #0e387a;
 }
 
+.blue-outlined-text {
+	background: linear-gradient(to bottom right, #2E599C, #359BBF);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	-webkit-text-stroke: 1.5px #0e387a;
+	paint-order: stroke fill;
+}
+
 .gradient-text {
 	background: linear-gradient(to bottom, #ffffff 0%, #f393b4 100%);
 	-webkit-background-clip: text;

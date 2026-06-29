@@ -23,20 +23,20 @@ function Field({
 	onChange: (name: string, val: string) => void;
 }) {
 	return (
-		<div className="flex flex-col gap-[4px]">
-			<label className="galindo text-[#2E599C] text-[1.68vw] leading-none">
+		<div className="flex flex-col gap-[3px]">
+			<label className="galindo text-[#2E599C] text-[1.2vw] leading-none">
 				{label}
-				{required && <span className="outfit text-[#359BBF] text-[1.32vw] ml-1">*</span>}
-				{optional && <span className="outfit text-[#359BBF] text-[1.14vw] ml-2">(optional)</span>}
+				{required && <span className="outfit text-[#359BBF] text-[1vw] ml-1">*</span>}
+				{optional && <span className="outfit text-[#359BBF] text-[0.9vw] ml-2">(optional)</span>}
 			</label>
-			{hint && <p className="outfit text-[#359BBF] text-[1.02vw] leading-snug">{hint}</p>}
+			{hint && <p className="outfit text-[#359BBF] text-[0.82vw] leading-snug">{hint}</p>}
 			<input
 				type={type}
 				name={name}
 				value={value}
 				required={required}
 				onChange={(e) => onChange(name, e.target.value)}
-				className="outfit bg-white w-full px-3 py-[6px] text-[1.2vw] text-[#2E599C] border-[3px] border-[#0e387a] rounded-2xl outline-none focus:border-[#0e387a] transition-colors placeholder:text-[#b0c4de]"
+				className="outfit bg-white w-full px-3 py-[4px] text-[1vw] text-[#2E599C] border-[3px] border-[#0e387a] rounded-2xl outline-none focus:border-[#0e387a] transition-colors placeholder:text-[#b0c4de]"
 			/>
 		</div>
 	);
@@ -63,7 +63,7 @@ export default function Step3() {
 					email: user.identity.primary_email || f.email,
 					first_name: user.identity.first_name || f.first_name,
 					last_name: user.identity.last_name || f.last_name,
-					preferred_name:  f.preferred_name,
+					preferred_name: f.preferred_name,
 					slack_id: user.identity.slack_id || f.slack_id,
 					hca_identity: user.identity.id
 				}));
@@ -85,7 +85,7 @@ export default function Step3() {
 			className="relative w-full min-h-screen"
 			style={{ backgroundImage: "url('/imgs/sand.webp')", backgroundRepeat: "repeat-y", backgroundSize: "100% auto" }}
 		>
-			<div className="relative mx-[2.5%] mt-[7vh] mb-[4vh]">
+			<div className="relative mx-[2.5%] mt-[4vh] mb-[2vh]">
 				<Image
 					src="/imgs/boardwalk.webp"
 					fill
@@ -94,12 +94,12 @@ export default function Step3() {
 					className="pointer-events-none rounded-sm object-fill"
 					sizes="95vw"
 				/>
-				<div className="relative z-10 w-[82%] mx-auto pt-[5vh] pb-[6vh]">
-					<h1 className="galindo pink-outlined-text text-center text-[3.36vw] mb-[4vh] whitespace-nowrap">
+				<div className="relative z-10 w-[82%] mx-auto pt-[3vh] pb-[4vh]">
+					<h1 className="galindo pink-outlined-text text-center text-[2.4vw] mb-[2vh] whitespace-nowrap">
 						Sign-up to organize a Sunbeam Social now!
 					</h1>
 
-					<form className="flex flex-col gap-[2.5vh]" onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
+					<form className="flex flex-col gap-[1.5vh]" onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
 						<Field label="Email" required type="email" name="email" value={form.email} onChange={set} />
 						<div className="grid grid-cols-2 gap-[8%]">
 							<Field label="First Name" required name="first_name" value={form.first_name} onChange={set} />
@@ -125,24 +125,21 @@ export default function Step3() {
 							<Field label="Date of Birth" required type="date" name="date_of_birth" value={form.date_of_birth} onChange={set} />
 						</div>
 
-						<div className="flex items-center gap-3 mt-[1vh]">
-							<input
-								type="checkbox"
-								checked={form.certified}
-								required
-								onChange={(e) => setForm((f) => ({ ...f, certified: e.target.checked }))}
-								className="w-[1.8vw] h-[1.8vw] flex-shrink-0 cursor-pointer accent-[#F393B4]"
+						<div className="flex items-center gap-[1.5vw] mt-[1vh]">
+							<div
+								onClick={() => setForm((f) => ({ ...f, certified: !f.certified }))}
+								className={`flex-shrink-0 w-[1.4vw] h-[1.4vw] border-[3px] border-[#0e387a] rounded-md cursor-pointer transition-colors ${form.certified ? "bg-[#F393B4]" : "bg-white"}`}
 							/>
-							<span className="galindo pink-outlined-text-sm text-[1.56vw]">
+							<span className="galindo text-[#2E599C] text-[1.2vw]">
 								I certify that I will be 18 or under on August 29th
 							</span>
 						</div>
 
-						<div className="flex justify-center mt-[2vh]">
+						<div className="flex justify-center mt-[1vh]">
 							<button
 								type="submit"
 								className="hover:scale-105 transition-transform cursor-pointer bg-transparent border-none p-0"
-								style={{ width: "22vw" }}
+								style={{ width: "18vw" }}
 							>
 								<Image src="/imgs/surfboard_next2.webp" width={516} height={191} alt="next!" className="w-full h-auto" />
 							</button>

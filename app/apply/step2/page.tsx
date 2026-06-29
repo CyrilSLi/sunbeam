@@ -7,7 +7,15 @@ export default function Step2() {
 	const [revealed, setRevealed] = useState(false);
 
 	return (
-		<div className="relative">
+		<div
+			className="relative"
+			style={{
+				backgroundColor: "rgb(250,240,212)",
+				backgroundImage: "url('/imgs/sand4.webp')",
+				backgroundSize: "100% auto",
+				backgroundRepeat: "repeat-y",
+			}}
+		>
 			{/* Guide content — blurred until revealed */}
 			<div
 				style={{
@@ -21,7 +29,7 @@ export default function Step2() {
 				{/* Continue button at bottom */}
 				<div
 					className="flex justify-center py-[8vh]"
-					style={{ background: "rgb(250,240,212)" }}
+					style={{ background: "transparent" }}
 				>
 					<a
 						href="/apply/hca-signin"
