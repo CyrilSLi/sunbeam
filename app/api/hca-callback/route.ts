@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const error = request.nextUrl.searchParams.get("error");
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? request.nextUrl.origin;
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const forwardedProto = request.headers.get("x-forwarded-proto") ?? "https";
+  const base = forwardedHost
+    ? `${forwardedProto}://${forwardedHost}`
+    : request.nextUrl.origin;
   const step3 = new URL("/apply/step3", base);
 
   if (error || !code) {
@@ -25,6 +29,9 @@ export async function GET(request: NextRequest) {
   });
 
   if (!tokenRes.ok) {
+    const err = await tokenRes.text();
+    console.error("[hca-callback] token exchange failed:", tokenRes.status, err);
+    console.error("[hca-callback] redirect_uri used:", redirectUri);
     return NextResponse.redirect(step3);
   }
 
