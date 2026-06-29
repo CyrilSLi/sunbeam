@@ -319,7 +319,7 @@ export default function Home() {
 						{/* Right description */}
 						<p className="outfit text-black/60 md:text-[#FAF0D3] text-[2.75vw] md:text-[1.5vw] leading-relaxed max-w-[80vw] md:max-w-[60vw]">
 							Hack Club is a 501(c)(3) nonprofit and network of 60k+ technical
-							high schoolers. We believe you learn best by building so
+							high schoolers. We believe you learn best by building, so
 							we&apos;re creating community and providing grants so you can make
 							awesome projects. In the past few years, we&apos;ve partnered with
 							GitHub to run&nbsp;Summer of Making, hosted the&nbsp;world&apos;s

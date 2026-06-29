@@ -26,6 +26,9 @@ const outfit = Outfit({
 export const metadata: Metadata = {
 	title: "Sunbeam - Hack Club",
 	description: "Sunbeam - 25 events in 25 cities!",
+	icons: {
+		icon: '/favicon.svg',
+	}
 };
 
 export default function RootLayout({

@@ -76,6 +76,7 @@ export default function Step3() {
 					postal_code:    addr.postal_code    || f.postal_code,
 					country:        addr.country        || f.country,
 					hca_identity:  id.id,
+					preferred_name: f.preferred_name
 				}));
 			});
 	}, []);
