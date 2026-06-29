@@ -6,7 +6,8 @@ export function middleware(request: NextRequest) {
 	// Protect all apply sub-routes except the landing page and the sign-in page itself
 	if (
 		pathname.startsWith("/apply/") &&
-		!pathname.startsWith("/apply/hca-signin")
+		!pathname.startsWith("/apply/hca-signin") &&
+		pathname != ("/apply/step2") 
 	) {
 		const token = request.cookies.get("hca_token")?.value;
 		if (!token) {
