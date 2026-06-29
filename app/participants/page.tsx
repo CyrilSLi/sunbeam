@@ -2,7 +2,7 @@
 import React from "react";
 import config from "./config.json";
 
-const TemplatePaage = () => {
+const TemplatePage = () => {
 	const { cityName, schedule, sponsors } = config;
 
 	return (
@@ -456,4 +456,4 @@ const TemplatePaage = () => {
 	);
 };
 
-export default TemplatePaage;
+export default TemplatePage;

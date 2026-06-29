@@ -58,14 +58,24 @@ export default function Step3() {
 			.then((r) => (r.ok ? r.json() : null))
 			.then((user) => {
 				if (!user) return;
+				console.log("[hca-me full response]", JSON.stringify(user));
+				const id = user.identity ?? {};
+				const addr = id.addresses ? id.addresses[0] : {};
 				setForm((f) => ({
 					...f,
-					email: user.identity.primary_email || f.email,
-					first_name: user.identity.first_name || f.first_name,
-					last_name: user.identity.last_name || f.last_name,
-					preferred_name: f.preferred_name,
-					slack_id: user.identity.slack_id || f.slack_id,
-					hca_identity: user.identity.id
+					email:         id.primary_email   || f.email,
+					first_name:    id.first_name       || f.first_name,
+					last_name:     id.last_name        || f.last_name,
+					slack_id:      id.slack_id         || f.slack_id,
+					phone_number:  id.phone_number     || f.phone_number,
+					date_of_birth: id.birthday         || id.date_of_birth || f.date_of_birth,
+					address_line_1: addr.line_1 || f.address_line_1,
+					address_line_2: addr.line_2          || f.address_line_2,
+					city:           addr.city        || f.city,
+					state_province: addr.state         || f.state_province,
+					postal_code:    addr.postal_code    || f.postal_code,
+					country:        addr.country        || f.country,
+					hca_identity:  id.id,
 				}));
 			});
 	}, []);

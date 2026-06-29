@@ -5,7 +5,7 @@ export default function HCASignIn() {
 	const baseUrl =
 		process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 	const redirectUri = `${baseUrl}/api/hca-callback`;
-	const scopes = "openid profile email name slack_id";
+	const scopes = "openid email name profile phone birthdate address verification_status slack_id basic_info";
 
 	const authUrl =
 		`https://auth.hackclub.com/oauth/authorize` +

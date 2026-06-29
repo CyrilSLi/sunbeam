@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 			redirect_uri: redirectUri,
 			code,
 			grant_type: "authorization_code",
+			
 		}),
 	});
 
@@ -34,7 +35,7 @@ export async function GET(request: NextRequest) {
 	const response = NextResponse.redirect(step3);
 	response.cookies.set("hca_token", access_token, {
 		path: "/",
-		maxAge: 300,
+		maxAge: 60 * 60 * 8,
 		httpOnly: true,
 		sameSite: "lax",
 	});
