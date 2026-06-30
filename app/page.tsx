@@ -15,7 +15,6 @@ export default function Home() {
 						sizes="100vw"
 					/>
 				</div>
-
 				{/* Shark */}
 				<Image
 					src="/imgs/shark1.webp"
@@ -25,7 +24,6 @@ export default function Home() {
 					className="absolute top-[-2vh] left-[2.5vw] z-10 w-[30vw] md:w-[17.5vw] h-auto"
 					sizes="(max-width: 768px) 30vw, 17.5vw"
 				/>
-
 				{/* Foam wave */}
 				<Image
 					src="/imgs/foam-fixed.png"
@@ -34,6 +32,14 @@ export default function Home() {
 					alt=""
 					className="hidden md:block md:absolute bottom-[-20vh] left-0 z-5 w-full h-auto"
 					sizes="100vw"
+				/>
+				{/* Foam Mobile */}
+				<Image
+					src="/imgs/foam-fixed.png"
+					width={1727}
+					height={428}
+					alt="foam"
+					className="absolute md:hidden bottom-[0] left-0 z-50 w-full h-auto"
 				/>
 
 				<div className="flex flex-col relative z-5">
@@ -221,14 +227,14 @@ export default function Home() {
 
 					{/* Guide surfboard */}
 					<a
-						href="./ultimateguide"
+						href="/organizers"
 						className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto"
 					>
 						<Image
-							src="/imgs/ultOrgGuide.png"
+							src="/imgs/org-portal.webp"
 							width={795}
 							height={291}
-							alt="Checkout the Ultimate Organizer Guide >>>"
+							alt="Visit the organizer portal for more resources >>>"
 							className="w-[80vw] md:w-[35vw] h-auto mx-auto"
 						/>
 					</a>
@@ -270,6 +276,16 @@ export default function Home() {
 					className="hidden md:block md:absolute top-[-19vh] left-0 z-5 w-full"
 					alt=""
 				/>
+				{/* Foam Mobile */}
+
+				<Image
+					src="/imgs/foam-fixed2.png"
+					width={376}
+					height={297}
+					className="black md:hidden absolute top-[-4vh] left-0 z-5 w-full"
+					alt=""
+				/>
+
 				<Image
 					src="/imgs/ray2.webp"
 					width={376}
