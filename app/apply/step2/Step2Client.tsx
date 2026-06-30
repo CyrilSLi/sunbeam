@@ -27,7 +27,7 @@ export default function Step2Client({ authUrl }: { authUrl: string }) {
 				<ShorterGuideContent />
 
 				{/* HCA sign-in button at bottom */}
-				<div className="flex flex-col items-center pt-[3vh] pb-[6vh]">
+				<div className="flex flex-col items-center pt-0 pb-[6vh]">
 					<a
 						href={authUrl}
 						className="hover:scale-105 transition-transform cursor-pointer"
