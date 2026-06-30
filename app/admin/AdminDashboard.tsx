@@ -402,7 +402,14 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-[#fdf6e3] outfit p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <button className="text-blue-dark font-bold galindo text-sm flex items-center gap-1">
+          <button className="text-blue-dark font-bold galindo text-sm flex items-center gap-1 cursor-pointer"
+          onClick = {() => {
+            if (showStats) {
+              setShowStats(false)
+            } else {
+              router.push('/')
+            }
+          }}>
             ← Back
           </button>
           <div className="flex gap-2">
