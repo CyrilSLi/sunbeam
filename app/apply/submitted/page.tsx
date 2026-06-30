@@ -68,7 +68,7 @@ export default function Submitted() {
 
 			{/* Foam wave */}
 			<img
-				src="/imgs/foam-fixed.webp"
+				src="/imgs/foam-fixed.png"
 				className="absolute top-0 left-0 w-full z-10 pointer-events-none"
 				alt=""
 			/>
