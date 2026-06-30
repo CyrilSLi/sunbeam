@@ -18,8 +18,8 @@ export async function PATCH(request: Request) {
 
 	if (!res.ok) {
 		const err = await res.text();
-		console.log(err)
-		return Response.json({ error: err }, { status: 500 });
+		console.error("[update-status] Airtable error:", err);
+		return Response.json({ error: "Failed to update status" }, { status: 500 });
 	}
 
 	return Response.json({ ok: true });

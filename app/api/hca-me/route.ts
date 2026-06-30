@@ -15,6 +15,5 @@ export async function GET(request: NextRequest) {
 	}
 
 	const user = await meRes.json();
-	console.log("[hca-me] /api/v1/me response:", JSON.stringify(user));
 	return NextResponse.json(user);
 }

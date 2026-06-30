@@ -24,7 +24,6 @@ async function getCurrentUserEmail(token: string): Promise<string | null> {
 		return null;
 	}
 	const user = await res.json();
-	console.log("[admin auth] /api/v1/me user:", JSON.stringify(user));
 	return user.identity.primary_email?.toLowerCase() ?? null;
 }
 

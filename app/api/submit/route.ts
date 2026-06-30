@@ -43,8 +43,8 @@ export async function POST(request: Request) {
 
 	if (!res.ok) {
 		const err = await res.text();
-		console.log(err)
-		return Response.json({ error: err }, { status: 500 });
+		console.error("[submit] Airtable error:", err);
+		return Response.json({ error: "Failed to submit application" }, { status: 500 });
 	}
 
 	return Response.json({ ok: true });

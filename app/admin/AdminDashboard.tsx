@@ -173,6 +173,15 @@ function StatsView({ apps, onClose }: { apps: AppRecord[]; onClose: () => void }
   );
 }
 
+function isSafeUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 function DetailRow({ label, value }: { label: string; value?: string | boolean | null }) {
   if (value === undefined || value === null || value === "") return null;
   return (
@@ -266,14 +275,18 @@ function AppDetail({ app, onClose }: { app: AppRecord; onClose: () => void }) {
           {f.github_repo && (
             <div className="flex flex-col gap-0.5">
               <span className="text-[10px] font-bold text-blue-bright uppercase tracking-wide">GitHub Repo</span>
-              <a
-                href={f.github_repo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-bright underline break-all hover:text-blue-dark transition-colors"
-              >
-                {f.github_repo}
-              </a>
+              {isSafeUrl(f.github_repo) ? (
+                <a
+                  href={f.github_repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-bright underline break-all hover:text-blue-dark transition-colors"
+                >
+                  {f.github_repo}
+                </a>
+              ) : (
+                <span className="text-sm text-blue-dark break-all">{f.github_repo}</span>
+              )}
             </div>
           )}
           {f.github_user && (
@@ -292,14 +305,18 @@ function AppDetail({ app, onClose }: { app: AppRecord; onClose: () => void }) {
           {f.playable_link && (
             <div className="flex flex-col gap-0.5">
               <span className="text-[10px] font-bold text-blue-bright uppercase tracking-wide">Playable Link</span>
-              <a
-                href={f.playable_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-bright underline break-all hover:text-blue-dark transition-colors"
-              >
-                {f.playable_link}
-              </a>
+              {isSafeUrl(f.playable_link) ? (
+                <a
+                  href={f.playable_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-bright underline break-all hover:text-blue-dark transition-colors"
+                >
+                  {f.playable_link}
+                </a>
+              ) : (
+                <span className="text-sm text-blue-dark break-all">{f.playable_link}</span>
+              )}
             </div>
           )}
           {f.project_information && (

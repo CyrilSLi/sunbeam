@@ -9,8 +9,9 @@ export async function GET(request: Request) {
     );
   }
 
+  const escapedCity = city.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
   const params = new URLSearchParams({
-    filterByFormula: `{city} = "${city}"`,
+    filterByFormula: `{city} = "${escapedCity}"`,
   });
 
   const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_EVENT_TABLE_ID}?${params}`;
