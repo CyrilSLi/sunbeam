@@ -10,7 +10,7 @@ export async function getRecordsByCity(city: string) {
     `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Cities?${params}`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}`,
+        Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
       },
     }
   );
