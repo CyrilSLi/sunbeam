@@ -35,7 +35,7 @@ const TemplatePage = () => {
 					{/* Logo + video */}
 					<div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[1vh]">
 						<img
-							src="/imgs/sunbeam.webp"
+							src="/imgs/logo.svg"
 							className="w-[80vw] md:w-[49vw] absolute bottom-[-10vh] md:bottom-[-6vh] left-0 md:left-[5vw]"
 							alt="Sunbeam"
 						/>

@@ -46,7 +46,7 @@ export default function Home() {
 					{/* Logo + video */}
 					<div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[9vh]">
 						<Image
-							src="/imgs/sunbeam.webp"
+							src="/imgs/logo.svg"
 							width={858}
 							height={308}
 							alt="Sunbeam"

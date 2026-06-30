@@ -10,7 +10,7 @@ function SubmittedContent() {
 		<div className="relative z-20 flex flex-col items-center min-h-screen pt-[14vh] pb-[6vh]">
 			{/* Sunbeam logo */}
 			<img
-				src="/imgs/hcflag_logo.webp"
+				src="/imgs/logo.svg"
 				style={{ width: "30%" }}
 				alt="Sunbeam"
 			/>
