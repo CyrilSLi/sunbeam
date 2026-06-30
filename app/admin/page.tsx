@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import AdminDashboard from "./AdminDashboard";
 
 async function getAdminEmails(): Promise<string[]> {
@@ -28,10 +28,15 @@ async function getCurrentUserEmail(token: string): Promise<string | null> {
 	return user.identity.primary_email?.toLowerCase() ?? null;
 }
 
-function buildAuthUrl() {
+async function buildAuthUrl() {
+	const headerStore = await headers();
+	const forwardedHost = headerStore.get("x-forwarded-host");
+	const forwardedProto = headerStore.get("x-forwarded-proto") ?? "https";
+	const base = forwardedHost
+		? `${forwardedProto}://${forwardedHost}`
+		: "http://localhost:3000";
 	const clientId = process.env.HCA_CLIENT_ID ?? "";
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-	const redirectUri = `${baseUrl}/api/admin-callback`;
+	const redirectUri = `${base}/api/admin-callback`;
 	const scopes = "openid profile email name";
 	return (
 		`https://auth.hackclub.com/oauth/authorize` +
@@ -47,7 +52,7 @@ export default async function AdminPage() {
 	const token = cookieStore.get("hca_admin_token")?.value;
 
 	if (!token) {
-		return <SignInPage authUrl={buildAuthUrl()} />;
+		return <SignInPage authUrl={await buildAuthUrl()} />;
 	}
 
 	const [email, adminEmails] = await Promise.all([
@@ -56,7 +61,7 @@ export default async function AdminPage() {
 	]);
     console.log(email)
 	if (!email || !adminEmails.includes(email)) {
-		return <AccessDenied authUrl={buildAuthUrl()} email={email} />;
+		return <AccessDenied email={email} />;
 	}
 
 	return <AdminDashboard />;
@@ -77,7 +82,7 @@ function SignInPage({ authUrl }: { authUrl: string }) {
 	);
 }
 
-function AccessDenied({ authUrl, email }: { authUrl: string; email: string | null }) {
+function AccessDenied({ email }: { email: string | null }) {
 	return (
 		<div className="min-h-screen bg-[#fdf6e3] outfit flex flex-col items-center justify-center gap-4">
 			<h1 className="galindo text-blue-dark text-2xl">admin portal</h1>
@@ -85,7 +90,7 @@ function AccessDenied({ authUrl, email }: { authUrl: string; email: string | nul
 				{email ? `${email} is not authorized to access this page.` : "Could not verify your identity."}
 			</p>
 			<a
-				href={authUrl}
+				href="/api/admin-signout"
 				className="text-xs text-blue-bright underline"
 			>
 				Sign in with a different account
