@@ -1,8 +1,17 @@
+import { headers } from "next/headers";
 import HCASignInButton from "./HCASignInButton";
 
-export default function HCASignIn() {
+export default async function HCASignIn() {
 	const clientId = process.env.HCA_CLIENT_ID ?? "";
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+	const h = await headers();
+	const forwardedHost = h.get("x-forwarded-host");
+	const forwardedProto = h.get("x-forwarded-proto") ?? "https";
+	const host = h.get("host") ?? "localhost:3000";
+	const baseUrl = forwardedHost
+		? `${forwardedProto}://${forwardedHost}`
+		: host.startsWith("localhost")
+		? `http://${host}`
+		: `https://${host}`;
 	const redirectUri = `${baseUrl}/api/hca-callback`;
 	const scopes = "openid email name profile phone birthdate address verification_status slack_id basic_info";
 
