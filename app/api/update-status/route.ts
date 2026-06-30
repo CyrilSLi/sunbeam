@@ -1,4 +1,9 @@
+import { requireAdmin } from "@/app/lib/admin-auth";
+
 export async function PATCH(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
 	const { id, status } = await request.json();
 
 	if (!id || !["Approved", "Rejected", "unreviewed", "needs_follow_up"].includes(status)) {

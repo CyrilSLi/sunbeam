@@ -1,6 +1,8 @@
+import { requireAdmin } from "@/app/lib/admin-auth";
+
 export async function GET(request: Request) {
-
-
+  const denied = await requireAdmin();
+  if (denied) return denied;
 
   const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_ORG_SIGNUP_TABLE_ID}`;
 
@@ -12,7 +14,8 @@ export async function GET(request: Request) {
 
   if (!res.ok) {
     const err = await res.text();
-    return Response.json({ error: err }, { status: res.status });
+    console.error("[get-all-apps] Airtable error:", err);
+    return Response.json({ error: "Failed to fetch applications" }, { status: res.status });
   }
 
   const data = await res.json();
