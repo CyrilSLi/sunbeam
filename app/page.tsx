@@ -227,14 +227,14 @@ export default function Home() {
 
 					{/* Guide surfboard */}
 					<a
-						href="/organizers"
+						href="/ultimateguide"
 						className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto"
 					>
 						<Image
-							src="/imgs/org-portal.webp"
+							src="/imgs/ultOrgGuide.png"
 							width={795}
 							height={291}
-							alt="Visit the organizer portal for more resources >>>"
+							alt="Check out the Ultimate Organizer Guide >>>"
 							className="w-[80vw] md:w-[35vw] h-auto mx-auto"
 						/>
 					</a>
@@ -243,6 +243,9 @@ export default function Home() {
 					<h2 className="outfit text-[6vh] text-[#C54390] text-center w-[70vw] md:w-[60vw] leading-[7.5vh] my-[4vh] drop-shadow-sm">
 						Ready? Let the sun beam in your city!
 					</h2>
+					<p style={{ fontStyle: "outfit", fontSize: "2.0vw", fontWeight: 540, color: "rgb(46,88,155)", lineHeight: 1.4 }}>
+						Deadline to apply as an organizer is July 13th.
+					</p>
 					<a
 						href="/apply"
 						className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto"
