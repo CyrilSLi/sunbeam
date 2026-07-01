@@ -92,6 +92,33 @@ export default function GuideContent() {
 				</p>
 			</div>
 
+			<div style={{ display: "flex", padding: "0 7.4% 1vh", gap: "3vw", alignItems: "flex-start"}}>
+				<div style={{ flex: "1 1 0", minWidth: 0 }}>
+					<p style={{ fontSize: "1.72vw", color: "rgb(46,88,155)", lineHeight: 1.5, marginBottom: "1.5vh" }}>
+						Now, one big reason that there aren't that many girls doing software or hardware is because it sometimes seems very "nerdy" or "masculine" or intimidating to join. (We know this isn't true 😉) SO we decided to run Sunbeam socials!
+					</p>
+					<p style={{ fontSize: "1.72vw", color: "rgb(46,88,155)", lineHeight: 1.5, marginBottom: "1.5vh" }}>
+						<strong>Sunbeam is a social coding event:</strong> a day-long hangout where girls can make projects together, chat with friends and new people, learn to code FROM SCRATCH, and of course enjoy delicious food.
+					</p>
+					<p style={{ fontSize: "1.72vw", color: "rgb(46,88,155)", lineHeight: 1.5, marginBottom: "1.5vh" }}>
+						We want every Sunbeam social to have a friendly, chill, and supportive environment that helps even complete beginners make something they're proud of.
+					</p>
+					<p style={{ fontSize: "1.72vw", color: "rgb(46,88,155)", lineHeight: 1.5 }}>
+						This event is more of a <strong>SOCIAL coding get together</strong> than a hackathon!!!
+					</p>
+				</div>
+				<div style={{ flexShrink: 0, width: "9vw", background: "#FBF0F3", display: "flex", flexDirection: "column", gap: "0.5vh", padding: "0.5vw", border: "2px solid #0E387A", transform: "rotate(5deg)", transformOrigin: "top center", position: "relative", left: '1vw', top: '-0.5vw' }}>
+					{[1, 2, 3, 4, 5].map((n) => (
+						<img
+							key={n}
+							src={`/imgs/guide/sidebar-${n}.webp`}
+							alt=""
+							style={{ width: "100%", display: "block", position: "relative", right: '0.1vw', transform: "rotate(-2deg)", transformOrigin: "top center"  }}
+						/>
+					))}
+				</div>
+			</div>
+
 
 			{/* SECTION 5: PART ONE - SETTING UP */}
 			<div className="galindo text-center pt-[5vh] pb-[3vh]">
