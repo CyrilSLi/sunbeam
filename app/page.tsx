@@ -112,7 +112,7 @@ export default function Home() {
 				{/* What is Sunbeam Social */}
 				<div className="flex flex-col relative z-5 items-center justify-center w-full">
 					<h2 className="galindo text-[5.5vh] md:text-[6.5vh] text-[#D77393] text-center leading-tight mb-0">
-						What is a Sunbeam Social?
+						How would you lead a Sunbeam Social?
 					</h2>
 					<div className="relative w-[95vw] md:w-[62vw] mt-0 mb-[1vh] md:mb-[1.5vh] flex flex-col items-center justify-center">
 						<Image
@@ -154,7 +154,7 @@ export default function Home() {
 
 				<div className="flex flex-col relative z-5 items-center justify-center">
 					<h2 className="galindo text-[6.5vh] text-[#D88127] text-center w-[80vw] md:w-[50vw] leading-[7.5vh] mb-[1vh]">
-						How do you organize a Sunbeam Social?
+						How to get started:
 					</h2>
 
 					{/* Three cards */}
@@ -250,10 +250,14 @@ export default function Home() {
 							src="/imgs/apply.webp"
 							width={523}
 							height={210}
-							alt="apply!"
+							alt="sign up!"
 							className="w-[60vw] md:w-[25vw] h-auto mx-auto"
 						/>
 					</a>
+
+					<p className="outfit text-[#2E599C]/70 text-center text-[1.4vh] md:text-[1.75vh] italic mt-[1.5vh] tracking-wide" style={{ fontSize: "1.33vw", fontWeight: 400, color: "rgb(46,88,155)", lineHeight: 1.6, marginTop: "10vh", marginBottom: "2vw" }}>
+						Organizers can get service hours for organizing a Sunbeam social. Read the Ultimate Guide for more information. 
+					</p>
 				</div>
 			</div>
 
