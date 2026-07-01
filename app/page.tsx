@@ -175,7 +175,7 @@ export default function Home() {
 									APPLY!
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#C54390]">
-									Apply to <span className="underline">organize</span> a Sunbeam
+									Apply to <span className="underline">organize</span>{" "}a Sunbeam
 									using our form. Experience helps but isn&apos;t necessary!
 								</p>
 							</div>
@@ -195,11 +195,7 @@ export default function Home() {
 									PLAN!
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#2E599C]">
-									Plan your event: secure a{" "}
-									<span className="underline">venue</span>, plan your{" "}
-									<span className="underline">budget</span>, advertise, and get{" "}
-									<span className="underline">participants </span> to sign up!
-									Shop for food, drinks, &amp; prizes for your participants.
+									Plan for <span className="underline">venue</span>, <span className="underline">budget</span> and <span className="underline">get</span> girls to sign up! Stock up on food, drinks, and prizes.
 								</p>
 							</div>
 						</div>
