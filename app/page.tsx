@@ -53,11 +53,15 @@ export default function Home() {
 							className="w-[80vw] md:w-[49vw] absolute bottom-[-10vh] md:bottom-[-6vh] left-0 md:left-[5vw] h-auto"
 							sizes="(max-width: 768px) 80vw, 49vw"
 						/>
-						{/* Video placeholder */}
-						<div className="w-[70vw] md:w-[45vw] h-[30vh] md:h-[40vh] bg-neutral-200/80 ml-auto flex items-center justify-center rounded-sm">
-							<span className="galindo text-black text-[1.8vw]">
-								launch video
-							</span>
+						{/* Launch video */}
+						<div className="w-[70vw] md:w-[45vw] h-[30vh] md:h-[40vh] bg-neutral-200/80 ml-auto rounded-sm overflow-hidden">
+							<iframe
+								className="w-full h-full"
+								src="https://www.youtube.com/embed/Ufmk9QW-XAs"
+								title="Sunbeam launch video"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowFullScreen
+							/>
 						</div>
 					</div>
 
