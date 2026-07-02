@@ -43,18 +43,10 @@ export default function Home() {
 				/>
 
 				<div className="flex flex-col relative z-5">
-					{/* Logo + video */}
+					{/* Video */}
 					<div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[9vh]">
-						<Image
-							src="/imgs/logo.svg"
-							width={858}
-							height={308}
-							alt="Sunbeam"
-							className="w-[80vw] md:w-[49vw] absolute bottom-[-10vh] md:bottom-[-6vh] left-0 md:left-[5vw] h-auto"
-							sizes="(max-width: 768px) 80vw, 49vw"
-						/>
 						{/* Launch video */}
-						<div className="w-[70vw] md:w-[45vw] h-[30vh] md:h-[40vh] bg-neutral-200/80 ml-auto rounded-sm overflow-hidden">
+						<div className="h-[30vh] md:h-[40vh] aspect-video max-w-full bg-neutral-200/80 mx-auto rounded-sm overflow-hidden">
 							<iframe
 								className="w-full h-full"
 								src="https://www.youtube.com/embed/Ufmk9QW-XAs"
