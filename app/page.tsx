@@ -43,16 +43,26 @@ export default function Home() {
 				/>
 
 				<div className="flex flex-col relative z-5">
-					{/* Video */}
-					<div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[9vh]">
+					{/* Logo + video */}
+					<div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[4vh] md:mb-[9vh]">
+						<Image
+							src="/imgs/logo.svg"
+							width={858}
+							height={308}
+							alt="Sunbeam"
+							className="w-[80vw] md:w-[44vw] mx-auto md:mx-0 md:absolute md:bottom-[-6vh] md:left-0 h-auto mb-[3vh] md:mb-0"
+							sizes="(max-width: 768px) 80vw, 44vw"
+						/>
+						{/* Spacer so video sits fully to the right of the logo (desktop only) */}
+						<div className="hidden md:block md:w-[44vw] shrink-0" />
 						{/* Launch video */}
-						<div className="h-[30vh] md:h-[40vh] aspect-video max-w-full bg-neutral-200/80 mx-auto rounded-sm overflow-hidden">
+						<div className="w-full md:w-[36vw] h-[25vh] md:h-[40vh] md:ml-auto rounded-sm overflow-hidden">
 							<iframe
-								className="w-full h-full"
 								src="https://www.youtube.com/embed/Ufmk9QW-XAs"
-								title="Sunbeam launch video"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								title="Sunbeam Social launch video"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 								allowFullScreen
+								className="w-full h-full"
 							/>
 						</div>
 					</div>
@@ -108,7 +118,7 @@ export default function Home() {
 				{/* What is Sunbeam Social */}
 				<div className="flex flex-col relative z-5 items-center justify-center w-full">
 					<h2 className="galindo text-[5.5vh] md:text-[6.5vh] text-[#D77393] text-center leading-tight mb-0">
-						How would you lead a Sunbeam Social?
+						What is a Sunbeam Social?
 					</h2>
 					<div className="relative w-[95vw] md:w-[62vw] mt-0 mb-[1vh] md:mb-[1.5vh] flex flex-col items-center justify-center">
 						<Image
@@ -150,7 +160,7 @@ export default function Home() {
 
 				<div className="flex flex-col relative z-5 items-center justify-center">
 					<h2 className="galindo text-[6.5vh] text-[#D88127] text-center w-[80vw] md:w-[50vw] leading-[7.5vh] mb-[1vh]">
-						How to get started:
+						How do you organize a Sunbeam Social?
 					</h2>
 
 					{/* Three cards */}
@@ -235,7 +245,7 @@ export default function Home() {
 					<h2 className="outfit text-[6vh] text-[#C54390] text-center w-[70vw] md:w-[60vw] leading-[7.5vh] my-[4vh] drop-shadow-sm">
 						Ready? Let the sun beam in your city!
 					</h2>
-					<p className="outfit text-[#2E599C] text-[4vh] text-center" style={{ fontWeight: 540, lineHeight: 1.4 }}>
+					<p className="outfit text-[#2E599C]" style={{ fontSize: "2.0vw", fontWeight: 540, lineHeight: 1.4 }}>
 						Deadline to apply to be an organizer is July 13th.
 					</p>
 					<a
@@ -246,14 +256,10 @@ export default function Home() {
 							src="/imgs/apply.webp"
 							width={523}
 							height={210}
-							alt="sign up!"
+							alt="apply!"
 							className="w-[60vw] md:w-[25vw] h-auto mx-auto"
 						/>
 					</a>
-
-					<p className="outfit text-[#2E599C]/70 text-center text-[15px] italic mt-[1.5vh] tracking-wide px-6">
-						Organizers can get service hours for organizing a Sunbeam social. Read the Ultimate Guide for more information. 
-					</p>
 				</div>
 			</div>
 
