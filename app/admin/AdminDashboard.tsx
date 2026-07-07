@@ -38,8 +38,8 @@ export type AppRecord = {
 };
 
 function statusColors(status: string) {
-  if (status === "Approved") return { border: "border-green-400 bg-green-50", badge: "bg-green-200 text-green-800" };
-  if (status === "Rejected") return { border: "border-red-400 bg-red-50", badge: "bg-red-200 text-red-800" };
+  if (status === "approved") return { border: "border-green-400 bg-green-50", badge: "bg-green-200 text-green-800" };
+  if (status === "rejected") return { border: "border-red-400 bg-red-50", badge: "bg-red-200 text-red-800" };
   if (status === "needs_follow_up") return { border: "border-orange-400 bg-orange-50", badge: "bg-orange-200 text-orange-800" };
   return { border: "border-blue-dark bg-white", badge: "bg-yellow-light text-orange-dark" };
 }
@@ -57,8 +57,8 @@ function StatCard({ label, value, sub }: { label: string; value: string | number
 function StatsView({ apps, onClose }: { apps: AppRecord[]; onClose: () => void }) {
   const stats = useMemo(() => {
     const total = apps.length;
-    const approved = apps.filter(a => a.fields.approve_as_org === "Approved").length;
-    const rejected = apps.filter(a => a.fields.approve_as_org === "Rejected").length;
+    const approved = apps.filter(a => a.fields.approve_as_org === "approved").length;
+    const rejected = apps.filter(a => a.fields.approve_as_org === "rejected").length;
     const needsFollowUp = apps.filter(a => a.fields.approve_as_org === "needs_follow_up").length;
     const pending = total - approved - rejected - needsFollowUp;
     const withPoc = apps.filter(a => a.fields.comfortable_with_poc).length;
@@ -339,7 +339,7 @@ function AppDetail({ app, onClose, onUpdate }: { app: AppRecord; onClose: () => 
         </section>
 
         {/* Follow up */}
-        {status !== "Approved" && status !== "Rejected" && (
+        {status !== "approved" && status !== "rejected" && (
           <section className="flex flex-col gap-3">
             <h2 className="galindo text-blue-dark text-base border-b border-blue-dark/20 pb-1">Follow Up</h2>
             <FollowUpEmail
@@ -358,10 +358,10 @@ function AppDetail({ app, onClose, onUpdate }: { app: AppRecord; onClose: () => 
 type StatusOption = { value: string; poc?: boolean; label: string; active: string; inactive: string };
 
 const STATUS_OPTIONS: StatusOption[] = [
-  { value: "Approved",   poc: false, label: "Approve",        active: "bg-green-500 text-white border-green-500",     inactive: "border-green-400 text-green-700 hover:bg-green-50" },
-  { value: "Approved",   poc: true,  label: "Approve as POC", active: "bg-emerald-600 text-white border-emerald-600", inactive: "border-emerald-500 text-emerald-700 hover:bg-emerald-50" },
+  { value: "approved",   poc: false, label: "Approve",        active: "bg-green-500 text-white border-green-500",     inactive: "border-green-400 text-green-700 hover:bg-green-50" },
+  { value: "approved",   poc: true,  label: "Approve as POC", active: "bg-emerald-600 text-white border-emerald-600", inactive: "border-emerald-500 text-emerald-700 hover:bg-emerald-50" },
   { value: "unreviewed",             label: "Pending",        active: "bg-yellow-400 text-yellow-900 border-yellow-400", inactive: "border-yellow-400 text-yellow-700 hover:bg-yellow-50" },
-  { value: "Rejected",               label: "Deny",           active: "bg-red-500 text-white border-red-500",         inactive: "border-red-400 text-red-700 hover:bg-red-50" },
+  { value: "rejected",               label: "Deny",           active: "bg-red-500 text-white border-red-500",         inactive: "border-red-400 text-red-700 hover:bg-red-50" },
 ];
 
 function optionKey(o: StatusOption) {
@@ -574,9 +574,9 @@ export default function AdminDashboard() {
           {[
             { value: "All", label: "All" },
             { value: "unreviewed", label: "unreviewed" },
-            { value: "Approved", label: "Approved" },
+            { value: "approved", label: "approved" },
             { value: "needs_follow_up", label: "needs_follow_up" },
-            { value: "Rejected", label: "Rejected" },
+            { value: "rejected", label: "rejected" },
           ].map(({ value, label }) => (
             <button
               key={value}
