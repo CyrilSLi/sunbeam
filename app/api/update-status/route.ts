@@ -4,10 +4,18 @@ export async function PATCH(request: Request) {
   const denied = await requireAdmin();
   if (denied) return denied;
 
-	const { id, status } = await request.json();
+	const { id, status, approved_as_poc, approved_city } = await request.json();
 
-	if (!id || !["Approved", "Rejected", "unreviewed", "needs_follow_up"].includes(status)) {
+	if (!id || !["approved", "rejected", "unreviewed", "needs_follow_up"].includes(status)) {
 		return Response.json({ error: "invalid request" }, { status: 400 });
+	}
+
+	const fields: Record<string, unknown> = { "approve_as_org": status};
+	if (typeof approved_as_poc === "boolean") {
+		fields.approved_as_poc = approved_as_poc;
+	}
+	if (typeof approved_city === "string") {
+		fields.approved_city = approved_city;
 	}
 
 	const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_ORG_SIGNUP_TABLE_ID}/${id}`;
@@ -18,7 +26,7 @@ export async function PATCH(request: Request) {
 			Authorization: `Bearer ${process.env.AIRTABLE_PAT}`,
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ fields: { "approve_as_org": status.toLowerCase() } }),
+		body: JSON.stringify({ fields }),
 	});
 
 	if (!res.ok) {

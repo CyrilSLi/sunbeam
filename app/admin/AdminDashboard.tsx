@@ -30,14 +30,16 @@ export type AppRecord = {
     attended_or_organized_hackathon?: boolean;
     which_hackathons?: string;
     comfortable_with_poc?: boolean;
+    approved_as_poc?: boolean;
+    approved_city?: string;
     approve_as_org?: string;
     [key: string]: unknown;
   };
 };
 
 function statusColors(status: string) {
-  if (status === "Approved") return { border: "border-green-400 bg-green-50", badge: "bg-green-200 text-green-800" };
-  if (status === "Rejected") return { border: "border-red-400 bg-red-50", badge: "bg-red-200 text-red-800" };
+  if (status === "approved") return { border: "border-green-400 bg-green-50", badge: "bg-green-200 text-green-800" };
+  if (status === "rejected") return { border: "border-red-400 bg-red-50", badge: "bg-red-200 text-red-800" };
   if (status === "needs_follow_up") return { border: "border-orange-400 bg-orange-50", badge: "bg-orange-200 text-orange-800" };
   return { border: "border-blue-dark bg-white", badge: "bg-yellow-light text-orange-dark" };
 }
@@ -55,8 +57,8 @@ function StatCard({ label, value, sub }: { label: string; value: string | number
 function StatsView({ apps, onClose }: { apps: AppRecord[]; onClose: () => void }) {
   const stats = useMemo(() => {
     const total = apps.length;
-    const approved = apps.filter(a => a.fields.approve_as_org === "Approved").length;
-    const rejected = apps.filter(a => a.fields.approve_as_org === "Rejected").length;
+    const approved = apps.filter(a => a.fields.approve_as_org === "approved").length;
+    const rejected = apps.filter(a => a.fields.approve_as_org === "rejected").length;
     const needsFollowUp = apps.filter(a => a.fields.approve_as_org === "needs_follow_up").length;
     const pending = total - approved - rejected - needsFollowUp;
     const withPoc = apps.filter(a => a.fields.comfortable_with_poc).length;
@@ -194,7 +196,7 @@ function DetailRow({ label, value }: { label: string; value?: string | boolean |
   );
 }
 
-function AppDetail({ app, onClose }: { app: AppRecord; onClose: () => void }) {
+function AppDetail({ app, onClose, onUpdate }: { app: AppRecord; onClose: () => void; onUpdate: (id: string, fields: Partial<AppRecord["fields"]>) => void }) {
   const f = app.fields;
   const status = f.approve_as_org ?? "unreviewed";
   const { badge } = statusColors(status);
@@ -329,52 +331,159 @@ function AppDetail({ app, onClose }: { app: AppRecord; onClose: () => void }) {
             <p className="text-sm text-blue-dark/50 italic">No project info submitted.</p>
           )}
         </section>
+
+        {/* Status */}
+        <section className="flex flex-col gap-3">
+          <h2 className="galindo text-blue-dark text-base border-b border-blue-dark/20 pb-1">Status</h2>
+          <StatusButtons appId={app.id} current={status} currentPoc={!!f.approved_as_poc} currentCity={f.approved_city} onUpdate={onUpdate} />
+        </section>
+
+        {/* Follow up */}
+        {status !== "approved" && status !== "rejected" && (
+          <section className="flex flex-col gap-3">
+            <h2 className="galindo text-blue-dark text-base border-b border-blue-dark/20 pb-1">Follow Up</h2>
+            <FollowUpEmail
+              appId={app.id}
+              email={f.email}
+              status={status}
+              onSent={(id) => onUpdate(id, { approve_as_org: "needs_follow_up" })}
+            />
+          </section>
+        )}
       </div>
     </div>
   );
 }
 
-const STATUS_OPTIONS = [
-  { value: "Approved",        label: "Approve",     active: "bg-green-500 text-white border-green-500",   inactive: "border-green-400 text-green-700 hover:bg-green-50" },
-  { value: "needs_follow_up", label: "Follow Up",   active: "bg-orange-400 text-white border-orange-400", inactive: "border-orange-400 text-orange-700 hover:bg-orange-50" },
-  { value: "unreviewed",      label: "Pending",     active: "bg-yellow-400 text-yellow-900 border-yellow-400", inactive: "border-yellow-400 text-yellow-700 hover:bg-yellow-50" },
-  { value: "Rejected",        label: "Deny",        active: "bg-red-500 text-white border-red-500",       inactive: "border-red-400 text-red-700 hover:bg-red-50" },
-] as const;
+type StatusOption = { value: string; poc?: boolean; label: string; active: string; inactive: string };
 
-function StatusButtons({ appId, current, onUpdate }: { appId: string; current: string; onUpdate: (id: string, status: string) => void }) {
+const STATUS_OPTIONS: StatusOption[] = [
+  { value: "approved",   poc: false, label: "Approve",        active: "bg-green-500 text-white border-green-500",     inactive: "border-green-400 text-green-700 hover:bg-green-50" },
+  { value: "approved",   poc: true,  label: "Approve as POC", active: "bg-emerald-600 text-white border-emerald-600", inactive: "border-emerald-500 text-emerald-700 hover:bg-emerald-50" },
+  { value: "unreviewed",             label: "Pending",        active: "bg-yellow-400 text-yellow-900 border-yellow-400", inactive: "border-yellow-400 text-yellow-700 hover:bg-yellow-50" },
+  { value: "rejected",               label: "Deny",           active: "bg-red-500 text-white border-red-500",         inactive: "border-red-400 text-red-700 hover:bg-red-50" },
+];
+
+function optionKey(o: StatusOption) {
+  return `${o.value}:${o.poc ?? ""}`;
+}
+
+function StatusButtons({ appId, current, currentPoc, currentCity, onUpdate }: { appId: string; current: string; currentPoc: boolean; currentCity?: string; onUpdate: (id: string, fields: Partial<AppRecord["fields"]>) => void }) {
   const [saving, setSaving] = useState<string | null>(null);
+  const [approvedCity, setApprovedCity] = useState(currentCity ?? "");
 
-  async function handleClick(e: React.MouseEvent, status: string) {
+  function isActive(o: StatusOption) {
+    return o.value === current && (o.poc === undefined || o.poc === currentPoc);
+  }
+
+  async function handleClick(e: React.MouseEvent, option: StatusOption) {
     e.stopPropagation();
-    if (saving || status === current) return;
-    setSaving(status);
-    onUpdate(appId, status);
+    const isApprove = option.poc !== undefined;
+    if (saving || isActive(option) || (isApprove && !approvedCity.trim())) return;
+    const key = optionKey(option);
+    setSaving(key);
+    const fields: Partial<AppRecord["fields"]> = { approve_as_org: option.value };
+    if (option.poc !== undefined) fields.approved_as_poc = option.poc;
+    if (isApprove) fields.approved_city = approvedCity.trim();
+    onUpdate(appId, fields);
     try {
       const res = await fetch("/api/update-status", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: appId, status }),
+        body: JSON.stringify({
+          id: appId,
+          status: option.value,
+          ...(option.poc !== undefined ? { approved_as_poc: option.poc } : {}),
+          ...(isApprove ? { approved_city: approvedCity.trim() } : {}),
+        }),
       });
-      if (!res.ok) onUpdate(appId, current);
+      if (!res.ok) onUpdate(appId, { approve_as_org: current, approved_as_poc: currentPoc, approved_city: currentCity });
     } catch {
-      onUpdate(appId, current);
+      onUpdate(appId, { approve_as_org: current, approved_as_poc: currentPoc, approved_city: currentCity });
     } finally {
       setSaving(null);
     }
   }
 
   return (
-    <div className="flex gap-1 mt-2" onClick={(e) => e.stopPropagation()}>
-      {STATUS_OPTIONS.map(({ value, label, active, inactive }) => (
+    <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+      <input
+        type="text"
+        value={approvedCity}
+        onChange={(e) => setApprovedCity(e.target.value)}
+        placeholder="Approved city..."
+        className="border border-blue-dark rounded-full px-3 py-1 text-xs bg-white outline-none"
+      />
+      <div className="flex gap-1 flex-wrap">
+      {STATUS_OPTIONS.map((option) => {
+        const key = optionKey(option);
+        const disabled = !!saving || (option.poc !== undefined && !approvedCity.trim());
+        return (
+          <button
+            key={key}
+            onClick={(e) => handleClick(e, option)}
+            disabled={disabled}
+            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border transition-colors disabled:opacity-60 ${isActive(option) ? option.active : option.inactive}`}
+          >
+            {saving === key ? "..." : option.label}
+          </button>
+        );
+      })}
+      </div>
+    </div>
+  );
+}
+
+function FollowUpEmail({ appId, email, status, onSent }: { appId: string; email?: string; status: string; onSent: (id: string) => void }) {
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [sent, setSent] = useState(false);
+
+  async function handleSend() {
+    if (!email || !message.trim() || sending) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/send-follow-up-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: appId, email, message, status }),
+      });
+      if (!res.ok) throw new Error();
+      setSent(true);
+      onSent(appId);
+    } catch {
+      setError("Failed to send email.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  if (!email) {
+    return <p className="text-sm text-blue-dark/50 italic">No email on file — can&apos;t send a follow-up.</p>;
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder={`Write a follow-up email to ${email}...`}
+        rows={4}
+        className="w-full border border-blue-dark rounded-xl px-3 py-2 text-sm bg-white outline-none resize-none"
+      />
+      <div className="flex items-center gap-3">
         <button
-          key={value}
-          onClick={(e) => handleClick(e, value)}
-          disabled={!!saving}
-          className={`text-[10px] font-bold px-2 py-0.5 rounded-full border transition-colors disabled:opacity-60 ${current === value ? active : inactive}`}
+          onClick={handleSend}
+          disabled={sending || !message.trim()}
+          className="text-xs font-bold px-4 py-1.5 rounded-full border border-orange-400 text-orange-700 hover:bg-orange-50 transition-colors disabled:opacity-60"
         >
-          {saving === value ? "..." : label}
+          {sending ? "Sending..." : "Send follow-up email"}
         </button>
-      ))}
+        {sent && <span className="text-xs text-green-700 font-semibold">Sent!</span>}
+        {error && <span className="text-xs text-red-700 font-semibold">{error}</span>}
+      </div>
     </div>
   );
 }
@@ -384,7 +493,7 @@ export default function AdminDashboard() {
   const [allApps, setAllApps] = useState<AppRecord[]>([]);
   const [search, setSearch] = useState("");
   const [searchMode, setSearchMode] = useState<"name" | "city">("name");
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("unreviewed");
   const [selected, setSelected] = useState<AppRecord | null>(null);
   const [showStats, setShowStats] = useState(false);
 
@@ -394,10 +503,11 @@ export default function AdminDashboard() {
       .then(({ records }) => setAllApps(records ?? []));
   }, []);
 
-  function updateStatus(id: string, approve_as_org: string) {
+  function updateFields(id: string, fields: Partial<AppRecord["fields"]>) {
     setAllApps((apps) =>
-      apps.map((a) => a.id === id ? { ...a, fields: { ...a.fields, approve_as_org } } : a)
+      apps.map((a) => a.id === id ? { ...a, fields: { ...a.fields, ...fields } } : a)
     );
+    setSelected((s) => s && s.id === id ? { ...s, fields: { ...s.fields, ...fields } } : s);
   }
 
   const filtered = allApps.filter((app) => {
@@ -413,7 +523,7 @@ export default function AdminDashboard() {
 
   return (
     <>
-      {selected && <AppDetail app={selected} onClose={() => setSelected(null)} />}
+      {selected && <AppDetail app={selected} onClose={() => setSelected(null)} onUpdate={updateFields} />}
       {showStats && <StatsView apps={allApps} onClose={() => setShowStats(false)} />}
 
       <div className="min-h-screen bg-[#fdf6e3] outfit p-6">
@@ -461,17 +571,23 @@ export default function AdminDashboard() {
 
         {/* Filters */}
         <div className="flex gap-2 mb-6">
-          {["All", "unreviewed", "Approved", "needs_follow_up", "Rejected"].map((f) => (
+          {[
+            { value: "All", label: "All" },
+            { value: "unreviewed", label: "unreviewed" },
+            { value: "approved", label: "approved" },
+            { value: "needs_follow_up", label: "needs_follow_up" },
+            { value: "rejected", label: "rejected" },
+          ].map(({ value, label }) => (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
+              key={value}
+              onClick={() => setFilter(value)}
               className={`text-xs font-semibold px-4 py-1 rounded-full border transition-colors ${
-                filter === f
+                filter === value
                   ? "bg-blue-dark text-white border-blue-dark"
                   : "border-blue-dark text-blue-dark bg-white"
               }`}
             >
-              {f}
+              {label}
             </button>
           ))}
         </div>
@@ -505,7 +621,9 @@ export default function AdminDashboard() {
                 <p className="text-xs text-blue-dark">
                   poc: {f.comfortable_with_poc ? "yes" : "no"}
                 </p>
-                <StatusButtons appId={app.id} current={status} onUpdate={updateStatus} />
+                <span className={`self-start text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 ${badge}`}>
+                  {status}
+                </span>
               </div>
             );
           })}
