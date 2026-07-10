@@ -1,5 +1,5 @@
-import DocsSidebar from "../../../../components/DocsSidebar"
-import MobileNavbar from "../../../../components/MobileNavbar"
+import DocsSidebar from "./DocsSidebar"
+import DocsMobileNavbar from "./DocsMobileNavbar"
 
 export default function DocsPage({children}: {children: React.ReactNode}) {
   return (
@@ -12,7 +12,7 @@ export default function DocsPage({children}: {children: React.ReactNode}) {
       }}
     >
       <DocsSidebar />
-      <MobileNavbar />
+      <DocsMobileNavbar />
       <div className="flex flex-1 overflow-y-auto flex-col h-full min-h-0 items-center">
         <div
           className="flex flex-1 flex-col"
