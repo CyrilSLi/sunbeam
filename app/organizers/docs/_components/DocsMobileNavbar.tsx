@@ -1,8 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import SidebarItem from "../../../../components/SidebarItem";
 import { docsDirectory } from "../_lib/DocsDirectory";
 
 export default function DocsMobileNavbar() {
+  const scrollToSavedPosition = (el: HTMLDivElement | null) => {
+    if (!el) return;
+    if (sessionStorage.getItem("lastVisitedPath")?.startsWith("/organizers/docs/")) {
+      el.scrollLeft = parseInt(sessionStorage.getItem("docsMobileNavbarScroll") || "0", 10);
+    } else {
+      sessionStorage.removeItem("docsMobileNavbarScroll");
+    }
+    el.addEventListener("scroll", function() {
+      sessionStorage.setItem("docsMobileNavbarScroll", el.scrollLeft.toString());
+    });
+  };
   return (
     <div>
       <nav
@@ -21,29 +34,12 @@ export default function DocsMobileNavbar() {
               className="h-15 sm:h-20 -mt-4 hover:scale-110 duration-200"
             />
           </Link>
-          <div className="flex gap-10 overflow-x-auto overflow-y-hidden" id="docs-mobile-navbar">
+          <div className="flex gap-10 overflow-x-auto overflow-y-hidden" ref={scrollToSavedPosition}>
             {docsDirectory.map((item) => (
               <SidebarItem href={item.href} text={item.text} key={item.href} />
             ))}
           </div>
         </div>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const navbar = document.getElementById("docs-mobile-navbar");
-                if (document.referrer && new URL(document.referrer).pathname.startsWith("/organizers/docs/")) {
-                  navbar.scrollLeft = sessionStorage.getItem("docsMobileNavbarScroll") || 0;
-                } else {
-                  sessionStorage.removeItem("docsMobileNavbarScroll");
-                }
-                navbar.addEventListener("scroll", function() {
-                  sessionStorage.setItem("docsMobileNavbarScroll", navbar.scrollLeft);
-                });
-              })();
-            `,
-          }}
-        />
       </nav>
     </div>
   );

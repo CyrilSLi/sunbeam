@@ -1,3 +1,5 @@
+"use client";
+
 import DocsSidebar from "./DocsSidebar"
 import DocsMobileNavbar from "./DocsMobileNavbar"
 
