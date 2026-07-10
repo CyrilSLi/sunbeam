@@ -3,10 +3,20 @@ import { cookies } from "next/headers";
 import { fetchAllAirtableRecords } from "@/app/lib/airtable";
 
 export async function getAdminEmails(): Promise<string[]> {
-  const records = await fetchAllAirtableRecords(process.env.AIRTABLE_ADMIN_TABLE_ID!).catch(() => []);
-  return records
-    .map((r) => (r.fields as { email?: string }).email?.toLowerCase())
-    .filter(Boolean) as string[];
+  const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_ADMIN_TABLE_ID}`;
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${process.env.AIRTABLE_PAT}` },
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.records ?? [])
+      .map((r: { fields: { email?: string } }) => r.fields.email?.toLowerCase())
+      .filter(Boolean) as string[];
+  } catch {
+    return [];
+  }
 }
 
 export async function requireAdmin(): Promise<Response | null> {
