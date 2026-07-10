@@ -17,7 +17,7 @@ export default function DocsPage({children}: {children: React.ReactNode}) {
       <DocsMobileNavbar />
       <div className="flex flex-1 overflow-y-auto flex-col h-full min-h-0 items-center">
         <div
-          className="flex flex-1 flex-col mb-33 sm:mb-46 lg:mb-0"
+          className="flex flex-1 flex-col mb-33 sm:mb-46 lg:mb-0 outfit"
           style={{
             fontSize: "max(min(1vw, 10px), 8px)",
             width: "100%",
