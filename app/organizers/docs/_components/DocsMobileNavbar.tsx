@@ -37,9 +37,9 @@ export default function DocsMobileNavbar() {
               className="h-15 sm:h-20 -mt-4 hover:scale-110 duration-200"
             />
           </Link>
-          <div className="flex gap-10 overflow-x-auto overflow-y-hidden" ref={ref}>
+          <div className="flex gap-10 overflow-x-auto overflow-y-hidden scrollbar-none" ref={ref}>
             {docsDirectory.map((item) => (
-              <SidebarItem href={item.href} text={item.text} key={item.href} />
+              <SidebarItem href={item.href} text={item.text} noAnimate key={item.href} />
             ))}
           </div>
         </div>
