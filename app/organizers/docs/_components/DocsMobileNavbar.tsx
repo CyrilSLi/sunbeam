@@ -1,18 +1,8 @@
-"use client";
-
 import Link from "next/link";
 import SidebarItem from "../../../../components/SidebarItem";
 import { docsDirectory } from "../_lib/DocsDirectory";
 
 export default function DocsMobileNavbar() {
-  const scrollToCurrentPage = (el: HTMLDivElement) => {
-    el?.querySelector('a[href="#"]')?.scrollIntoView({
-      behavior: "auto",
-      block: "center",
-      inline: "center",
-    });
-  };
-
   return (
     <div>
       <nav
@@ -31,15 +21,25 @@ export default function DocsMobileNavbar() {
               className="h-15 sm:h-20 -mt-4 hover:scale-110 duration-200"
             />
           </Link>
-          <div
-            className="flex gap-10 overflow-x-auto overflow-y-hidden"
-            ref={scrollToCurrentPage}
-          >
+          <div className="flex gap-10 overflow-x-auto overflow-y-hidden" id="docs-mobile-navbar">
             {docsDirectory.map((item) => (
               <SidebarItem href={item.href} text={item.text} key={item.href} />
             ))}
           </div>
         </div>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const navbar = document.getElementById("docs-mobile-navbar");
+                navbar.scrollLeft = sessionStorage.getItem("docsMobileNavbarScroll") || 0;
+                navbar.addEventListener("scroll", function() {
+                  sessionStorage.setItem("docsMobileNavbarScroll", navbar.scrollLeft);
+                });
+              })();
+            `,
+          }}
+        />
       </nav>
     </div>
   );
