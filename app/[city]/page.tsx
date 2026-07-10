@@ -1,68 +1,10 @@
 // TemplatePage.tsx
 import React from "react";
-
-const participantFaqs = [
-	{
-		question: "I've never coded before, can I still join?",
-		answer:
-			"Of course! Sunbeam socials are a relaxed and supportive space for all girls with different skill levels. Workshops will help you learn everything you need.",
-	},
-	{
-		question: "How much does it cost to attend?",
-		answer:
-			"Nothing. Sunbeam socials are free for participants, and we provide food, drinks, merch, and prizes.",
-	},
-	{
-		question: "What should I bring?",
-		answer:
-			"Bring a laptop or iPad and anything else you like to code with, such as a charger, mouse, keyboard, or notepad.",
-	},
-	{
-		question: "Who can join?",
-		answer:
-			"Any girl-identifying individual aged 13-18 (inclusive) can sign up for their local Sunbeam social.",
-	},
-];
-
-type ScheduleItem = {
-	time: string;
-	event: string;
-};
-
-type SponsorItem = {
-	name: string;
-	logo: string;
-};
-
-const cityName = "For Example City";
-
-const schedule: ScheduleItem[] = [
-	{ time: "10:00", event: "Opening Ceremony" },
-	{ time: "10:30", event: "Team Formation & Icebreakers" },
-	{ time: "11:00", event: "Workshop: Introduction to Coding" },
-	{ time: "12:30", event: "Lunch Break" },
-	{ time: "13:30", event: "Project Planning Session" },
-	{ time: "14:30", event: "Hands-on Coding Time" },
-	{ time: "16:00", event: "Workshop: Web Development Basics" },
-	{ time: "17:30", event: "Project Showcase & Closing Ceremony" },
-];
-
-const socialHighlights = [
-	{
-		title: "Build",
-		description: "Turn an idea into something you’re proud of.",
-	},
-	{
-		title: "Have Fun",
-		description: "Enjoy snacks, laughs, and a great day together.",
-	},
-	{
-		title: "Make Friends",
-		description: "Meet other girls who love creating and coding.",
-	},
-];
+import config from "./config.json";
 
 const TemplatePage = () => {
+	const { cityName, schedule, sponsors } = config;
+
 	return (
 		<div className="relative">
 			{/* ── HERO ── */}
@@ -110,11 +52,11 @@ const TemplatePage = () => {
 							/>
 						</div>
 					</div>
-					{/* <h1 className="galindo text-[5vh] leading-[5vh] md:leading-[8vh] text-center gradient-text mt-[1vh]">
-						A social coding event for girls 13-18 around the world
-					</h1> */}
+					<h1 className="galindo text-[5vh] leading-[5vh] md:leading-[8vh] text-center gradient-text mt-[1vh]">
+						{cityName}
+					</h1>
 
-					<h2 className="galindo text-[3vh] px-[5vw] md:px-0 md:text-[4.5vh] text-[#2E599C] text-center mt-[7vh]">
+					<h2 className="galindo text-[3vh] px-[5vw] md:px-0 md:text-[4.5vh] text-[#2E599C] text-center">
 						A social coding event for girls 13-18 around the world
 					</h2>
 					<h3 className="outfit text-[#0E387A] text-center text-[1.5vh] md:text-[3vh]">
@@ -124,7 +66,7 @@ const TemplatePage = () => {
 						No experience necessary - join today!
 					</h1>
 					<a
-						href="forms.hackclub.com/sunbeam-signup"
+						href="/sign-up"
 						className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto"
 					>
 						<img
@@ -232,52 +174,43 @@ const TemplatePage = () => {
 					</div>
 
 					{/* The License Plates */}
-					<div className="w-[77.5vw] my-[8vh] flex flex-col gap-[2vh]">
-						<div className="grid grid-cols-[6fr_4fr] gap-[2vw]">
-							<div className="w-full h-full rounded-[1vh] border-[0.5vh] border-[#2E599C] bg-[#FBF6E7] px-[2vw] py-[3vh] text-center flex flex-col items-center justify-center">
-								<h3 className="galindo text-[4.5vh] text-[#2E599C] leading-tight">
-									{socialHighlights[0].title}
-								</h3>
-								<p className="outfit text-[2.3vh] text-[#0E387A] mt-[1vh]">
-									{socialHighlights[0].description}
-								</p>
-							</div>
+					<div className="w-[77.5vw] my-[4vh] flex flex-col gap-[2vh]">
+						<div className="grid grid-cols-[6fr_4fr] gap-[3vw]">
+							<img
+								src="/imgs/plate1.webp"
+								alt=""
+								className="w-full h-full object-cover"
+							/>
 
 							<img
 								src="/imgs/img4.webp"
 								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
+								className="w-full h-full object-cover pb-[1vh]"
 							/>
 						</div>
-						<div className="grid grid-cols-[4fr_6fr] gap-[2vw]">
+						<div className="grid grid-cols-[4fr_6fr] gap-[3vw]">
 							<img
 								src="/imgs/img5.webp"
 								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
+								className="w-full h-full object-cover pb-[1vh]"
 							/>
-							<div className="w-full h-full rounded-[1vh] border-[0.5vh] border-[#2E599C] bg-[#FBF6E7] px-[2vw] py-[3vh] text-center flex flex-col items-center justify-center">
-								<h3 className="galindo text-[4.5vh] text-[#2E599C] leading-tight">
-									{socialHighlights[1].title}
-								</h3>
-								<p className="outfit text-[2.3vh] text-[#0E387A] mt-[1vh]">
-									{socialHighlights[1].description}
-								</p>
-							</div>
+							<img
+								src="/imgs/plate1.webp"
+								alt=""
+								className="w-full h-full object-cover"
+							/>
 						</div>
-						<div className="grid grid-cols-[6fr_4fr] gap-[2vw]">
-							<div className="w-full h-full rounded-[1vh] border-[0.5vh] border-[#2E599C] bg-[#FBF6E7] px-[2vw] py-[3vh] text-center flex flex-col items-center justify-center">
-								<h3 className="galindo text-[4.5vh] text-[#2E599C] leading-tight">
-									{socialHighlights[2].title}
-								</h3>
-								<p className="outfit text-[2.3vh] text-[#0E387A] mt-[1vh]">
-									{socialHighlights[2].description}
-								</p>
-							</div>
+						<div className="grid grid-cols-[6fr_4fr] gap-[3vw]">
+							<img
+								src="/imgs/plate1.webp"
+								alt=""
+								className="w-full h-full object-cover"
+							/>
 
 							<img
 								src="/imgs/img6.webp"
 								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
+								className="w-full h-full object-cover pb-[1vh]"
 							/>
 						</div>
 					</div>
@@ -307,7 +240,7 @@ const TemplatePage = () => {
 					alt=""
 				/>
 				<div className="z-5 relative">
-					<h1 className="galindo text-[9vh] leading-[9vh] md:leading-[8vh] text-center text-[#72BFDA] stroke-text blue-outlined-text mb-[1vh]">
+					<h1 className="galindo text-[9vh] leading-[9vh] md:leading-[8vh] text-center text-[#72BFDA] stroke-text mb-[1vh]">
 						Schedule
 					</h1>
 				</div>
@@ -344,55 +277,16 @@ const TemplatePage = () => {
 				</div>
 			</div>
 
-			{/* FAQ */}
-			<div className="relative min-h-[120vh] items-center justify-center w-full mt-[5vh] flex flex-col pt-[0vh] z-3">
-				<img
-					src="/imgs/sand.webp"
-					className="w-full absolute top-[-10vh] z-0"
-					alt=""
-				/>
-				<img
-					src="/imgs/sunbeam-photo.webp"
-					className="absolute top-0 w-[80vw] left-[10vw] z-5"
-					alt=""
-				/>
-
-				<div className="w-[60vw] my-[8vh] flex flex-col items-center relative z-10">
-					<h2 className="galindo text-[7vh] text-[#bdd3f7] blue-outlined-text drop-shadow-md drop-shadow-neutral-200 text-center leading-[6.5vh] mb-[3vh]">
-						Participant FAQ
-					</h2>
-					<div className="w-full flex flex-col gap-[2vh]">
-						{participantFaqs.map((faq) => (
-							<div
-								key={faq.question}
-								className="bg-[#FBF6E7] border-[0.25vh] border-[#2E599C] rounded-[2vh] p-[2vh] md:p-[2.5vh]"
-							>
-								<h3 className="galindo text-[#C54390] text-[3vh] leading-[3.5vh] mb-[1vh]">
-									{faq.question}
-								</h3>
-								<p className="outfit text-[#0E387A] text-[2.25vh] leading-[3vh]">
-									{faq.answer}
-								</p>
-							</div>
-						))}
-					</div>
-					<a
-						href="/faq"
-						className="mt-[3vh] outfit text-[#526eb2] font-semibold italic text-[2.25vh] underline hover:opacity-80 transition-opacity"
-					>
-						View full FAQ
-					</a>
-				</div>
-			</div>
-
 			{/* ── SPONSOR ── */}
-			{/* <div className="relative min-h-screen w-full pt-[10vh] pb-[8vh] flex flex-col items-center z-3">
+			<div className="relative min-h-screen w-full pt-[10vh] pb-[8vh] flex flex-col items-center z-3">
+				{/* sand on a laptop */}
 				<img
 					src="/imgs/sand.webp"
 					className="w-full absolute top-[-10vh] z-0"
 					alt=""
 				/>
 
+				{/* sand on a phone */}
 				<img
 					src="/imgs/sand.webp"
 					className="w-full absolute md:hidden top-0 z-0"
@@ -432,9 +326,9 @@ const TemplatePage = () => {
 					src="/imgs/sand.webp"
 					className="w-full absolute md:hidden top-[420vh] z-0"
 					alt=""
-				/> */}
+				/>
 
-			{/* <div className="flex flex-col relative z-5 items-center justify-center">
+				<div className="flex flex-col relative z-5 items-center justify-center">
 					<h2 className="galindo text-[6.5vh] text-[#D88127] text-center w-[80vw] md:w-[80vw] leading-[7.5vh] mb-[1vh]">
 						Thank you to our Sponsors!
 					</h2>
@@ -462,8 +356,8 @@ const TemplatePage = () => {
 							</div>
 						))}
 					</div>
-				</div> */}
-			{/* </div> */}
+				</div>
+			</div>
 
 			{/* ── FOOTER ── */}
 			<div className="relative min-h-[80vh] w-full mt-[17.5vh] flex flex-col pt-[23vh] z-10">
