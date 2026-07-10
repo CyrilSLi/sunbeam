@@ -82,7 +82,9 @@
 
 .glassbox-white {
 	background: linear-gradient(to bottom, #ffffffbf 0%, #fffaf1bf 100%);
-	box-shadow: 0 10px 0px #ebe3d8, 0 16px 8px #0e387a80;
+	box-shadow:
+		0 10px 0px #ebe3d8,
+		0 16px 8px #0e387a80;
 }
 
 .glassbox-clear {
@@ -91,7 +93,8 @@
 }
 
 .boardwalk {
-	background-image: linear-gradient(
+	background-image:
+		linear-gradient(
 			color-mix(in srgb, #ffe4e9 60%, transparent),
 			color-mix(in srgb, var(--color-pink-bright) 30%, transparent)
 		),
@@ -103,7 +106,8 @@
 }
 
 .boardwalk-mobile {
-	background-image: linear-gradient(
+	background-image:
+		linear-gradient(
 			color-mix(in srgb, #ffe4e9 60%, transparent),
 			color-mix(in srgb, var(--color-pink-bright) 30%, transparent)
 		),
