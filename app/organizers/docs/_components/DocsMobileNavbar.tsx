@@ -1,21 +1,24 @@
 "use client";
 
+import { useRef, useLayoutEffect } from "react";
 import Link from "next/link";
 import SidebarItem from "../../../../components/SidebarItem";
 import { docsDirectory } from "../_lib/DocsDirectory";
 
 export default function DocsMobileNavbar() {
-  const scrollToSavedPosition = (el: HTMLDivElement | null) => {
-    if (!el) return;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
     if (sessionStorage.getItem("lastVisitedPath")?.startsWith("/organizers/docs/")) {
-      el.scrollLeft = parseInt(sessionStorage.getItem("docsMobileNavbarScroll") || "0", 10);
+      ref.current!.scrollLeft = parseInt(sessionStorage.getItem("docsMobileNavbarScroll") || "0", 10);
     } else {
       sessionStorage.removeItem("docsMobileNavbarScroll");
     }
-    el.addEventListener("scroll", function() {
-      sessionStorage.setItem("docsMobileNavbarScroll", el.scrollLeft.toString());
+    ref.current!.addEventListener("scroll", function() {
+      sessionStorage.setItem("docsMobileNavbarScroll", ref.current!.scrollLeft.toString());
     });
-  };
+  }, []);
+
   return (
     <div>
       <nav
@@ -34,7 +37,7 @@ export default function DocsMobileNavbar() {
               className="h-15 sm:h-20 -mt-4 hover:scale-110 duration-200"
             />
           </Link>
-          <div className="flex gap-10 overflow-x-auto overflow-y-hidden" ref={scrollToSavedPosition}>
+          <div className="flex gap-10 overflow-x-auto overflow-y-hidden" ref={ref}>
             {docsDirectory.map((item) => (
               <SidebarItem href={item.href} text={item.text} key={item.href} />
             ))}
