@@ -1,5 +1,8 @@
 // TemplatePage.tsx
-import React from "react";
+"use client";
+
+import Link from "next/link";
+import React, { useState } from "react";
 
 const participantFaqs = [
 	{
@@ -22,6 +25,46 @@ const participantFaqs = [
 		answer:
 			"Any girl-identifying individual aged 13-18 (inclusive) can sign up for their local Sunbeam social.",
 	},
+	{
+		question: "What is Hack Club?",
+		answer:
+			"Hack Club is a US-based charity that operates all around the world to get more young people involved in tech and coding. They've run events on an island, partnered with NASA, and hosted the world's largest all-girls high school hackathon!",
+	},
+	{
+		question: "What is Sunbeam?",
+		answer:
+			"Sunbeam is a series of social coding events, for girls by girls, running simultaneously in 20+ cities around the world!",
+	},
+	{
+		question: "Do I need to know anyone before I go?",
+		answer:
+			"No, you'll get to know everyone on the day of, but don't hesitate to chat to other girls in the Slack channels and bring your in-person friends along too!",
+	},
+	{
+		question: "How do I join the Slack channels?",
+		answer: (
+			<>
+				Click{" "}
+				<a
+					href="https://slack.hackclub.com/"
+					style={{ textDecoration: "underline" }}
+				>
+					HERE
+				</a>{" "}
+				and join the sunbeam channels.
+			</>
+		),
+	},
+	{
+		question: "What if I have allergies/dietary restrictions?",
+		answer:
+			"One you sign up, you'll receive a check-in form where you'll be able to let the organizers know about any health concerns and dietary requirements. We'll make sure to provide food options for everyone.",
+	},
+	{
+		question: "Are we getting prizes?",
+		answer:
+			"You'll get a custom t-shirt, [company]-recognized certificate, and a bunch of other free merch just for attending! Each social will also have peer-voted winners which will get extra prizes for best project/nicest graphics/funniest ideas too!",
+	},
 ];
 
 type ScheduleItem = {
@@ -37,14 +80,14 @@ type SponsorItem = {
 const cityName = "For Example City";
 
 const schedule: ScheduleItem[] = [
-	{ time: "10:00", event: "Opening Ceremony" },
-	{ time: "10:30", event: "Team Formation & Icebreakers" },
-	{ time: "11:00", event: "Workshop: Introduction to Coding" },
-	{ time: "12:30", event: "Lunch Break" },
-	{ time: "13:30", event: "Project Planning Session" },
-	{ time: "14:30", event: "Hands-on Coding Time" },
-	{ time: "16:00", event: "Workshop: Web Development Basics" },
-	{ time: "17:30", event: "Project Showcase & Closing Ceremony" },
+	{ time: "8:00 AM", event: "Opening Ceremony" },
+	{ time: "10:30 AM", event: "Workshop: Boba Drops" },
+	{ time: "11:30 AM", event: "Workshop: Godot" },
+	{ time: "12:30 PM", event: "Lunch!!!" },
+	{ time: "5:00 PM", event: "Karaoke" },
+	{ time: "6:00 PM", event: "Dinner + Demos" },
+	{time: "7:00 PM", event: "Closing Ceremony"},
+	{ time: "8:00 PM", event: "Go home :(" },
 ];
 
 const socialHighlights = [
@@ -56,7 +99,7 @@ const socialHighlights = [
 	{
 		title: "Have Fun",
 		description: "Enjoy snacks, laughs, and a great day together.",
-		img: "/imgs/plate2.jpg",
+		img: "/imgs/plate2.png",
 	},
 	{
 		title: "Make Friends",
@@ -66,8 +109,11 @@ const socialHighlights = [
 ];
 
 const TemplatePage = () => {
+	const [openFaq, setOpenFaq] = useState<number | null>(null);
+	const [shirtFlipped, setShirtFlipped] = useState(false);
+
 	return (
-		<div className="relative">
+		<div className="relative bg-[url('/imgs/sandNoFade.webp')] bg-cover bg-center bg-no-repeat">
 			{/* ── HERO ── */}
 			<div className="relative min-h-[110vh] w-full">
 				<div className="absolute inset-0 h-[110vh] overflow-hidden">
@@ -123,9 +169,15 @@ const TemplatePage = () => {
 					<h3 className="outfit text-[#0E387A] text-center text-[1.5vh] md:text-[3vh]">
 						August 29th, 2026 || 20+ cities worldwide
 					</h3>
-					<h1 className="galindo text-[6.5vh] leading-[6.5vh] md:leading-[8vh] text-center gradient-text mt-[1.5vh]">
+					<div className="grid grid-cols-1 grid-rows-1">
+					<h1 className="row-start-1 col-start-1 galindo text-[6.5vh] leading-[6.5vh] md:leading-[8vh] text-center pink-outlined-text-drop-shadow mt-[1.5vh]">
 						No experience necessary - join today!
 					</h1>
+					<h1 className="row-start-1 col-start-1 galindo text-[6.5vh] leading-[6.5vh] md:leading-[8vh] text-center gradient-text mt-[1.5vh]">
+						No experience necessary - join today!
+					</h1>
+					</div>
+
 					<a
 						href="https://forms.hackclub.com/sunbeam-signup"
 						target="_blank"
@@ -202,7 +254,7 @@ const TemplatePage = () => {
 							<div className="border-[1vh] border-[#C54390] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img1.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#C54390]">
-									Sign Up!
+									SIGN UP
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#C54390]">
 									Sign up for a Sunbeam social in your area with the link below!
@@ -213,7 +265,7 @@ const TemplatePage = () => {
 							<div className="border-[1vh] border-[#2E599C] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img2.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#2E599C]">
-									Team Up!
+									TEAM
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#2E599C]">
 									Join a team of 1-3 people. Come in with your friends or meet
@@ -222,11 +274,11 @@ const TemplatePage = () => {
 								</p>
 							</div>
 						</div>
-						<div className="w-full h-[67.5vh] rounded-[3.5vh] border border-neutral-400 drop-shadow-sm bg-neutral-50 p-[0.75vw]">
+						<div className="w-full h-[70vh] rounded-[3.5vh] border border-neutral-400 drop-shadow-sm bg-neutral-50 p-[0.75vw]">
 							<div className="border-[1vh] border-[#C79713] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img3.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#C79713]">
-									Have Fun!
+									FUN!
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#C79713]">
 									August 29!! Have fun during the event: make friends, enjoy the
@@ -236,137 +288,199 @@ const TemplatePage = () => {
 						</div>
 					</div>
 
-					{/* Highlight polaroids */}
-
-					<div className="w-[77.5vw] my-[8vh] flex flex-col gap-[2vh]">
-						<div className="grid grid-cols-[6fr_4fr] gap-[2vw]">
-							<div className="w-full h-full text-center flex flex-col items-center justify-center">
-								<img src={socialHighlights[0].img} alt="" />
+					{/* license plates */}
+					<div className="m-12">
+						<div className="flex flex-row flex-wrap m-4 gap-4 justify-center items-center">
+							<div className="flex flex-row items-center gap-8">
+								<img src="/imgs/plate1.webp" alt="build your project!" className="h-[30vh]" />
+								<div className=" pt-4 pb-8 px-4 border-2 bg-white border-blue-dark/50 shadow-sm shadow-blue-dark/50">
+									<img src="/imgs/img4.png" className="h-[30vh] border-1 border-blue-dark/50"/>
+								</div>
 							</div>
-
-							<img
-								src="/imgs/img4.webp"
-								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
-							/>
-						</div>
-						<div className="grid grid-cols-[4fr_6fr] gap-[2vw]">
-							<img
-								src="/imgs/img5.webp"
-								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
-							/>
-							<div className="w-full h-full text-center flex flex-col items-center justify-center">
-								<img src={socialHighlights[1].img} alt="" />
+							<div className="flex flex-row-reverse items-center gap-12">
+								<img src="/imgs/plate2.png" alt="show it off!" className="h-[30vh]" />
+								<div className=" pt-4 pb-12 px-4 border-2 bg-white border-blue-dark/50 shadow-sm shadow-blue-dark/50">
+									<img src="/imgs/img5.png" className="h-[30vh] border-1 border-blue-dark/50"/>
+								</div>
 							</div>
-						</div>
-						<div className="grid grid-cols-[6fr_4fr] gap-[2vw]">
-							<div className="w-full h-full text-center flex flex-col items-center justify-center">
-								<img src={socialHighlights[2].img} alt="" />
-							</div>
-
-							<img
-								src="/imgs/img6.webp"
-								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
-							/>
+						<div className="flex flex-row items-center gap-8">
+								<img src="/imgs/plate3.png" alt="get prizes!" className="h-[30vh]" />
+								<div className=" pt-4 pb-8 px-4 border-2 bg-white border-blue-dark/50 shadow-sm shadow-blue-dark/50">
+									<img src="/imgs/img6.webp" className="h-[30vh] border-1 border-blue-dark/50"/>
+								</div>
+							</div>							
 						</div>
 					</div>
 
-					{/* CTA */}
-					<h2 className="outfit text-[6vh] text-[#C54390] text-center w-[70vw] md:w-[60vw] leading-[7.5vh] my-[2vh] drop-shadow-sm">
-						Ready? Come enjoy the sunshine!
-					</h2>
-					<a
-						href="/apply"
-						className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto mb-[5vh]"
+					{/* tshirt & link 2 map */}
+					<div className="bg-[url('/imgs/sandNoFade.webp')] p-4">
+						<h1 className="galindo text-5xl text-[#72BFDA] text-center justify-self-center">AND you can get this free t-shirt!</h1>
+						<div className="flex flex-row justify-center items-center">
+							<div
+								className="group w-12/32 -rotate-4 -mr-6 z-10 [perspective:1000px] cursor-pointer hover:scale-105 duration-200 transition-transform"
+								onClick={() => setShirtFlipped((f) => !f)}
+							>
+								<div
+									className={`relative w-full transition-transform duration-500 [transform-style:preserve-3d] ${
+										shirtFlipped
+											? "[transform:rotateY(180deg)]"
+											: "group-hover:[transform:rotateY(25deg)]"
+									}`}
+								>
+									<img
+										src="/imgs/tshirt_back.png"
+										className="w-full [backface-visibility:hidden]"
+										alt="t-shirt back"
+									/>
+									<img
+										src="/imgs/tshirt_front.png"
+										className="absolute inset-0 w-full [backface-visibility:hidden] [transform:rotateY(180deg)]"
+										alt="t-shirt front"
+									/>
+								</div>
+							</div>
+							<img src="/imgs/map.png" className="w-12/32 rotate-2 -ml-2 transition-transform duration-200 hover:scale-105 hover:rotate-4"/>
+						</div>
+					</div>
+
+					<div className="bg-[url('/imgs/sandNoFade.webp')] w-full justify-center items-center flex flex-col">
+					<Link
+						href="/map"
+						className="hover:scale-105 transition-all duration-200 pointer-events-auto cursor-pointer w-fit mx-auto -mt-[4vh] mb-[5vh] transform -rotate-3 hover:-rotate-5"
 					>
 						<img
-							src="/imgs/sign-up2.webp"
-							className="w-[50vw] md:w-[30vw] mx-auto"
+							src="/imgs/surfboard_findsunbeam.png"
+							className="w-[40vw] md:w-[20vw] mx-auto"
 							alt="apply!"
 						/>
-					</a>
+					</Link>
+					</div>
+					
 				</div>
 			</div>
 
 			{/* Schedule */}
-			<div className="relative w-full flex flex-col items-center py-[9vh] z-5 overflow-hidden">
+			<div className="relative w-full overflow-hidden">
 				<img
-					src="/imgs/boardwalk2.webp"
-					className="absolute inset-0 z-0 w-full h-full object-cover"
+					src="/imgs/sandNoFade.webp"
+					className="w-full object-cover absolute top-0 z-0"
 					alt=""
 				/>
-				<div className="relative z-5 flex flex-col items-center w-[88vw] md:w-[52.5vw]">
-					<h1 className="galindo text-[5.5vh] md:text-[9vh] text-center text-[#72BFDA] blue-outlined-text mb-[0.25vh]">
-						Schedule
-					</h1>
-					<p className="outfit text-[#0E387A] text-[1.7vh] md:text-[2.5vh] text-center mb-[3vh]">
-						Here is what your Sunbeam might look like!
-					</p>
+				<img
+					src="/imgs/sandNoFade.webp"
+					className="w-full absolute top-[100vh] object-cover  z-0"
+					alt=""
+				/>
 
-					<div className="w-full bg-[#FBF6E7] border-[0.25vh] border-[#2E599C] rounded-[2vh] p-[1.8vh] md:p-[2.5vh]">
-						{schedule.map((item, index) => (
-							<div
-								key={index}
-								className={`flex flex-col md:flex-row md:items-center gap-[0.4vh] justify-between md:gap-[2.5vw] py-[1.2vh] ${
-									index !== schedule.length - 1
-										? "border-b-[0.15vh] border-[#2E599C33]"
-										: ""
-								}`}
-							>
-								<p className="outfit text-[#0E387A] text-[2.25vh] leading-snug">
-									{item.event}
-								</p>
-								<p className="galindo text-[#C54390] text-[2.5vh] shrink-0 md:w-[10vh]">
-									{item.time}
-								</p>
-							</div>
-						))}
+				<div className="relative mt-8 mb-8 w-[80%] items-center justify-self-center flex flex-col py-[9vh] -pt-[2vh] z-5 overflow-hidden waterbg outline-2 rounded-2xl outline-blue-bright shadow-xl shadow-blue-dark/10">
+					{/* <img
+						src="/imgs/boardwalk2.webp"
+						className="absolute inset-0 z-0 w-full h-full object-cover"
+						alt=""
+					/> */}
+					<div className="relative z-5 flex flex-col items-center w-[92%] md:w-[65vw]">
+						<div className="grid grid-rows-1 grid-flow-col">
+						<h1 className="row-start-1 col-start-1 galindo text-5xl md:text-6xl text-center text-[#72BFDA] pink-outlined-text-drop-shadow mb-[0.25vh]">
+							Example Schedule
+						</h1>
+						<h1 className="row-start-1 col-start-1 galindo text-5xl md:text-6xl text-center text-[#72BFDA] pink-outlined-text-sm mb-[0.25vh]">
+							Example Schedule
+						</h1>
+						</div>
+
+						<p className="outfit text-[#0E387A] text-[1.7vh] md:text-[2.5vh] text-center mb-[3vh]">
+							Here's what your Sunbeam could look like!
+						</p>
+
+						<div className="w-full bg-[#FBF6E7cF] border-[0.2vh] border-[#2E599C] rounded-[2vh] p-[2.5vh] md:p-[3.5vh]">
+							{schedule.map((item, index) => (
+								<div
+									key={index}
+									className={`flex flex-col md:flex-row md:items-center gap-[0.4vh] justify-between md:gap-[2.5vw] py-[1.8vh] ${
+										index !== schedule.length - 1
+											? "border-b-[0.15vh] border-[#2E599C33]"
+											: ""
+									}`}
+								>
+									<p className="outfit text-[#0E387A] text-[2.5vh] leading-snug min-w-0">
+										{item.event}
+									</p>
+									<p className="galindo text-[#C54390] text-[2.75vh] shrink-0 whitespace-nowrap">
+										{item.time}
+									</p>
+								</div>
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
 
 			{/* FAQ */}
-			<div className="relative min-h-[120vh] items-center justify-center w-full mt-[5vh] flex flex-col pt-[0vh] z-3">
-				<img
-					src="/imgs/sand.webp"
+			<div className="bg-[url('/imgs/sandNoFade.webp')] relative min-h-[120vh] items-center justify-center w-full flex flex-col pt-[5vh] pb-[17.5vh] z-3 overflow-hidden">
+				{/* <img
+					src="/imgs/sandNoFade.webp"
 					className="w-full absolute top-[-10vh] z-0"
 					alt=""
-				/>
+				/> */}
 				<img
 					src="/imgs/sunbeam-photo.webp"
-					className="absolute top-0 w-[80vw] left-[10vw] z-5"
+					className="absolute top-0 h-full w-[80vw] left-[10vw] object-cover z-5"
 					alt=""
 				/>
 
 				<div className="w-[60vw] my-[8vh] flex flex-col items-center relative z-10">
 					<h2 className="galindo text-[7vh] text-[#bdd3f7] blue-outlined-text drop-shadow-md drop-shadow-neutral-200 text-center leading-[6.5vh] mb-[3vh]">
-						Participant FAQ
+						FAQ
 					</h2>
-					<div className="w-full flex flex-col gap-[2vh]">
-						{participantFaqs.map((faq) => (
-							<div
-								key={faq.question}
-								className="bg-[#FBF6E7] border-[0.25vh] border-[#2E599C] rounded-[2vh] p-[2vh] md:p-[2.5vh]"
-							>
-								<h3 className="galindo text-[#C54390] text-[3vh] leading-[3.5vh] mb-[1vh]">
-									{faq.question}
-								</h3>
-								<p className="outfit text-[#0E387A] text-[2.25vh] leading-[3vh]">
-									{faq.answer}
-								</p>
-							</div>
-						))}
+					<div className="w-full bg-[#FBF6E7] border-[0.25vh] border-[#2E599C] rounded-[2vh] p-[2vh] md:p-[2.5vh]">
+						{participantFaqs.map((faq, index) => {
+							const isOpen = openFaq === index;
+							return (
+								<div
+									key={faq.question}
+									className={`py-[1.5vh] ${
+										index !== participantFaqs.length - 1
+											? "border-b-[0.15vh] border-[#2E599C33]"
+											: ""
+									}`}
+								>
+									<button
+										type="button"
+										onClick={() => setOpenFaq(isOpen ? null : index)}
+										aria-expanded={isOpen}
+										className="w-full flex items-center justify-between gap-[2vw] text-left cursor-pointer"
+									>
+										<h3 className="galindo text-[#C54390] text-[3vh] leading-[3.5vh]">
+											{faq.question}
+										</h3>
+										<span
+											className={`galindo text-[#C54390] text-[3vh] leading-[3.5vh] shrink-0 transition-transform duration-300 ${
+												isOpen ? "rotate-180" : ""
+											}`}
+										>
+											▾
+										</span>
+									</button>
+									<div
+										className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
+											isOpen
+												? "grid-rows-[1fr] opacity-100 mt-[1vh]"
+												: "grid-rows-[0fr] opacity-0"
+										}`}
+									>
+										<p className="outfit text-[#0E387A] text-[2.25vh] leading-[3vh] overflow-hidden">
+											{faq.answer}
+										</p>
+									</div>
+								</div>
+							);
+						})}
 					</div>
-					<a
-						href="/faq"
-						className="mt-[3vh] outfit text-[#526eb2] font-semibold italic text-[2.25vh] underline hover:opacity-80 transition-opacity"
-					>
-						View full FAQ
-					</a>
 				</div>
 			</div>
+
+			{/* Sand spacer before footer */}
+			<div className="w-full h-[12.5vh] bg-[url('/imgs/sandNoFade.webp')] z-3" />
 
 			{/* ── SPONSOR ── */}
 			{/* <div className="relative min-h-screen w-full pt-[10vh] pb-[8vh] flex flex-col items-center z-3">
@@ -449,11 +563,11 @@ const TemplatePage = () => {
 			{/* </div> */}
 
 			{/* ── FOOTER ── */}
-			<div className="relative min-h-[80vh] w-full mt-[17.5vh] flex flex-col pt-[23vh] z-10">
-				<div className="absolute inset-0 h-[80vh] overflow-hidden">
+			<div className="relative min-h-[80vh] w-full flex flex-col pt-[23vh] z-10">
+				<div className="absolute inset-0 overflow-hidden">
 					<img
-						src="/imgs/water.webp"
-						className="w-full h-full object-cover object-bottom rotate-180"
+						src="/imgs/water2.webp"
+						className="w-full h-full object-cover object-top"
 						alt=""
 					/>
 				</div>
@@ -471,7 +585,7 @@ const TemplatePage = () => {
 				<div className="relative z-5 flex flex-col">
 					{/* Footer headline */}
 					<h3 className="outfit text-[#FBF6E7]/90 font-semibold text-[5.5vh] text-center">
-						made with ♡ by{" "}
+						made with <b className="text-[#FFC7DA]">♡</b> by{" "}
 						<a
 							href="https://athena.hackclub.com"
 							target="_blank"
