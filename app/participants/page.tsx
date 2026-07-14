@@ -202,7 +202,7 @@ const TemplatePage = () => {
 							<div className="border-[1vh] border-[#C54390] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img1.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#C54390]">
-									Sign Up!
+									SIGN UP
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#C54390]">
 									Sign up for a Sunbeam social in your area with the link below!
@@ -213,7 +213,7 @@ const TemplatePage = () => {
 							<div className="border-[1vh] border-[#2E599C] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img2.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#2E599C]">
-									Team Up!
+									TEAM
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#2E599C]">
 									Join a team of 1-3 people. Come in with your friends or meet
@@ -226,7 +226,7 @@ const TemplatePage = () => {
 							<div className="border-[1vh] border-[#C79713] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img3.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#C79713]">
-									Have Fun!
+									FUN!
 								</h2>
 								<p className="outfit text-[2.25vh] text-center text-[#C79713]">
 									August 29!! Have fun during the event: make friends, enjoy the
@@ -437,10 +437,10 @@ const TemplatePage = () => {
 
 			{/* ── FOOTER ── */}
 			<div className="relative min-h-[80vh] w-full mt-[17.5vh] flex flex-col pt-[23vh] z-10">
-				<div className="absolute inset-0 h-[80vh] overflow-hidden">
+				<div className="absolute inset-0 overflow-hidden">
 					<img
-						src="/imgs/water.webp"
-						className="w-full h-full object-cover object-bottom rotate-180"
+						src="/imgs/water2.webp"
+						className="w-full h-full object-cover object-top"
 						alt=""
 					/>
 				</div>
@@ -458,7 +458,7 @@ const TemplatePage = () => {
 				<div className="relative z-5 flex flex-col">
 					{/* Footer headline */}
 					<h3 className="outfit text-[#FBF6E7]/90 font-semibold text-[5.5vh] text-center">
-						made with ♡ by{" "}
+						made with <b className="text-[#FFC7DA]">♡</b> by{" "}
 						<a
 							href="https://athena.hackclub.com"
 							target="_blank"
