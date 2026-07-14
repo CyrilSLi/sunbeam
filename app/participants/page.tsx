@@ -56,7 +56,7 @@ const socialHighlights = [
 	{
 		title: "Have Fun",
 		description: "Enjoy snacks, laughs, and a great day together.",
-		img: "/imgs/plate2.jpg",
+		img: "/imgs/plate2.png",
 	},
 	{
 		title: "Make Friends",
@@ -222,7 +222,7 @@ const TemplatePage = () => {
 								</p>
 							</div>
 						</div>
-						<div className="w-full h-[67.5vh] rounded-[3.5vh] border border-neutral-400 drop-shadow-sm bg-neutral-50 p-[0.75vw]">
+						<div className="w-full h-[70vh] rounded-[3.5vh] border border-neutral-400 drop-shadow-sm bg-neutral-50 p-[0.75vw]">
 							<div className="border-[1vh] border-[#C79713] w-full h-full rounded-[3vh] flex flex-col items-center justify-start p-[1vw]">
 								<img src="/imgs/img3.webp" className="pb-[2vh]" alt="" />
 								<h2 className="galindo text-center text-[4vh] text-[#C79713]">
@@ -236,45 +236,32 @@ const TemplatePage = () => {
 						</div>
 					</div>
 
-					{/* Highlight polaroids */}
-
-					<div className="w-[77.5vw] my-[8vh] flex flex-col gap-[2vh]">
-						<div className="grid grid-cols-[6fr_4fr] gap-[2vw]">
-							<div className="w-full h-full text-center flex flex-col items-center justify-center">
-								<img src={socialHighlights[0].img} alt="" />
+					{/* license plates */}
+					<div className="m-12">
+						<div className="flex flex-row flex-wrap m-4 gap-4 justify-center items-center">
+							<div className="flex flex-row items-center gap-8">
+								<img src="/imgs/plate1.webp" alt="build your project!" className="h-[30vh]" />
+								<div className=" pt-4 pb-8 px-4 border-2 bg-white border-blue-dark/50 shadow-sm shadow-blue-dark/50">
+									<img src="/imgs/img4.png" className="h-[30vh] border-1 border-blue-dark/50"/>
+								</div>
 							</div>
-
-							<img
-								src="/imgs/img4.webp"
-								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
-							/>
-						</div>
-						<div className="grid grid-cols-[4fr_6fr] gap-[2vw]">
-							<img
-								src="/imgs/img5.webp"
-								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
-							/>
-							<div className="w-full h-full text-center flex flex-col items-center justify-center">
-								<img src={socialHighlights[1].img} alt="" />
+							<div className="flex flex-row-reverse items-center gap-12">
+								<img src="/imgs/plate2.png" alt="show it off!" className="h-[30vh]" />
+								<div className=" pt-4 pb-12 px-4 border-2 bg-white border-blue-dark/50 shadow-sm shadow-blue-dark/50">
+									<img src="/imgs/img5.png" className="h-[30vh] border-1 border-blue-dark/50"/>
+								</div>
 							</div>
-						</div>
-						<div className="grid grid-cols-[6fr_4fr] gap-[2vw]">
-							<div className="w-full h-full text-center flex flex-col items-center justify-center">
-								<img src={socialHighlights[2].img} alt="" />
-							</div>
-
-							<img
-								src="/imgs/img6.webp"
-								alt=""
-								className="w-full h-full object-cover pb-[0vh] rounded-[1vh] rounded-b-[1vh]"
-							/>
+						<div className="flex flex-row items-center gap-8">
+								<img src="/imgs/plate3.png" alt="get prizes!" className="h-[30vh]" />
+								<div className=" pt-4 pb-8 px-4 border-2 bg-white border-blue-dark/50 shadow-sm shadow-blue-dark/50">
+									<img src="/imgs/img6.webp" className="h-[30vh] border-1 border-blue-dark/50"/>
+								</div>
+							</div>							
 						</div>
 					</div>
 
 					{/* CTA */}
-					<h2 className="outfit text-[6vh] text-[#C54390] text-center w-[70vw] md:w-[60vw] leading-[7.5vh] my-[2vh] drop-shadow-sm">
+					<h2 className="outfit text-[4vh] text-[#C54390] text-center w-[70vw] md:w-[60vw] leading-[7.5vh] my-[2vh] drop-shadow-sm">
 						Ready? Come enjoy the sunshine!
 					</h2>
 					<a
@@ -283,7 +270,7 @@ const TemplatePage = () => {
 					>
 						<img
 							src="/imgs/sign-up2.webp"
-							className="w-[50vw] md:w-[30vw] mx-auto"
+							className="w-[40vw] md:w-[20vw] mx-auto"
 							alt="apply!"
 						/>
 					</a>
@@ -291,12 +278,12 @@ const TemplatePage = () => {
 			</div>
 
 			{/* Schedule */}
-			<div className="relative w-full flex flex-col items-center py-[9vh] z-5 overflow-hidden">
-				<img
+			<div className="relative mt-8 w-full flex flex-col items-center py-[9vh] z-5 overflow-hidden bg-[url('/imgs/planks2.webp')] bg-[1000px_auto] bg-repeat outline-2 outline-pink-dark/25 shadow-xl shadow-blue-dark/10">
+				{/* <img
 					src="/imgs/boardwalk2.webp"
 					className="absolute inset-0 z-0 w-full h-full object-cover"
 					alt=""
-				/>
+				/> */}
 				<div className="relative z-5 flex flex-col items-center w-[88vw] md:w-[52.5vw]">
 					<h1 className="galindo text-[5.5vh] md:text-[9vh] text-center text-[#72BFDA] blue-outlined-text mb-[0.25vh]">
 						Schedule
