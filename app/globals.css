@@ -162,3 +162,22 @@
 	animation-delay: 0.15s;
 	will-change: transform;
 }
+
+.waterbg {
+	position: relative;
+	background-image: linear-gradient(to bottom, #EAF7FB58 0%, #D5F0F9 100%);
+	background-size: cover;
+	background-position: center;
+}
+
+.waterbg::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background-image: url("/imgs/water4.png");
+	background-size: cover;
+	background-position: center;
+	opacity: 0.1;
+	pointer-events: none;
+}
