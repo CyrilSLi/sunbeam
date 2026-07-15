@@ -17,9 +17,9 @@ export default function OrganizerDocs() {
       <MobileNavbar />
 
       <div className="flex flex-col flex-1 gap-4 p-4 pb-48 lg:pb-4">
-        <div className="flex flex-col lg:flex-row gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* slack */}
-          <div className="w-full lg:w-1/2 flex flex-col lg:min-h-0">
+          <div className="w-full flex flex-col lg:min-h-0">
             <br />
             <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk lg:p-6 flex flex-col">
               <h1 className="shrink-0 text-3xl 2xl:text-5xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
@@ -42,7 +42,7 @@ export default function OrganizerDocs() {
           </div>
 
           {/* email */}
-          <div className="w-full lg:w-1/2 flex flex-col lg:min-h-0">
+          <div className="w-full flex flex-col lg:min-h-0">
             <br />
             <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk lg:p-6 flex flex-col">
               <h1 className="shrink-0 text-3xl 2xl:text-5xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
@@ -59,11 +59,11 @@ export default function OrganizerDocs() {
           </div>
 
           {/* calll */}
-          <div className="w-full lg:w-1/2 flex flex-col lg:min-h-0">
+          <div className="w-full flex flex-col lg:min-h-0">
             <br />
             <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk lg:p-6 flex flex-col">
               <h1 className="shrink-0 text-3xl 2xl:text-5xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
-                2. Call
+                3. Call
               </h1>
               <p className="text-blue-dark outfit lg:text-lg 2xl:text-2xl text-pretty leading-relaxed">
                 Should be for questions where an email does not suffice. <br/> This is a 15-30 min call where we can go over anything one-on-one. <br />
@@ -71,7 +71,7 @@ export default function OrganizerDocs() {
               <p className="outfit lg:text-lg 2xl:text-2xl text-pretty leading-relaxed">
                 Reserve a call 
                 <a href="https://calendar.app.google/VtY1PiKRwYvZGY196" target="_blank" className="galindo text-xl 2xl:text-3xl text-orange-dark underline hover:decoration-wavy"
-                >HERE!</a>{" "}
+                > HERE!</a>{" "}
                  <br />
               </p>
             </div>
