@@ -21,7 +21,7 @@ export default function OrganizerDocs() {
           {/* slack */}
           <div className="w-full flex flex-col lg:min-h-0">
             <br />
-            <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk lg:p-10 2xl:p-14 flex flex-col">
+            <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk p-4 lg:p-10 2xl:p-14 flex flex-col">
               <h1 className="shrink-0 text-4xl 2xl:text-6xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
                 1. Slack
               </h1>
@@ -33,7 +33,7 @@ export default function OrganizerDocs() {
                 <br />
               </p>
               <p className="outfit lg:text-xl 2xl:text-3xl text-pretty leading-relaxed">
-                Expected Response Time: 24h on workdays <br />
+                <br/>Expected Response Time: 24h on workdays <br /> <br/>
               </p>
               <p className="text-pink-dark outfit lg:text-lg 2xl:text-2xl text-pretty leading-relaxed">
                 This should be your first place to go if you have any questions!
@@ -44,7 +44,7 @@ export default function OrganizerDocs() {
           {/* email */}
           <div className="w-full flex flex-col lg:min-h-0">
             <br />
-            <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk lg:p-10 2xl:p-14 flex flex-col">
+            <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk p-4 lg:p-10 2xl:p-14 flex flex-col">
               <h1 className="shrink-0 text-4xl 2xl:text-6xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
                 2. Email
               </h1>
@@ -53,7 +53,7 @@ export default function OrganizerDocs() {
                 <span className="p-1 px-2 m-1 bg-blue-bright/20 outline-blue-dark/65 rounded-xl text-nowrap">sunbeam@hackclub.com</span>
               </p>
               <p className="outfit lg:text-xl 2xl:text-3xl text-pretty leading-relaxed">
-                Expected Response Time: 48h on workdays <br />
+                <br/>Expected Response Time: 48h on workdays <br />
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ export default function OrganizerDocs() {
           {/* calll */}
           <div className="w-full flex flex-col lg:min-h-0">
             <br />
-            <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk lg:p-10 2xl:p-14 flex flex-col">
+            <div className="lg:flex-1 lg:min-h-0 lg:overflow-y-auto boardwalk p-4 lg:p-10 2xl:p-14 flex flex-col">
               <h1 className="shrink-0 text-4xl 2xl:text-6xl galindo text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-dark">
                 3. Call
               </h1>
@@ -69,7 +69,7 @@ export default function OrganizerDocs() {
                 Should be for questions where an email does not suffice. <br/> This is a 15-30 min call where we can go over anything one-on-one. <br />
               </p>
               <p className="outfit lg:text-xl 2xl:text-3xl text-pretty leading-relaxed">
-                Reserve a call 
+                <br/>Reserve a call 
                 <a href="https://calendar.app.google/VtY1PiKRwYvZGY196" target="_blank" className="galindo text-xl 2xl:text-3xl text-orange-dark underline hover:decoration-wavy"
                 > HERE!</a>{" "}
                  <br />
