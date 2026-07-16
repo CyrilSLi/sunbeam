@@ -77,7 +77,7 @@ export default function PocMap() {
         if (poc.city_slug) {
           const email = document.createElement("p");
           email.className = "text-sm text-pink-dark font-semibold";
-          email.textContent = `${poc.city_slug}-sunbeam@events.hackclub.com`;
+          email.textContent = `sunbeam-${poc.city_slug}@events.hackclub.com`;
           popup.appendChild(email);
         }
 
