@@ -45,7 +45,7 @@ export default async function StarboardEventPage({
 	// Admin path: viewing an arbitrary city's event (linked from /starboard/admin), gated by
 	// admin auth (hca_admin_token) instead of the organizer/POC check below.
 	if (eventId) {
-		const adminToken = cookieStore.get("hca_admin_token")?.value;
+		const adminToken = cookieStore.get("hca_admin_token")?.value ?? cookieStore.get("hca_token")?.value;
 		if (!adminToken) {
 			return <AdminAccessDenied email={null} />;
 		}

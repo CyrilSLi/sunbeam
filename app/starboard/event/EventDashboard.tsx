@@ -396,14 +396,16 @@ export default function EventDashboard({
 	const canEditVenue = roles.includes("admin") || roles.some((r) => r.startsWith("person of contact"));
 
 	return (
-		<div
-			className="min-h-screen outfit flex flex-col items-center gap-4 py-10 px-4"
-			style={{
-				backgroundImage: "url('/imgs/sand.webp')",
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-			}}
-		>
+		<div className="relative min-h-screen outfit">
+			<div
+				className="fixed inset-0 -z-10"
+				style={{
+					backgroundImage: "url('/imgs/sand.webp')",
+					backgroundSize: "cover",
+					backgroundPosition: "center bottom",
+				}}
+			/>
+			<div className="flex flex-col items-center gap-4 py-10 px-4">
 			<h1 className="galindo text-blue-dark text-2xl">{heading}</h1>
 
 			<div className="flex flex-col items-center gap-1">
@@ -490,6 +492,7 @@ export default function EventDashboard({
 					/>
 				</div>
 			)}
+			</div>
 		</div>
 	);
 }

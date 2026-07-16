@@ -1,30 +1,56 @@
-import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getAdminEmails } from "@/app/lib/admin-auth";
+import { getOrganizerRole } from "@/app/lib/organizer-auth";
+import AdminEventsDashboard from "./admin/AdminEventsDashboard";
+import EventDashboard from "./event/EventDashboard";
 
-export default function StarboardPage() {
+async function getCurrentUserEmail(token: string): Promise<string | null> {
+	const res = await fetch("https://auth.hackclub.com/api/v1/me", {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	if (!res.ok) return null;
+	const user = await res.json();
+	return user.identity?.primary_email?.toLowerCase() ?? null;
+}
+
+export default async function StarboardPage() {
+	const cookieStore = await cookies();
+	const token = cookieStore.get("hca_token")?.value;
+
+	if (!token) {
+		redirect("/organizer-auth?return_to=/starboard");
+	}
+
+	const [email, adminEmails] = await Promise.all([
+		getCurrentUserEmail(token),
+		getAdminEmails(),
+	]);
+
+	if (email && adminEmails.includes(email)) {
+		return <AdminEventsDashboard />;
+	}
+
+	const role = await getOrganizerRole();
+	if (!role.ok) {
+		return <AccessDenied email={email} />;
+	}
+
+	return <EventDashboard city={role.city} roles={role.roles} />;
+}
+
+function AccessDenied({ email }: { email: string | null }) {
 	return (
-		<div
-			className="min-h-screen outfit flex flex-col items-center justify-center gap-8 p-6"
-			style={{
-				backgroundImage: "url('/imgs/sand.webp')",
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-			}}
-		>
+		<div className="min-h-screen bg-[#fdf6e3] outfit flex flex-col items-center justify-center gap-4">
 			<h1 className="galindo text-blue-dark text-2xl">starboard</h1>
-
-			<Link
-				href="/starboard/event"
-				className="bg-blue-dark text-white galindo px-12 py-6 rounded-full text-2xl hover:opacity-90 transition-opacity shadow-md"
-			>
-				My event
-			</Link>
-
-			<Link
-				href="/starboard/admin"
-				className="text-blue-dark/50 text-xs underline hover:text-blue-dark/80 transition-colors"
-			>
-				admin
-			</Link>
+			<p className="text-sm text-pink-dark font-semibold">
+				{email
+					? `${email} is not an approved organizer yet.`
+					: "Could not verify your identity."}
+			</p>
+			<a href="/organizer-auth" className="text-xs text-blue-bright underline">
+				Sign in with a different account
+			</a>
 		</div>
 	);
 }
