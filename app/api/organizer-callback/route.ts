@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { OAUTH_STATE_COOKIE, parseOAuthState } from "@/app/lib/oauth-state";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
@@ -10,13 +11,27 @@ export async function GET(request: NextRequest) {
     ? `${forwardedProto}://${forwardedHost}`
     : request.nextUrl.origin;
   const organizers = new URL("/organizers", base);
+
+  const { nonce, returnTo: returnToPath } = parseOAuthState(state);
   // Only relative, same-site paths are honored — anything else (or absent) falls back to /organizers.
-  const returnTo = state && state.startsWith("/") && !state.startsWith("//")
-    ? new URL(state, base)
+  const returnTo = returnToPath && returnToPath.startsWith("/") && !returnToPath.startsWith("//")
+    ? new URL(returnToPath, base)
     : organizers;
 
-  if (error || !code) {
-    return NextResponse.redirect(returnTo);
+  function abort() {
+    const response = NextResponse.redirect(returnTo);
+    response.cookies.set(OAUTH_STATE_COOKIE, "", { path: "/", maxAge: 0 });
+    return response;
+  }
+
+  const expectedNonce = request.cookies.get(OAUTH_STATE_COOKIE)?.value;
+  const stateValid = Boolean(expectedNonce) && nonce === expectedNonce;
+
+  if (error || !code || !stateValid) {
+    if (!error && code && !stateValid) {
+      console.error("[organizer-callback] state mismatch — possible CSRF, aborting login");
+    }
+    return abort();
   }
 
   const redirectUri = `${base}/api/organizer-callback`;
@@ -35,9 +50,9 @@ export async function GET(request: NextRequest) {
 
   if (!tokenRes.ok) {
     const err = await tokenRes.text();
-    console.error("[hca-callback] token exchange failed:", tokenRes.status, err);
-    console.error("[hca-callback] redirect_uri used:", redirectUri);
-    return NextResponse.redirect(returnTo);
+    console.error("[organizer-callback] token exchange failed:", tokenRes.status, err);
+    console.error("[organizer-callback] redirect_uri used:", redirectUri);
+    return abort();
   }
 
   const { access_token } = await tokenRes.json();
@@ -49,6 +64,7 @@ export async function GET(request: NextRequest) {
     httpOnly: true,
     sameSite: "lax",
   });
+  response.cookies.set(OAUTH_STATE_COOKIE, "", { path: "/", maxAge: 0 });
 
   return response;
 }

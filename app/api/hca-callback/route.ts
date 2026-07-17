@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { OAUTH_STATE_COOKIE, parseOAuthState } from "@/app/lib/oauth-state";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const error = request.nextUrl.searchParams.get("error");
+  const state = request.nextUrl.searchParams.get("state");
   const forwardedHost = request.headers.get("x-forwarded-host");
   const forwardedProto = request.headers.get("x-forwarded-proto") ?? "https";
   const base = forwardedHost
@@ -10,8 +12,21 @@ export async function GET(request: NextRequest) {
     : request.nextUrl.origin;
   const step3 = new URL("/apply/step3", base);
 
-  if (error || !code) {
-    return NextResponse.redirect(step3);
+  function abort() {
+    const response = NextResponse.redirect(step3);
+    response.cookies.set(OAUTH_STATE_COOKIE, "", { path: "/", maxAge: 0 });
+    return response;
+  }
+
+  const expectedNonce = request.cookies.get(OAUTH_STATE_COOKIE)?.value;
+  const { nonce } = parseOAuthState(state);
+  const stateValid = Boolean(expectedNonce) && nonce === expectedNonce;
+
+  if (error || !code || !stateValid) {
+    if (!error && code && !stateValid) {
+      console.error("[hca-callback] state mismatch — possible CSRF, aborting login");
+    }
+    return abort();
   }
 
   const redirectUri = `${base}/api/hca-callback`;
@@ -32,7 +47,7 @@ export async function GET(request: NextRequest) {
     const err = await tokenRes.text();
     console.error("[hca-callback] token exchange failed:", tokenRes.status, err);
     console.error("[hca-callback] redirect_uri used:", redirectUri);
-    return NextResponse.redirect(step3);
+    return abort();
   }
 
   const { access_token } = await tokenRes.json();
@@ -44,6 +59,7 @@ export async function GET(request: NextRequest) {
     httpOnly: true,
     sameSite: "lax",
   });
+  response.cookies.set(OAUTH_STATE_COOKIE, "", { path: "/", maxAge: 0 });
 
   return response;
 }
