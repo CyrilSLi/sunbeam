@@ -3,7 +3,14 @@ import { getOrganizerRole } from "@/app/lib/organizer-auth";
 import { fetchAllAirtableRecords } from "@/app/lib/airtable";
 
 type AirtableRecord = { id: string; fields: Record<string, unknown> };
-type OrgFields = { email?: string; slug?: string; preferred_name?: string; first_name?: string };
+type OrgFields = {
+  email?: string;
+  slug?: string;
+  preferred_name?: string;
+  first_name?: string;
+  country?: string;
+  expected_attendee_count?: number;
+};
 
 function toPerson(id: string, orgById: Map<string, OrgFields>) {
   const fields = orgById.get(id);
@@ -24,14 +31,28 @@ function buildEventPayload(
   const organizers = organizerIds.map((id) => toPerson(id, orgById)).filter(Boolean);
   const pocs = pocIds.map((id) => toPerson(id, orgById)).filter(Boolean);
   const slug = organizerIds.map((id) => orgById.get(id)?.slug).find(Boolean) ?? null;
+  const country = organizerIds.map((id) => orgById.get(id)?.country).find(Boolean) ?? null;
+
+  // Each organizer enters their own estimate; take the highest as the event's expected turnout.
+  const expectedAttendeeCounts = organizerIds
+    .map((id) => orgById.get(id)?.expected_attendee_count)
+    .filter((n): n is number => typeof n === "number");
+  const expectedAttendees = expectedAttendeeCounts.length ? Math.max(...expectedAttendeeCounts) : null;
+
+  const signupsCount = (record?.fields.signups_count as number | undefined) ?? 0;
+  const venueConfirmed = Boolean((record?.fields.venue as string | undefined)?.trim());
 
   return {
     city: city ?? (record?.fields.City as string | undefined) ?? null,
+    country,
     roles,
     record,
     organizers,
     pocs,
     slug,
+    expectedAttendees,
+    signupsCount,
+    venueConfirmed,
   };
 }
 

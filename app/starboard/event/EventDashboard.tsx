@@ -17,7 +17,6 @@ type EventRecord = {
 		sponsors?: string;
 		schedule?: string;
 		venue?: string;
-		signups?: string[];
 	};
 };
 
@@ -28,6 +27,10 @@ type EventResponse = {
 	organizers?: Person[];
 	pocs?: Person[];
 	slug?: string | null;
+	country?: string | null;
+	expectedAttendees?: number | null;
+	signupsCount?: number;
+	venueConfirmed?: boolean;
 };
 
 function parseSchedule(raw: string | undefined): ScheduleItem[] {
@@ -375,6 +378,7 @@ export default function EventDashboard({
 }) {
 	const [data, setData] = useState<EventResponse | undefined>(undefined);
 	const [error, setError] = useState<string | null>(null);
+	const [copied, setCopied] = useState(false);
 
 	useEffect(() => {
 		const url = eventId ? `/api/get-my-event?id=${encodeURIComponent(eventId)}` : "/api/get-my-event";
@@ -394,6 +398,22 @@ export default function EventDashboard({
 	const heading = record?.fields.City ?? city ?? "event";
 	const daysUntilEvent = dayjs("2026-08-29").diff(dayjs(), "day");
 	const canEditVenue = roles.includes("admin") || roles.some((r) => r.startsWith("person of contact"));
+	const venueConfirmed = data?.venueConfirmed ?? Boolean(record?.fields.venue?.trim());
+	const signupsCount = data?.signupsCount ?? 0;
+	const expectedAttendees = data?.expectedAttendees ?? null;
+	const signupPct = expectedAttendees
+		? Math.min(100, Math.round((signupsCount / expectedAttendees) * 100))
+		: null;
+
+	async function copySignupLink() {
+		try {
+			await navigator.clipboard.writeText("https://forms.hackclub.com/sunbeam-signup");
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		} catch (err) {
+			console.error("[starboard/event] copy signup link failed:", err);
+		}
+	}
 
 	return (
 		<div className="relative min-h-screen outfit">
@@ -405,93 +425,200 @@ export default function EventDashboard({
 					backgroundPosition: "center bottom",
 				}}
 			/>
-			<div className="flex flex-col items-center gap-4 py-10 px-4">
-			<h1 className="galindo text-blue-dark text-2xl">{heading}</h1>
+			<div className="max-w-5xl mx-auto px-4 py-10 flex flex-col gap-6">
+				{eventId && (
+					<Link href="/starboard" className="text-xs text-blue-bright underline w-fit">
+						← Back to events
+					</Link>
+				)}
 
-			<div className="flex flex-col items-center gap-1">
-				{roles.map((role) => (
-					<span key={role} className="text-xs text-blue-dark/60">
-						{role}
-					</span>
-				))}
-			</div>
-
-			{error && <p className="text-sm text-pink-dark font-semibold">{error}</p>}
-			{!error && data === undefined && <p className="text-sm text-blue-dark">Loading event...</p>}
-			{data && record === null && <p className="text-sm text-blue-dark">No event has been set up for this city yet.</p>}
-
-			{record && (
-				<div className="w-full max-w-2xl rounded-2xl border-2 border-blue-dark bg-white p-4 flex flex-col gap-3">
-					<div className="flex justify-between items-center">
-						<span className="galindo text-blue-dark">{record.fields.City}</span>
-						<span className="galindo text-pink-dark">{daysUntilEvent} days until Sunbeam</span>
-					</div>
-
-					{data?.slug && (
-						<Link
-							href={`/${data.slug}`}
-							target="_blank"
-							className="text-xs text-blue-bright underline w-fit"
-						>
-							City website: /{data.slug}
-						</Link>
+				<div className="flex flex-col items-center text-center gap-2">
+					<h1 className="galindo text-orange-dark text-4xl lg:text-5xl">Sunbeam</h1>
+					<p className="galindo text-blue-dark text-2xl lg:text-3xl">{heading}</p>
+					{heading !== "event" && (
+						<p className="text-xs text-blue-dark/60">
+							📍 {heading}
+							{data?.country ? `, ${data.country}` : ""}
+						</p>
 					)}
-
-					<div className="flex flex-col gap-1">
-						<span className="text-xs font-bold text-blue-dark/60 uppercase tracking-wide">
-							Organizers ({data?.organizers?.length ?? 0})
-						</span>
-						{data?.organizers?.length ? (
-							data.organizers.map((person) => (
-								<span key={person.email} className="text-xs text-blue-dark">
-									{person.name ? `${person.name} — ${person.email}` : person.email}
-								</span>
-							))
-						) : (
-							<span className="text-xs text-blue-dark/40">None</span>
+					<div className="flex flex-wrap items-center justify-center gap-2 mt-1">
+						{record && (
+							<span
+								className={`text-xs font-semibold px-2 py-1 rounded-full ${
+									venueConfirmed
+										? "bg-green-100 text-green-700"
+										: "bg-pink-bright/20 text-pink-dark"
+								}`}
+							>
+								{venueConfirmed ? "venue confirmed" : "venue TBD"}
+							</span>
 						)}
+						{roles.map((role) => (
+							<span key={role} className="text-xs text-blue-dark/50">
+								{role}
+							</span>
+						))}
 					</div>
-
-					<div className="flex flex-col gap-1">
-						<span className="text-xs font-bold text-blue-dark/60 uppercase tracking-wide">
-							Points of contact ({data?.pocs?.length ?? 0})
-						</span>
-						{data?.pocs?.length ? (
-							data.pocs.map((person) => (
-								<span key={person.email} className="text-xs text-blue-dark">
-									{person.name ? `${person.name} — ${person.email}` : person.email}
-								</span>
-							))
-						) : (
-							<span className="text-xs text-blue-dark/40">None</span>
-						)}
-					</div>
-
-					<div className="flex flex-col gap-1">
-						<span className="text-xs font-bold text-blue-dark/60 uppercase tracking-wide">Signups</span>
-						<span className="text-xs text-blue-dark">{record.fields.signups?.length ?? 0}</span>
-					</div>
-
-					<VenueEditor
-						key={`${record.id}-venue`}
-						initialVenue={record.fields.venue}
-						eventId={eventId}
-						canEdit={canEditVenue}
-					/>
-
-					<ScheduleEditor
-						key={record.id}
-						initialSchedule={parseSchedule(record.fields.schedule)}
-						eventId={eventId}
-					/>
-
-					<SponsorsEditor
-						key={`${record.id}-sponsors`}
-						initialSponsors={parseSponsors(record.fields.sponsors)}
-						eventId={eventId}
-					/>
 				</div>
-			)}
+
+				{error && <p className="text-sm text-pink-dark font-semibold text-center">{error}</p>}
+				{!error && data === undefined && (
+					<p className="text-sm text-blue-dark text-center">Loading event...</p>
+				)}
+				{data && record === null && (
+					<p className="text-sm text-blue-dark text-center">No event has been set up for this city yet.</p>
+				)}
+
+				{record && (
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+						<div className="lg:col-span-2 flex flex-col gap-4">
+							<div className="glassbox-white rounded-2xl p-6 flex flex-col gap-4">
+								<div className="flex items-center justify-between">
+									<h2 className="galindo text-blue-dark text-lg">Event Details</h2>
+									<span className="galindo text-pink-dark text-sm">
+										{daysUntilEvent} days until Sunbeam
+									</span>
+								</div>
+
+								<div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+									<div className="bg-white/70 rounded-xl p-3">
+										<p className="text-[10px] uppercase tracking-wide text-blue-dark/40">Venue</p>
+										<p
+											className={`text-sm font-semibold ${
+												venueConfirmed ? "text-green-700" : "text-pink-dark"
+											}`}
+										>
+											{venueConfirmed ? "Confirmed" : "TBD"}
+										</p>
+									</div>
+									<div className="bg-white/70 rounded-xl p-3">
+										<p className="text-[10px] uppercase tracking-wide text-blue-dark/40">Site</p>
+										{data?.slug ? (
+											<Link
+												href={`/${data.slug}`}
+												target="_blank"
+												className="text-sm font-semibold text-blue-bright underline"
+											>
+												/{data.slug}
+											</Link>
+										) : (
+											<p className="text-sm font-semibold text-blue-dark/40">Not set up</p>
+										)}
+									</div>
+									<div className="bg-white/70 rounded-xl p-3">
+										<p className="text-[10px] uppercase tracking-wide text-blue-dark/40">Expected</p>
+										<p className="text-sm font-semibold text-blue-dark">{expectedAttendees ?? "—"}</p>
+									</div>
+									<div className="bg-white/70 rounded-xl p-3">
+										<p className="text-[10px] uppercase tracking-wide text-blue-dark/40">Signups</p>
+										<p className="text-sm font-semibold text-blue-dark">{signupsCount}</p>
+									</div>
+								</div>
+
+								{signupPct !== null && (
+									<div>
+										<div className="flex justify-between text-xs text-blue-dark/70 mb-1">
+											<span>Signup Progress</span>
+											<span>
+												{signupsCount} / {expectedAttendees} ({signupPct}%)
+											</span>
+										</div>
+										<div className="w-full h-2 rounded-full bg-blue-dark/10 overflow-hidden">
+											<div
+												className="h-full bg-orange-dark rounded-full"
+												style={{ width: `${signupPct}%` }}
+											/>
+										</div>
+									</div>
+								)}
+
+								<button
+									type="button"
+									onClick={copySignupLink}
+									className="bg-blue-dark text-white galindo px-4 py-2 rounded-full text-xs hover:opacity-90 transition-opacity w-fit"
+								>
+									{copied ? "Copied!" : "Copy link to signup form"}
+								</button>
+							</div>
+
+							<div className="glassbox-white rounded-2xl p-6 flex flex-col gap-4">
+								<VenueEditor
+									key={`${record.id}-venue`}
+									initialVenue={record.fields.venue}
+									eventId={eventId}
+									canEdit={canEditVenue}
+								/>
+
+								<ScheduleEditor
+									key={record.id}
+									initialSchedule={parseSchedule(record.fields.schedule)}
+									eventId={eventId}
+								/>
+
+								<SponsorsEditor
+									key={`${record.id}-sponsors`}
+									initialSponsors={parseSponsors(record.fields.sponsors)}
+									eventId={eventId}
+								/>
+							</div>
+						</div>
+
+						<div className="flex flex-col gap-4">
+							<div className="glassbox-white rounded-2xl p-5 flex flex-col gap-3">
+								<p className="text-xs font-bold text-blue-dark/40 uppercase tracking-wide">
+									Lead Organizer / POC
+								</p>
+								<div className="flex flex-col gap-1">
+									<span className="text-[10px] uppercase tracking-wide text-blue-dark/40">
+										Point{(data?.pocs?.length ?? 0) === 1 ? "" : "s"} of contact
+									</span>
+									{data?.pocs?.length ? (
+										data.pocs.map((person) => (
+											<span key={person.email} className="text-xs text-blue-dark">
+												{person.name ? `${person.name} — ${person.email}` : person.email}
+											</span>
+										))
+									) : (
+										<span className="text-xs text-blue-dark/40">None</span>
+									)}
+								</div>
+								<div className="flex flex-col gap-1">
+									<span className="text-[10px] uppercase tracking-wide text-blue-dark/40">
+										Organizers
+									</span>
+									{data?.organizers?.length ? (
+										data.organizers.map((person) => (
+											<span key={person.email} className="text-xs text-blue-dark">
+												{person.name ? `${person.name} — ${person.email}` : person.email}
+											</span>
+										))
+									) : (
+										<span className="text-xs text-blue-dark/40">None</span>
+									)}
+								</div>
+							</div>
+
+							<div className="glassbox-white rounded-2xl p-5 flex flex-col gap-2">
+								<p className="text-xs font-bold text-blue-dark/40 uppercase tracking-wide">
+									Get support with your event
+								</p>
+								<a
+									href="https://app.slack.com/client/E09V59WQY1E/C0BERFQND0U"
+									target="_blank"
+									className="text-xs text-blue-bright underline w-fit"
+								>
+									#sunbeam-organizers on Slack
+								</a>
+								<a
+									href="mailto:sunbeam@hackclub.com"
+									className="text-xs text-blue-bright underline w-fit"
+								>
+									sunbeam@hackclub.com
+								</a>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);
