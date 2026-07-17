@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function TshirtMapTeaser() {
 	const [shirtFlipped, setShirtFlipped] = useState(false);
@@ -34,11 +35,13 @@ export default function TshirtMapTeaser() {
 						/>
 					</div>
 				</div>
-				<img
-					src="/imgs/map.png"
-					className="w-12/32 rotate-2 -ml-2 transition-transform duration-200 hover:scale-105 hover:rotate-4"
-					alt=""
-				/>
+				<Link href="/map" className="w-12/32 -ml-2 block">
+					<img
+						src="/imgs/map.png"
+						className="w-full rotate-2 transition-transform duration-200 hover:scale-105 hover:rotate-4 cursor-pointer"
+						alt="find a Sunbeam near you!"
+					/>
+				</Link>
 			</div>
 		</div>
 	);
