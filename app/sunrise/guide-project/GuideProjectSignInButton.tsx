@@ -36,13 +36,28 @@ export default function GuideProjectSignInButton({
 					<h1 className="galindo pink-outlined-text text-center text-[3.36vw] mb-[0vh]">
 						Sign in with Hack Club to submit your guide project!
 					</h1>
-					<p className="blue-outlined-text text-[5vh]">
-						Make sure to customize it before submitting!
-					</p>
+					<div className="flex flex-col items-center justify-center">
+						<p className="blue-outlined-text text-[5vh] galindo mb-[1vh]">
+							Make sure to customize it before submitting!
+						</p>
+						<p className="text-[2vh] py-[0.25vh] outfit">
+							• Add another section on the website
+						</p>
+						<p className="text-[2vh] py-[0.25vh] outfit">
+							• Turn it into your personal website
+						</p>
+						<p className="text-[2vh] py-[0.25vh] outfit">
+							• Explore more things you can do with JavaScript and add more
+							enteractivity
+						</p>
+						<p className="text-[2vh] py-[0.25vh] outfit">
+							• Add link and another page to your website
+						</p>
+					</div>
 
 					<a
 						href={authUrl}
-						className="hover:scale-105 transition-transform mt-[2vh]"
+						className="hover:scale-105 transition-transform mt-[0vh]"
 						style={{ width: "20vw", display: "block" }}
 					>
 						<Image

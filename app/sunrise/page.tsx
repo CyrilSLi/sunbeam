@@ -48,15 +48,22 @@ export default function SunriseGuideHome() {
 								<h1 className="galindo text-[clamp(3.5rem,5.5vw,4.8rem)] gradient-text leading-tight">
 									Sunrise
 								</h1>
+								{/* 	<p className="galindo text-[#C54390] text-[2vw] mt-[1vh]">
+									What is Sunrise?
+								</p> */}
+								<p className="outfit text-[clamp(1.2rem,1.9vw,1.7rem)] text-[#2e599c] mt-[1vh] max-w-[720px] leading-tight">
+									Sunrise is a quick guide to teach you the technical skills to
+									help participants at your Sunbeam Social!
+								</p>
 								<p className="outfit text-[clamp(1.2rem,1.9vw,1.7rem)] text-[#2e599c] mt-[2vh] max-w-[720px] leading-tight">
-									You need to either submit a previous project or complete the
-									guide and submit a project made with it, since you'd need
-									technical skills to teach at your Sunbeam!
+									If you're experienced you don't need to complete the guide,
+									but you need to submit a previous project showcasing your
+									work.
 								</p>
 
 								<button
 									onClick={() => setShowPaths(true)}
-									className="mt-[5vh] hover:scale-105 transition-transform cursor-pointer"
+									className="mt-[2vh] hover:scale-105 transition-transform cursor-pointer"
 								>
 									<Image
 										src="/imgs/surfboard_next.webp"
@@ -66,6 +73,11 @@ export default function SunriseGuideHome() {
 										className="w-[22vw] min-w-[220px] h-auto"
 									/>
 								</button>
+								<p className="outfit text-[clamp(1.4rem,1.2vw,1.4rem)] text-[#2e599c] mt-[2vh] max-w-[90%] leading-tight">
+									{
+										"(Ptss.. For each organizer who completes the guide, your event gets additional $10 in funding)"
+									}
+								</p>
 							</>
 						) : (
 							<>
