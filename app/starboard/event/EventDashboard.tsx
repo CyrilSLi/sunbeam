@@ -25,6 +25,7 @@ type EventRecord = {
 		sponsors?: string;
 		schedule?: string;
 		venue?: string;
+		venue_name?: string;
 		venue_latitude?: number;
 		venue_longitude?: number;
 	};
@@ -161,17 +162,22 @@ function SponsorsEditor({ initialSponsors, eventId }: { initialSponsors: Sponsor
 
 function VenueEditor({
 	initialVenue,
+	initialVenueName,
 	initialLatitude,
 	initialLongitude,
 	eventId,
 	canEdit,
 }: {
 	initialVenue?: string;
+	initialVenueName?: string;
 	initialLatitude?: number;
 	initialLongitude?: number;
 	eventId?: string;
 	canEdit: boolean;
 }) {
+	const [venueName, setVenueName] = useState(initialVenueName ?? "");
+	const [savedVenueName, setSavedVenueName] = useState(initialVenueName ?? "");
+	const [savingName, setSavingName] = useState(false);
 	const [query, setQuery] = useState(initialVenue ?? "");
 	const [savedVenue, setSavedVenue] = useState(initialVenue ?? "");
 	const [savedCoords, setSavedCoords] = useState<{ lat: number; lng: number } | null>(
@@ -184,6 +190,25 @@ function VenueEditor({
 	const [loading, setLoading] = useState(false);
 	const [saving, setSaving] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
+
+	async function saveVenueName() {
+		const trimmed = venueName.trim();
+		if (trimmed === savedVenueName) return;
+		setSavingName(true);
+		try {
+			const res = await fetch("/api/update-event-venue", {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id: eventId, venueName: trimmed }),
+			});
+			if (!res.ok) throw new Error();
+			setSavedVenueName(trimmed);
+		} catch (err) {
+			console.error("[starboard/event] update-event-venue (name) failed:", err);
+		} finally {
+			setSavingName(false);
+		}
+	}
 
 	useEffect(() => {
 		if (!canEdit) return;
@@ -257,6 +282,7 @@ function VenueEditor({
 		return (
 			<div className="flex flex-col gap-1">
 				<span className="text-xs font-bold text-blue-dark/60 uppercase tracking-wide">Venue</span>
+				{savedVenueName && <span className="text-xs font-semibold text-blue-dark">{savedVenueName}</span>}
 				<span className="text-xs text-blue-dark">{savedVenue || "Not set yet"}</span>
 				<span className="text-[10px] text-blue-dark/40">Only the point of contact can set the venue.</span>
 			</div>
@@ -266,6 +292,15 @@ function VenueEditor({
 	return (
 		<div className="flex flex-col gap-2">
 			<span className="text-xs font-bold text-blue-dark/60 uppercase tracking-wide">Venue</span>
+
+			<input
+				type="text"
+				value={venueName}
+				onChange={(e) => setVenueName(e.target.value)}
+				onBlur={saveVenueName}
+				placeholder="Venue name (e.g. Acme HQ)"
+				className="outfit w-full bg-white px-2 py-1 text-xs text-blue-dark border-2 border-blue-dark rounded-lg outline-none"
+			/>
 
 			<div ref={containerRef} className="relative">
 				<input
@@ -296,9 +331,10 @@ function VenueEditor({
 			</div>
 
 			<div className="text-[10px] h-3">
-				{loading && <span className="text-blue-dark/60">Searching...</span>}
-				{!loading && saving && <span className="text-blue-dark/60">Saving...</span>}
-				{!loading && !saving && savedVenue && (
+				{savingName && <span className="text-blue-dark/60">Saving venue name...</span>}
+				{!savingName && loading && <span className="text-blue-dark/60">Searching...</span>}
+				{!savingName && !loading && saving && <span className="text-blue-dark/60">Saving...</span>}
+				{!savingName && !loading && !saving && savedVenue && (
 					<span className="text-green-700 font-semibold">
 						✓ {savedVenue}
 						{savedCoords ? ` (${savedCoords.lat.toFixed(4)}, ${savedCoords.lng.toFixed(4)})` : ""}
@@ -577,6 +613,7 @@ export default function EventDashboard({
 								<VenueEditor
 									key={`${record.id}-venue`}
 									initialVenue={record.fields.venue}
+									initialVenueName={record.fields.venue_name}
 									initialLatitude={record.fields.venue_latitude}
 									initialLongitude={record.fields.venue_longitude}
 									eventId={eventId}
