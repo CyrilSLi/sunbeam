@@ -360,6 +360,24 @@ export default function ParentsGuide() {
 				</p>
 			</Section>
 
+			<div style={{ padding: "0 7.2%", marginBottom: "6vh" }}>
+				<a
+					href="/Parent%20Guide%20_%20Sunbeam.pdf"
+					download
+					className="galindo inline-block"
+					style={{
+						fontSize: "1.2vw",
+						color: "#FBF6E7",
+						backgroundColor: "#359BBF",
+						padding: "1.2vh 2.5vw",
+						borderRadius: "999px",
+						textDecoration: "none",
+					}}
+				>
+					Download as PDF
+				</a>
+			</div>
+
 			{/* ── FOOTER ── */}
 			<div className="relative min-h-[80vh] w-full flex flex-col pt-[23vh] z-10">
 				<div className="absolute top-[8vh] left-0 right-0 bottom-0 overflow-hidden">
