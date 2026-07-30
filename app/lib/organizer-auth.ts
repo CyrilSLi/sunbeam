@@ -40,6 +40,7 @@ export async function getOrganizerRole(): Promise<OrganizerRole> {
     approved_city?: string;
     approved_as_poc?: boolean;
     event_info?: string[];
+    nda_signed?: boolean;
   };
 
   const city = fields.approved_city ?? "";
@@ -50,6 +51,9 @@ export async function getOrganizerRole(): Promise<OrganizerRole> {
   const roles = [`organizer: ${city}`];
   if (fields.approved_as_poc) {
     roles.push(`person of contact: ${city}`);
+  }
+  if (fields.nda_signed) {
+    roles.push("nda-signed");
   }
 
   return { ok: true, email, city, roles, eventInfoIds: fields.event_info ?? [] };

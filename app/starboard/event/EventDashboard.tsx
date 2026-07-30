@@ -33,6 +33,8 @@ type EventRecord = {
 
 type Person = { name: string | null; email: string };
 
+type Participant = { name: string | null; email: string | null; city: string | null; country: string | null };
+
 type EventResponse = {
 	record: EventRecord | null;
 	organizers?: Person[];
@@ -435,6 +437,79 @@ function ScheduleEditor({ initialSchedule, eventId }: { initialSchedule: Schedul
 	);
 }
 
+function ParticipantsPanel({ eventId }: { eventId?: string }) {
+	const [status, setStatus] = useState<"loading" | "ok" | "locked" | "error">("loading");
+	const [participants, setParticipants] = useState<Participant[]>([]);
+	const [message, setMessage] = useState<string | null>(null);
+
+	useEffect(() => {
+		const url = eventId
+			? `/api/get-event-participants?id=${encodeURIComponent(eventId)}`
+			: "/api/get-event-participants";
+		fetch(url)
+			.then(async (res) => {
+				const body = await res.json();
+				if (res.status === 403) {
+					setMessage(body?.error ?? "You need to sign the NDA before you can view participant details.");
+					setStatus("locked");
+					return;
+				}
+				if (!res.ok) throw new Error(body?.error ?? "Failed to load participants");
+				setParticipants(body.participants ?? []);
+				setStatus("ok");
+			})
+			.catch((err) => {
+				console.error("[starboard/event] get-event-participants failed:", err);
+				setMessage(err instanceof Error ? err.message : "Failed to load participants.");
+				setStatus("error");
+			});
+	}, [eventId]);
+
+	return (
+		<div className="glassbox-white rounded-2xl p-6 flex flex-col gap-4">
+			<div className="flex items-center justify-between">
+				<h2 className="galindo text-blue-dark text-lg">
+					Participants{status === "ok" ? ` (${participants.length})` : ""}
+				</h2>
+			</div>
+
+			{status === "loading" && <p className="text-sm text-blue-dark/60">Loading...</p>}
+			{status === "locked" && (
+				<div className="flex flex-col gap-1">
+					<p className="text-sm text-blue-dark/60">🔒 {message}</p>
+					<p className="text-xs text-blue-dark/40">
+						Contact sunbeam@hackclub.com if you believe this is a mistake.
+					</p>
+				</div>
+			)}
+			{status === "error" && <p className="text-sm text-pink-dark font-semibold">{message}</p>}
+			{status === "ok" && participants.length === 0 && (
+				<p className="text-sm text-blue-dark/40">No participants yet.</p>
+			)}
+			{status === "ok" && participants.length > 0 && (
+				<div className="max-h-[32rem] overflow-y-auto overflow-x-auto">
+					<table className="w-full text-sm text-left border-collapse">
+						<thead>
+							<tr className="text-[10px] uppercase tracking-wide text-blue-dark/40">
+								<th className="py-2 pr-4 font-bold border-b border-blue-dark/10">Name</th>
+								<th className="py-2 pr-4 font-bold border-b border-blue-dark/10">Email</th>
+							</tr>
+						</thead>
+						<tbody>
+							{participants.map((p, i) => (
+								<tr key={`${p.email ?? "participant"}-${i}`}>
+									<td className="py-2 pr-4 text-blue-dark border-b border-blue-dark/5">{p.name || "—"}</td>
+									<td className="py-2 pr-4 text-blue-dark border-b border-blue-dark/5">{p.email || "—"}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			)}
+		</div>
+	);
+}
+
 export default function EventDashboard({
 	city,
 	roles,
@@ -538,6 +613,7 @@ export default function EventDashboard({
 				)}
 
 				{record && (
+					<>
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 						<div className="lg:col-span-2 flex flex-col gap-4">
 							<div className="glassbox-white rounded-2xl p-6 flex flex-col gap-4">
@@ -689,6 +765,9 @@ export default function EventDashboard({
 							</div>
 						</div>
 					</div>
+
+						<ParticipantsPanel eventId={eventId} />
+					</>
 				)}
 			</div>
 		</div>
