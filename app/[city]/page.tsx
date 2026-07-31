@@ -52,7 +52,7 @@ const TemplatePage = () => {
 							/>
 						</div>
 					</div>
-					<h1 className="galindo text-[5vh] leading-[5vh] md:leading-[8vh] text-center gradient-text mt-[1vh]">
+					<h1 className="galindo text-[3.5vh] leading-[3.5vh] md:text-[5vh] md:leading-[6vh] text-center gradient-text mt-[1vh]">
 						{cityName}
 					</h1>
 
@@ -75,6 +75,15 @@ const TemplatePage = () => {
 							alt="apply!"
 						/>
 					</a>
+					<p className="outfit text-[#0E387A] text-center text-[2vh] md:text-[2.5vh] font-semibold mt-[1.5vh]">
+						read the{" "}
+						<a
+							href="/parents-guide"
+							className="underline hover:text-[#2E599C]"
+						>
+							parents guide
+						</a>
+					</p>
 				</div>
 			</div>
 
