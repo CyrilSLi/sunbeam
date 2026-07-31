@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         siteName: "Sunbeam",
         images: [
             {
-                url: "https://sunbeam.hackclub.com/imgs/sunbeam.webp",
+                url: "https://sunbeam.hackclub.com/imgs/sunbeam-repo.png",
                 width: 1200,
                 height: 630,
             }
