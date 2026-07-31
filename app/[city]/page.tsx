@@ -59,62 +59,6 @@ export default async function Page({
             alt=""
           />
         </div>
-        <div className="flex flex-col relative z-5">
-          {/* Logo + video */}
-          <div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[1vh]">
-            <img
-              src="/imgs/logo.svg"
-              className="w-[80vw] md:w-[44vw] mx-auto md:mx-0 md:absolute md:bottom-[-6vh] md:left-0 mb-[3vh] md:mb-0"
-              alt="Sunbeam"
-            />
-            {/* Spacer so video sits fully to the right of the logo (desktop only) */}
-            <div className="hidden md:block md:w-[44vw] shrink-0" />
-            {/* Launch video */}
-            <div className="w-full md:w-[36vw] h-[25vh] md:h-[40vh] md:ml-auto rounded-sm overflow-hidden">
-              <iframe
-                src="https://www.youtube.com/embed/Ufmk9QW-XAs"
-                title="Sunbeam Social launch video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          </div>
-          <h1 className="galindo text-[3.5vh] leading-[3.5vh] md:text-[5vh] md:leading-[6vh] text-center gradient-text mt-[1vh]">
-            {cityName}
-          </h1>
-
-          <h2 className="galindo text-[3vh] px-[5vw] md:px-0 md:text-[4.5vh] text-[#2E599C] text-center">
-            A social coding event for girls 13-18 around the world
-          </h2>
-          <h3 className="outfit text-[#0E387A] text-center text-[1.5vh] md:text-[3vh]">
-            August 29th, 2026 || 20+ cities worldwide
-          </h3>
-          <h1 className="galindo text-[6.5vh] leading-[6.5vh] md:leading-[8vh] text-center gradient-text mt-[1.5vh]">
-            No experience necessary - join today!
-          </h1>
-          <a
-            href="/sign-up"
-            className="hover:scale-105 transition-all cursor-pointer w-fit mx-auto"
-          >
-            <img
-              src="/imgs/sign-up.webp"
-              className="w-[65vw] md:w-[25vw] mx-auto"
-              alt="apply!"
-            />
-          </a>
-          <p className="outfit text-[#0E387A] text-center text-[2vh] md:text-[2.5vh] font-semibold mt-[1.5vh]">
-            read the{" "}
-            <a
-              href="/parents-guide"
-              className="underline hover:text-[#2E599C]"
-            >
-              parents guide
-            </a>
-          </p>
-        </div>
-      </div>
-
 
         {/* Shark */}
         <img
@@ -152,7 +96,7 @@ export default async function Page({
             </div>
           </div>
 
-          <h1 className="galindo text-[5vh] leading-[5vh] md:leading-[8vh] text-center gradient-text mt-[1vh]">
+          <h1 className="galindo text-[3.5vh] leading-[3.5vh] md:text-[5vh] md:leading-[6vh] text-center gradient-text mt-[1vh]">
             {cityName}
           </h1>
 
@@ -183,6 +127,15 @@ export default async function Page({
               alt="apply!"
             />
           </a>
+          <p className="outfit text-[#0E387A] text-center text-[2vh] md:text-[2.5vh] font-semibold mt-[1.5vh]">
+            read the{" "}
+            <a
+              href="/parents-guide"
+              className="underline hover:text-[#2E599C]"
+            >
+              parents guide
+            </a>
+          </p>
         </div>
       </div>
 
