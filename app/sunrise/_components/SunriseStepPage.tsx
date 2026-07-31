@@ -41,21 +41,31 @@ function ProgressBar({ currentStep }: { currentStep: number }) {
 	const percent = Math.round((currentStep / totalSteps) * 100);
 
 	return (
-		<div className="w-[97.5%] mx-auto rounded-[1vh] border-[0.15vh] border-amber-400 bg-[#ffffff] px-4 py-3 shadow-[0_8px_20px_rgba(14,56,122,0.2)]">
-			<div className="flex items-center justify-between mb-2">
-				<p className="outfit text-[17px] text-[#0e387a] font-semibold">
-					Step {currentStep} of {totalSteps}
-				</p>
-				<p className="outfit text-[17px] text-[#0e387a] font-semibold">
-					{percent}%
-				</p>
+		<div className="flex">
+			<div className="w-[82.5%] mx-auto rounded-[1vh] border-[0.15vh] border-amber-400 bg-[#ffffff] px-4 py-3 shadow-[0_8px_20px_rgba(14,56,122,0.2)]">
+				<div className="flex items-center justify-between mb-2">
+					<p className="outfit text-[17px] text-[#0e387a] font-semibold">
+						Step {currentStep} of {totalSteps}
+					</p>
+					<p className="outfit text-[17px] text-[#0e387a] font-semibold">
+						{percent}%
+					</p>
+				</div>
+				<div className="h-2.5 w-full rounded-full bg-[#c0e5f2] border-[0.15vh] border-[#0e387a] overflow-hidden">
+					<div
+						className="h-full bg-[#359bbf] transition-all duration-500"
+						style={{ width: `${percent}%` }}
+					/>
+				</div>
 			</div>
-			<div className="h-2.5 w-full rounded-full bg-[#c0e5f2] border-[0.15vh] border-[#0e387a] overflow-hidden">
-				<div
-					className="h-full bg-[#359bbf] transition-all duration-500"
-					style={{ width: `${percent}%` }}
-				/>
-			</div>
+			<a
+				href="https://youtu.be/8epYhLwQcbw"
+				className="w-[15%] mx-auto rounded-[1vh] group border-[0.15vh] border-amber-400 bg-[#ffffff] px-4 py-3 shadow-[0_8px_20px_rgba(14,56,122,0.2)] flex items-center justify-center"
+			>
+				<p className="galindo text-[#C54390] group-hover:scale-110 transition-all text-[2vh]">
+					Video Guide
+				</p>
+			</a>
 		</div>
 	);
 }
@@ -209,7 +219,11 @@ export default function SunriseStepPage({ step }: { step: SunriseStep }) {
 								</Link> */}
 
 								<Link
-									href={nextStep ? `/sunrise/${nextStep.slug}` : "/sunrise"}
+									href={
+										nextStep
+											? `/sunrise/${nextStep.slug}`
+											: "/sunrise/guide-project"
+									}
 									className="hover:scale-105 transition-transform"
 								>
 									<Image

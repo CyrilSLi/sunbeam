@@ -116,7 +116,7 @@ export default function OrganizersDashboard({ name, city }: { name?: string | nu
               </a>
 
               <a
-                href="/organizers/your-event"
+                href="/starboard"
                 className="relative flex items-center justify-center mx-auto mt-4 shrink-0 w-40 2xl:w-56 aspect-[925/446] bg-[url('/imgs/guide/surfboard-yellow.webp')] bg-contain bg-no-repeat bg-center galindo text-blue-dark text-sm 2xl:text-lg duration-200 hover:scale-105"
               >
                 Your Event
@@ -140,7 +140,7 @@ export default function OrganizersDashboard({ name, city }: { name?: string | nu
                 Check-in Call Link
               </a>
               <h3 className="text-pink-dark outfit lg:text-lg">
-                meeting platform (zoom?)
+                meeting platform (zoom)
               </h3>
               {checkInCallLabels.length > 0 ? (
                 checkInCallLabels.map((label) => (
@@ -151,9 +151,6 @@ export default function OrganizersDashboard({ name, city }: { name?: string | nu
               ) : (
                 <h3 className="text-pink-dark outfit lg:text-lg">TBD</h3>
               )}
-              <h3 className="text-blue-bright outfit lg:text-lg">
-                more details &#8680;
-              </h3>
             </div>
           </div>
         </div>

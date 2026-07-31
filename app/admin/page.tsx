@@ -1,4 +1,4 @@
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { getAdminEmails } from "@/app/lib/admin-auth";
 import AdminDashboard from "./AdminDashboard";
 
@@ -15,31 +15,12 @@ async function getCurrentUserEmail(token: string): Promise<string | null> {
 	return user.identity.primary_email?.toLowerCase() ?? null;
 }
 
-async function buildAuthUrl() {
-	const headerStore = await headers();
-	const forwardedHost = headerStore.get("x-forwarded-host");
-	const forwardedProto = headerStore.get("x-forwarded-proto") ?? "https";
-	const base = forwardedHost
-		? `${forwardedProto}://${forwardedHost}`
-		: "http://localhost:3000";
-	const clientId = process.env.HCA_CLIENT_ID ?? "";
-	const redirectUri = `${base}/api/admin-callback`;
-	const scopes = "openid profile email name";
-	return (
-		`https://auth.hackclub.com/oauth/authorize` +
-		`?client_id=${encodeURIComponent(clientId)}` +
-		`&redirect_uri=${encodeURIComponent(redirectUri)}` +
-		`&response_type=code` +
-		`&scope=${encodeURIComponent(scopes)}`
-	);
-}
-
 export default async function AdminPage() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("hca_admin_token")?.value;
 
 	if (!token) {
-		return <SignInPage authUrl={await buildAuthUrl()} />;
+		return <SignInPage authUrl="/api/admin-signout" />;
 	}
 
 	const [email, adminEmails] = await Promise.all([
