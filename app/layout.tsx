@@ -25,11 +25,21 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-	title: "Sunbeam - Hack Club",
-	description: "Sunbeam - 20 events in 20 cities!",
-	icons: {
-		icon: '/favicon.svg',
-	}
+    title: "Sunbeam - Hack Club",
+    description: "A free social coding event for girls 13–18, running simultaneously in 20+ cities on August 29th. No experience required.",
+    openGraph: {
+        title: "Sunbeam - Hack Club",
+        description: "A free social coding event for girls 13–18, running simultaneously in 20+ cities on August 29th. No experience required.",
+        url: "https://sunbeam.hackclub.com",
+        siteName: "Sunbeam",
+        images: [
+            {
+                url: "https://sunbeam.hackclub.com/imgs/sunbeam-repo.png",
+                width: 1200,
+                height: 630,
+            }
+        ],
+    },
 };
 
 export default function RootLayout({

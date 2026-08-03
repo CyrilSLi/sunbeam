@@ -12,7 +12,7 @@
     "dayjs": "^1.11.21",
     "framer-motion": "^12.42.2",
     "leaflet": "^1.9.4",
-    "next": "^16.2.9",
+    "next": "^16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -31,6 +31,7 @@
     "dayjs@1.11.21": true
   },
   "overrides": {
-    "postcss": "^8.5.10"
+    "postcss": "^8.5.18",
+    "sharp": "^0.35.0"
   }
 }
