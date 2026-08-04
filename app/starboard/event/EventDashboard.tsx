@@ -510,6 +510,143 @@ function ParticipantsPanel({ eventId }: { eventId?: string }) {
 	);
 }
 
+type VolunteerRecord = {
+	id: string;
+	name: string | null;
+	email: string | null;
+	city: string | null;
+	country: string | null;
+	status: string;
+};
+
+function volunteerStatusClasses(status: string) {
+	if (status === "approved") return "bg-green-100 text-green-700";
+	if (status === "rejected") return "bg-pink-bright/20 text-pink-dark";
+	return "bg-blue-dark/10 text-blue-dark/60";
+}
+
+function VolunteersPanel({ eventId }: { eventId?: string }) {
+	const [status, setStatus] = useState<"loading" | "ok" | "locked" | "error">("loading");
+	const [volunteers, setVolunteers] = useState<VolunteerRecord[]>([]);
+	const [message, setMessage] = useState<string | null>(null);
+	const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+	useEffect(() => {
+		const url = eventId
+			? `/api/get-event-volunteers?id=${encodeURIComponent(eventId)}`
+			: "/api/get-event-volunteers";
+		fetch(url)
+			.then(async (res) => {
+				const body = await res.json();
+				if (res.status === 403) {
+					setMessage(body?.error ?? "You need to sign the NDA before you can view volunteer details.");
+					setStatus("locked");
+					return;
+				}
+				if (!res.ok) throw new Error(body?.error ?? "Failed to load volunteers");
+				setVolunteers(body.volunteers ?? []);
+				setStatus("ok");
+			})
+			.catch((err) => {
+				console.error("[starboard/event] get-event-volunteers failed:", err);
+				setMessage(err instanceof Error ? err.message : "Failed to load volunteers.");
+				setStatus("error");
+			});
+	}, [eventId]);
+
+	async function updateStatus(id: string, next: "approved" | "rejected") {
+		const previous = volunteers;
+		setUpdatingId(id);
+		setVolunteers((prev) => prev.map((v) => (v.id === id ? { ...v, status: next } : v)));
+		try {
+			const res = await fetch("/api/update-volunteer-status", {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id, status: next, eventId }),
+			});
+			if (!res.ok) throw new Error();
+		} catch (err) {
+			console.error("[starboard/event] update-volunteer-status failed:", err);
+			setVolunteers(previous);
+		} finally {
+			setUpdatingId(null);
+		}
+	}
+
+	return (
+		<div className="glassbox-white rounded-2xl p-6 flex flex-col gap-4">
+			<div className="flex items-center justify-between">
+				<h2 className="galindo text-blue-dark text-lg">
+					Volunteers{status === "ok" ? ` (${volunteers.length})` : ""}
+				</h2>
+			</div>
+
+			{status === "loading" && <p className="text-sm text-blue-dark/60">Loading...</p>}
+			{status === "locked" && (
+				<div className="flex flex-col gap-1">
+					<p className="text-sm text-blue-dark/60">🔒 {message}</p>
+					<p className="text-xs text-blue-dark/40">
+						Contact sunbeam@hackclub.com if you believe this is a mistake.
+					</p>
+				</div>
+			)}
+			{status === "error" && <p className="text-sm text-pink-dark font-semibold">{message}</p>}
+			{status === "ok" && volunteers.length === 0 && (
+				<p className="text-sm text-blue-dark/40">No volunteers yet.</p>
+			)}
+			{status === "ok" && volunteers.length > 0 && (
+				<div className="max-h-[32rem] overflow-y-auto overflow-x-auto">
+					<table className="w-full text-sm text-left border-collapse">
+						<thead>
+							<tr className="text-[10px] uppercase tracking-wide text-blue-dark/40">
+								<th className="py-2 pr-4 font-bold border-b border-blue-dark/10">Name</th>
+								<th className="py-2 pr-4 font-bold border-b border-blue-dark/10">Email</th>
+								<th className="py-2 pr-4 font-bold border-b border-blue-dark/10">Status</th>
+								<th className="py-2 pr-4 font-bold border-b border-blue-dark/10">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volunteers.map((v) => (
+								<tr key={v.id}>
+									<td className="py-2 pr-4 text-blue-dark border-b border-blue-dark/5">{v.name || "—"}</td>
+									<td className="py-2 pr-4 text-blue-dark border-b border-blue-dark/5">{v.email || "—"}</td>
+									<td className="py-2 pr-4 border-b border-blue-dark/5">
+										<span
+											className={`text-xs font-semibold px-2 py-1 rounded-full ${volunteerStatusClasses(v.status)}`}
+										>
+											{v.status}
+										</span>
+									</td>
+									<td className="py-2 pr-4 border-b border-blue-dark/5">
+										<div className="flex gap-2">
+											<button
+												type="button"
+												onClick={() => updateStatus(v.id, "approved")}
+												disabled={updatingId === v.id || v.status === "approved"}
+												className="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-700 hover:opacity-80 transition-opacity disabled:opacity-50"
+											>
+												Approve
+											</button>
+											<button
+												type="button"
+												onClick={() => updateStatus(v.id, "rejected")}
+												disabled={updatingId === v.id || v.status === "rejected"}
+												className="text-xs font-semibold px-2 py-1 rounded-full bg-pink-bright/20 text-pink-dark hover:opacity-80 transition-opacity disabled:opacity-50"
+											>
+												Reject
+											</button>
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			)}
+		</div>
+	);
+}
+
 export default function EventDashboard({
 	city,
 	roles,
@@ -767,6 +904,7 @@ export default function EventDashboard({
 					</div>
 
 						<ParticipantsPanel eventId={eventId} />
+						<VolunteersPanel eventId={eventId} />
 					</>
 				)}
 			</div>
