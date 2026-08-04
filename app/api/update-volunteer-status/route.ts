@@ -3,11 +3,17 @@ import { getOrganizerRole } from "@/app/lib/organizer-auth";
 import { fetchAllAirtableRecords } from "@/app/lib/airtable";
 
 const VALID_STATUSES = ["approved", "rejected", "unreviewed"];
+const AIRTABLE_RECORD_ID_REGEX = /^rec[a-zA-Z0-9]{14}$/;
 
 export async function PATCH(request: Request) {
   const { id, status, eventId } = await request.json();
 
-  if (!id || !VALID_STATUSES.includes(status)) {
+  if (
+    !id ||
+    typeof id !== "string" ||
+    !AIRTABLE_RECORD_ID_REGEX.test(id) ||
+    !VALID_STATUSES.includes(status)
+  ) {
     return Response.json({ error: "invalid request" }, { status: 400 });
   }
 
@@ -54,7 +60,8 @@ export async function PATCH(request: Request) {
   }
 
   try {
-    const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_ATTENDEE_TABLE_ID}/${id}`;
+    const safeId = encodeURIComponent(id);
+    const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_ATTENDEE_TABLE_ID}/${safeId}`;
     const res = await fetch(url, {
       method: "PATCH",
       headers: {
