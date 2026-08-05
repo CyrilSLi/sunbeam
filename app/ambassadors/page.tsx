@@ -347,10 +347,6 @@ export default function Ambassadors() {
 					<p className="text-[#0E387A] text-[1.9vh] md:text-[2.1vh] leading-relaxed mt-[2vh]">
 						You&apos;ll get{" "}
 						<span className="font-bold">
-							$1 for each person you refer who signs up
-						</span>
-						, and{" "}
-						<span className="font-bold">
 							$5 for each person you refer that attends
 						</span>{" "}
 						a Sunbeam event. You&apos;ll also gain marketing and leadership
