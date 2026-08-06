@@ -45,26 +45,28 @@ export default function AdminEventsDashboard() {
 		return Array.from(set).sort();
 	}, [events]);
 
-	const totalSignups = useMemo(
-		() => (events ?? []).reduce((sum, e) => sum + e.signupsCount, 0),
-		[events]
+	const filtered = useMemo(() => {
+		return (events ?? []).filter((event) => {
+			const q = search.trim().toLowerCase();
+			const matchesSearch =
+				!q ||
+				(event.city ?? "").toLowerCase().includes(q) ||
+				(event.country ?? "").toLowerCase().includes(q);
+
+			const matchesVenue =
+				venueFilter === "all" ||
+				(venueFilter === "confirmed" ? event.venueConfirmed : !event.venueConfirmed);
+
+			const matchesCountry = countryFilter === "all" || event.country === countryFilter;
+
+			return matchesSearch && matchesVenue && matchesCountry;
+		});
+	}, [events, search, venueFilter, countryFilter]);
+
+	const filteredSignups = useMemo(
+		() => filtered.reduce((sum, e) => sum + e.signupsCount, 0),
+		[filtered]
 	);
-
-	const filtered = (events ?? []).filter((event) => {
-		const q = search.trim().toLowerCase();
-		const matchesSearch =
-			!q ||
-			(event.city ?? "").toLowerCase().includes(q) ||
-			(event.country ?? "").toLowerCase().includes(q);
-
-		const matchesVenue =
-			venueFilter === "all" ||
-			(venueFilter === "confirmed" ? event.venueConfirmed : !event.venueConfirmed);
-
-		const matchesCountry = countryFilter === "all" || event.country === countryFilter;
-
-		return matchesSearch && matchesVenue && matchesCountry;
-	});
 
 	return (
 		<div className="relative min-h-screen outfit">
@@ -84,16 +86,19 @@ export default function AdminEventsDashboard() {
 				<p className="text-blue-dark outfit">All events in one place</p>
 			</div>
 
-			<div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+			<div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
 				<div className="glassbox-white rounded-2xl p-6">
-					<p className="galindo text-blue-dark text-4xl lg:text-5xl">{totalSignups}</p>
+					<p className="galindo text-blue-dark text-4xl lg:text-5xl">{filteredSignups}</p>
 					<p className="text-blue-dark/70 text-sm mt-1">Sign Ups</p>
 				</div>
 				<div className="glassbox-white rounded-2xl p-6">
-					<p className="galindo text-blue-dark text-4xl lg:text-5xl">{events?.length ?? 0}</p>
-					<p className="text-blue-dark/70 text-sm mt-1">Events</p>
+					<p className="galindo text-blue-dark text-4xl lg:text-5xl">{filtered.length}</p>
+					<p className="text-blue-dark/70 text-sm mt-1">Venues</p>
 				</div>
 			</div>
+			<p className="max-w-6xl mx-auto text-xs text-blue-dark/50 mb-8 text-center sm:text-left">
+				Based on current filters
+			</p>
 
 			<div className="max-w-6xl mx-auto">
 				<h2 className="galindo text-blue-dark text-xl mb-4">Events</h2>
