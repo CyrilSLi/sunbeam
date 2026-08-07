@@ -63,7 +63,7 @@ export default async function Page({
         {/* Shark */}
         <img
           src="/imgs/shark1.webp"
-          className="absolute top-[-2vh] left-[2.5vw] z-10 w-[30vw] md:w-[17.5vw]"
+          className="hidden md:block md:absolute md:top-[16vh] md:left-[2.5vw] z-10 md:w-[17.5vw]"
           alt=""
         />
 
