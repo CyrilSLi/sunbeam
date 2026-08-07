@@ -75,25 +75,13 @@ export default async function Page({
         />
 
         <div className="flex flex-col relative z-5">
-          {/* Logo + video */}
-          <div className="relative w-[80vw] mx-auto flex flex-col md:flex-row mt-[5vh] mb-[1vh]">
+          {/* Logo */}
+          <div className="relative w-[80vw] mx-auto flex flex-col mt-[5vh] mb-[1vh]">
             <img
               src="/imgs/logo.svg"
-              className="w-[80vw] md:w-[44vw] mx-auto md:mx-0 md:absolute md:bottom-[-6vh] md:left-0 mb-[3vh] md:mb-0"
+              className="w-[80vw] md:w-[44vw] mx-auto mb-[3vh] md:mb-0"
               alt="Sunbeam"
             />
-            {/* Spacer so video sits fully to the right of the logo (desktop only) */}
-            <div className="hidden md:block md:w-[44vw] shrink-0" />
-            {/* Launch video */}
-            <div className="w-full md:w-[36vw] h-[25vh] md:h-[40vh] md:ml-auto rounded-sm overflow-hidden">
-              <iframe
-                src="https://www.youtube.com/embed/Ufmk9QW-XAs"
-                title="Sunbeam Social launch video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
           </div>
 
           <h1 className="galindo text-[3.5vh] leading-[3.5vh] md:text-[5vh] md:leading-[6vh] text-center gradient-text mt-[1vh]">
