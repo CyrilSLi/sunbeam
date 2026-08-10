@@ -1,14 +1,11 @@
 export async function POST(request: Request) {
 
-		const now = new Date();
-	const endDate = new Date("July 14, 2026 05:00:00");
-	if (now.getTime() > endDate.getTime()) {
-		return Response.json({ error: "Applications are closed" }, { status: 403 });
-	}
 
 
 
 	const body = await request.json();
+
+	const expectedAttendeeCount = Number(body.expected_attendee_count);
 
 	const fields: Record<string, unknown> = {
 		email: body.email || "",
@@ -27,7 +24,7 @@ export async function POST(request: Request) {
 		slack_id: body.slack_id || "",
 		date_of_birth: body.date_of_birth || "",
 		host_city: body.host_city || "",
-		expected_attendee_count: body.expected_attendee_count || "",
+		expected_attendee_count: Number.isFinite(expectedAttendeeCount) ? expectedAttendeeCount : undefined,
 		different_to_home_address: body.different_to_home_address === true,
 		github_repo: body.github_repo || "",
 		playable_link: body.playable_link || "",
