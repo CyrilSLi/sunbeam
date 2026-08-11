@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import FaqAccordion from "../../components/FaqAccordion";
 import TshirtMapTeaser from "../../components/TshirtMapTeaser";
+import VenueMap from "./VenueMap";
 
 type ScheduleItem = { time: string; event: string };
 type Sponsor = { name: string; logo: string };
@@ -17,7 +18,12 @@ export default async function Page({
   let cityName = cityParam;
   let schedule: ScheduleItem[] = [];
   let sponsors: Sponsor[] = [];
+  let venue: string | null = null;
+  let venueName: string | null = null;
+  let latitude: number | null = null;
+  let longitude: number | null = null;
   let loadError = false;
+  const contactEmail = `sunbeam-${city.toLowerCase()}@events.hackclub.com`;
 
   // notFound() throws internally, so the fetch/status check must stay outside
   // any try/catch here — otherwise a real 404 gets swallowed as a generic error.
@@ -42,6 +48,10 @@ export default async function Page({
       cityName = data.city ?? cityParam;
       schedule = Array.isArray(data.schedule) ? data.schedule : [];
       sponsors = Array.isArray(data.sponsors) ? data.sponsors : [];
+      venue = typeof data.venue === "string" ? data.venue : null;
+      venueName = typeof data.venueName === "string" ? data.venueName : null;
+      latitude = typeof data.latitude === "number" ? data.latitude : null;
+      longitude = typeof data.longitude === "number" ? data.longitude : null;
     } catch (err) {
       console.error(`[city page] failed to parse details for "${cityParam}":`, err);
       loadError = true;
@@ -288,6 +298,76 @@ export default async function Page({
             </div>
           </div>
         </div>
+
+      {/* Venue & Contact */}
+      <div className="relative w-full overflow-hidden">
+        <img
+          src="/imgs/sandNoFade.webp"
+          className="w-full object-cover absolute top-0 z-0"
+          alt=""
+        />
+
+        <div className="relative mt-8 mb-8 mx-auto w-[70%] items-center flex flex-col py-[9vh] z-5 overflow-hidden waterbg outline-2 rounded-2xl outline-blue-bright shadow-xl shadow-blue-dark/10">
+          <div className="relative z-5 flex flex-col items-center w-[92%]">
+            <div className="grid grid-rows-1 grid-flow-col">
+              <h1 className="row-start-1 col-start-1 galindo text-5xl md:text-6xl text-center text-[#72BFDA] pink-outlined-text-drop-shadow mb-[0.25vh]">
+                Venue &amp; Contact
+              </h1>
+              <h1 className="row-start-1 col-start-1 galindo text-5xl md:text-6xl text-center text-[#72BFDA] pink-outlined-text-sm mb-[0.25vh]">
+                Venue &amp; Contact
+              </h1>
+            </div>
+
+            <p className="outfit text-[#0E387A] text-[1.4vh] md:text-[1.8vh] text-center mb-[2vh]">
+              Where to find us and how to get in touch with the Sunbeam {cityName} team.
+            </p>
+
+            <div className="w-full flex flex-col md:flex-row gap-[2vh] md:gap-[2vw]">
+              <div className="flex-1 bg-[#FBF6E7cF] border-[0.2vh] border-[#2E599C] rounded-[2vh] p-[2vh] md:p-[2.5vh] flex flex-col gap-[2vh] justify-center">
+                <div>
+                  <p className="galindo text-[#2E599C] text-[1.6vh] uppercase tracking-wide">
+                    Venue
+                  </p>
+                  <p className="outfit text-[#0E387A] text-[2vh] font-semibold">
+                    {venueName || "To be announced"}
+                  </p>
+                  {venue && (
+                    <p className="outfit text-[#0E387A]/70 text-[1.6vh]">{venue}</p>
+                  )}
+                </div>
+                <div>
+                  <p className="galindo text-[#2E599C] text-[1.6vh] uppercase tracking-wide">
+                    Contact
+                  </p>
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="outfit text-[#C54390] font-semibold text-[2vh] underline break-all"
+                  >
+                    {contactEmail}
+                  </a>
+                </div>
+              </div>
+
+              {latitude !== null && longitude !== null ? (
+                <div className="flex-1 h-[35vh] md:h-auto rounded-[2vh] overflow-hidden border-[0.2vh] border-[#2E599C]">
+                  <VenueMap
+                    latitude={latitude}
+                    longitude={longitude}
+                    venueName={venueName}
+                    cityName={cityName}
+                  />
+                </div>
+              ) : (
+                <div className="flex-1 min-h-[20vh] rounded-[2vh] border-[0.2vh] border-[#2E599C] bg-[#FBF6E7cF] flex items-center justify-center p-[2vh]">
+                  <p className="outfit text-[#0E387A] text-[1.8vh] text-center">
+                    Map coming soon once the venue is confirmed!
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* FAQ */}
       <FaqAccordion />
