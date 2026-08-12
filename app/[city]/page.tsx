@@ -5,7 +5,13 @@ import TshirtMapTeaser from "../../components/TshirtMapTeaser";
 import VenueMap from "./VenueMap";
 
 type ScheduleItem = { time: string; event: string };
-type Sponsor = { name: string; logo: string };
+type Sponsor = { name: string; logo: string; website?: string };
+
+// Organizers may enter a sponsor's site without a protocol (e.g. "sponsor.com"), which would
+// otherwise resolve as a relative link on the city page instead of navigating out.
+function withProtocol(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
 
 export default async function Page({
   params,
@@ -389,28 +395,46 @@ export default async function Page({
               Thank you to our Sponsors!
             </h2>
             <div className="grid grid-cols-4 w-[90vw] gap-[3vw] mt-[3vh]">
-              {sponsors.map((sponsor: Sponsor, index: number) => (
-                <div
-                  className="aspect-[1] w-full relative flex flex-col items-center justify-center"
-                  key={index}
-                >
-                  <img
-                    src={`/imgs/${index % 2 === 0 ? "star1" : "star2"}.webp`}
-                    className="w-full absolute top-0 left-0 z-0"
-                    alt=""
-                  />
-                  <div className="flex flex-col relative z-5 items-center justify-center w-[80%] mx-auto">
+              {sponsors.map((sponsor: Sponsor, index: number) => {
+                const cardContent = (
+                  <>
                     <img
-                      src={sponsor.logo}
-                      alt={sponsor.name}
-                      className="w-[45%]"
+                      src={`/imgs/${index % 2 === 0 ? "star1" : "star2"}.webp`}
+                      className="w-full absolute top-0 left-0 z-0"
+                      alt=""
                     />
-                    <p className="text-[#0E387A] stroke-text-idk font-semibold galindo text-[3vh] leading-[3vh] text-center w-[80%] mx-auto">
-                      {sponsor.name}
-                    </p>
+                    <div className="flex flex-col relative z-5 items-center justify-center w-[80%] mx-auto">
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="w-[45%]"
+                      />
+                      <p className="text-[#0E387A] stroke-text-idk font-semibold galindo text-[3vh] leading-[3vh] text-center w-[80%] mx-auto">
+                        {sponsor.name}
+                      </p>
+                    </div>
+                  </>
+                );
+
+                return sponsor.website ? (
+                  <a
+                    key={index}
+                    href={withProtocol(sponsor.website)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="aspect-[1] w-full relative flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200"
+                  >
+                    {cardContent}
+                  </a>
+                ) : (
+                  <div
+                    className="aspect-[1] w-full relative flex flex-col items-center justify-center"
+                    key={index}
+                  >
+                    {cardContent}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

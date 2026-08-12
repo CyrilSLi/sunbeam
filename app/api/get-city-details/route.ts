@@ -1,5 +1,5 @@
 type ScheduleItem = { time: string; event: string };
-type Sponsor = { name: string; logo: string };
+type Sponsor = { name: string; logo: string; website?: string };
 
 function parseJsonArray<T>(value: unknown): T[] {
   if (typeof value !== "string") return [];

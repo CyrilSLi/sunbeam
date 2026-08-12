@@ -1,7 +1,7 @@
 import { requireAdmin } from "@/app/lib/admin-auth";
 import { getOrganizerRole } from "@/app/lib/organizer-auth";
 
-type Sponsor = { name: string; logo: string };
+type Sponsor = { name: string; logo: string; website?: string };
 
 function isValidSponsors(value: unknown): value is Sponsor[] {
   return (
@@ -11,7 +11,8 @@ function isValidSponsors(value: unknown): value is Sponsor[] {
         item &&
         typeof item === "object" &&
         typeof (item as Sponsor).name === "string" &&
-        typeof (item as Sponsor).logo === "string"
+        typeof (item as Sponsor).logo === "string" &&
+        ((item as Sponsor).website === undefined || typeof (item as Sponsor).website === "string")
     )
   );
 }
