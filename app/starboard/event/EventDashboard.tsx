@@ -471,6 +471,19 @@ function ParticipantsPanel({ eventId }: { eventId?: string }) {
 				<h2 className="galindo text-blue-dark text-lg">
 					Participants{status === "ok" ? ` (${participants.length})` : ""}
 				</h2>
+				{status === "ok" && participants.length > 0 && (
+					<a
+						href={
+							eventId
+								? `/api/download-event-participants?id=${encodeURIComponent(eventId)}`
+								: "/api/download-event-participants"
+						}
+						download
+						className="bg-blue-dark text-white galindo px-3 py-1.5 rounded-full text-xs hover:opacity-90 transition-opacity w-fit"
+					>
+						Download CSV
+					</a>
+				)}
 			</div>
 
 			{status === "loading" && <p className="text-sm text-blue-dark/60">Loading...</p>}
