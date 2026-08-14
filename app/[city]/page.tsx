@@ -394,7 +394,7 @@ export default async function Page({
 
           <div className="flex flex-col relative z-5 items-center justify-center">
             <h2 className="galindo text-[6.5vh] text-[#D88127] text-center w-[80vw] md:w-[80vw] leading-[7.5vh] mb-[1vh]">
-              Thank you to our Sponsors!
+              Thank you to our Supporters!
             </h2>
             <div className="grid grid-cols-4 w-[90vw] gap-[3vw] mt-[3vh]">
               {sponsors.map((sponsor: Sponsor, index: number) => {
