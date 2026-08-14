@@ -5,7 +5,7 @@ import Link from "next/link";
 import dayjs from "dayjs";
 
 type ScheduleItem = { time: string; event: string };
-type Sponsor = { name: string; logo: string };
+type Sponsor = { name: string; logo: string; website?: string };
 type AddressResult = {
 	label: string;
 	displayName: string;
@@ -66,7 +66,11 @@ function parseSponsors(raw: string | undefined): Sponsor[] {
 		if (!Array.isArray(parsed)) return [];
 		return parsed
 			.filter((item) => item && typeof item === "object")
-			.map((item) => ({ name: String(item.name ?? ""), logo: String(item.logo ?? "") }));
+			.map((item) => ({
+				name: String(item.name ?? ""),
+				logo: String(item.logo ?? ""),
+				website: String(item.website ?? ""),
+			}));
 	} catch {
 		return [];
 	}
@@ -77,12 +81,12 @@ function SponsorsEditor({ initialSponsors, eventId }: { initialSponsors: Sponsor
 	const [saving, setSaving] = useState(false);
 	const [status, setStatus] = useState<string | null>(null);
 
-	function updateItem(index: number, field: "name" | "logo", value: string) {
+	function updateItem(index: number, field: "name" | "logo" | "website", value: string) {
 		setItems((prev) => prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)));
 	}
 
 	function addRow() {
-		setItems((prev) => [...prev, { name: "", logo: "" }]);
+		setItems((prev) => [...prev, { name: "", logo: "", website: "" }]);
 	}
 
 	function removeRow(index: number) {
@@ -112,6 +116,21 @@ function SponsorsEditor({ initialSponsors, eventId }: { initialSponsors: Sponsor
 		<div className="flex flex-col gap-2">
 			<span className="text-xs font-bold text-blue-dark/60 uppercase tracking-wide">Sponsors</span>
 
+			{items.length > 0 && (
+				<div className="flex gap-2 items-center">
+					<span className="text-[10px] font-bold text-blue-dark/40 uppercase tracking-wide w-40">
+						Name
+					</span>
+					<span className="text-[10px] font-bold text-blue-dark/40 uppercase tracking-wide flex-1">
+						Logo URL
+					</span>
+					<span className="text-[10px] font-bold text-blue-dark/40 uppercase tracking-wide flex-1">
+						Website URL
+					</span>
+					<span className="w-[3.5rem]" />
+				</div>
+			)}
+
 			<div className="flex flex-col gap-2">
 				{items.map((item, index) => (
 					<div key={index} className="flex gap-2 items-center">
@@ -127,6 +146,13 @@ function SponsorsEditor({ initialSponsors, eventId }: { initialSponsors: Sponsor
 							placeholder="https://.../logo.png"
 							value={item.logo}
 							onChange={(e) => updateItem(index, "logo", e.target.value)}
+							className="outfit bg-white px-2 py-1 text-xs text-blue-dark border-2 border-blue-dark rounded-lg outline-none flex-1"
+						/>
+						<input
+							type="text"
+							placeholder="https://sponsor.com"
+							value={item.website ?? ""}
+							onChange={(e) => updateItem(index, "website", e.target.value)}
 							className="outfit bg-white px-2 py-1 text-xs text-blue-dark border-2 border-blue-dark rounded-lg outline-none flex-1"
 						/>
 						<button
@@ -471,6 +497,19 @@ function ParticipantsPanel({ eventId }: { eventId?: string }) {
 				<h2 className="galindo text-blue-dark text-lg">
 					Participants{status === "ok" ? ` (${participants.length})` : ""}
 				</h2>
+				{status === "ok" && participants.length > 0 && (
+					<a
+						href={
+							eventId
+								? `/api/download-event-participants?id=${encodeURIComponent(eventId)}`
+								: "/api/download-event-participants"
+						}
+						download
+						className="bg-blue-dark text-white galindo px-3 py-1.5 rounded-full text-xs hover:opacity-90 transition-opacity w-fit"
+					>
+						Download CSV
+					</a>
+				)}
 			</div>
 
 			{status === "loading" && <p className="text-sm text-blue-dark/60">Loading...</p>}

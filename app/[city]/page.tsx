@@ -2,9 +2,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import FaqAccordion from "../../components/FaqAccordion";
 import TshirtMapTeaser from "../../components/TshirtMapTeaser";
+import VenueMap from "./VenueMap";
 
 type ScheduleItem = { time: string; event: string };
-type Sponsor = { name: string; logo: string };
+type Sponsor = { name: string; logo: string; website?: string };
+
+// Organizers may enter a sponsor's site without a protocol (e.g. "sponsor.com"), which would
+// otherwise resolve as a relative link on the city page instead of navigating out.
+function withProtocol(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
 
 export default async function Page({
   params,
@@ -17,7 +24,12 @@ export default async function Page({
   let cityName = cityParam;
   let schedule: ScheduleItem[] = [];
   let sponsors: Sponsor[] = [];
+  let venue: string | null = null;
+  let venueName: string | null = null;
+  let latitude: number | null = null;
+  let longitude: number | null = null;
   let loadError = false;
+  const contactEmail = `sunbeam-${city.toLowerCase()}@events.hackclub.com`;
 
   // notFound() throws internally, so the fetch/status check must stay outside
   // any try/catch here — otherwise a real 404 gets swallowed as a generic error.
@@ -42,6 +54,10 @@ export default async function Page({
       cityName = data.city ?? cityParam;
       schedule = Array.isArray(data.schedule) ? data.schedule : [];
       sponsors = Array.isArray(data.sponsors) ? data.sponsors : [];
+      venue = typeof data.venue === "string" ? data.venue : null;
+      venueName = typeof data.venueName === "string" ? data.venueName : null;
+      latitude = typeof data.latitude === "number" ? data.latitude : null;
+      longitude = typeof data.longitude === "number" ? data.longitude : null;
     } catch (err) {
       console.error(`[city page] failed to parse details for "${cityParam}":`, err);
       loadError = true;
@@ -123,6 +139,8 @@ export default async function Page({
             >
               parents guide
             </a>
+            <br></br>
+            scroll to find more info on event
           </p>
         </div>
       </div>
@@ -228,6 +246,76 @@ export default async function Page({
         </div>
       </div>
 
+      {/* Venue & Contact */}
+      <div className="relative w-full overflow-hidden">
+        <img
+          src="/imgs/sandNoFade.webp"
+          className="w-full object-cover absolute top-0 z-0"
+          alt=""
+        />
+
+        <div className="relative mt-8 mb-8 mx-auto w-[70%] items-center flex flex-col py-[9vh] z-5 overflow-hidden waterbg outline-2 rounded-2xl outline-blue-bright shadow-xl shadow-blue-dark/10">
+          <div className="relative z-5 flex flex-col items-center w-[92%]">
+            <div className="grid grid-rows-1 grid-flow-col">
+              <h1 className="row-start-1 col-start-1 galindo text-5xl md:text-6xl text-center text-[#72BFDA] pink-outlined-text-drop-shadow mb-[0.25vh]">
+                Venue &amp; Contact
+              </h1>
+              <h1 className="row-start-1 col-start-1 galindo text-5xl md:text-6xl text-center text-[#72BFDA] pink-outlined-text-sm mb-[0.25vh]">
+                Venue &amp; Contact
+              </h1>
+            </div>
+
+            <p className="outfit text-[#0E387A] text-[1.4vh] md:text-[1.8vh] text-center mb-[2vh]">
+              Where to find us and how to get in touch with the Sunbeam {cityName} team.
+            </p>
+
+            <div className="w-full flex flex-col md:flex-row gap-[2vh] md:gap-[2vw]">
+              <div className="flex-1 bg-[#FBF6E7cF] border-[0.2vh] border-[#2E599C] rounded-[2vh] p-[2vh] md:p-[2.5vh] flex flex-col gap-[2vh] justify-center">
+                <div>
+                  <p className="galindo text-[#2E599C] text-[1.6vh] uppercase tracking-wide">
+                    Venue
+                  </p>
+                  <p className="outfit text-[#0E387A] text-[2vh] font-semibold">
+                    {venueName || "To be announced"}
+                  </p>
+                  {venue && (
+                    <p className="outfit text-[#0E387A]/70 text-[1.6vh]">{venue}</p>
+                  )}
+                </div>
+                <div>
+                  <p className="galindo text-[#2E599C] text-[1.6vh] uppercase tracking-wide">
+                    Contact
+                  </p>
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="outfit text-[#C54390] font-semibold text-[2vh] underline break-all"
+                  >
+                    {contactEmail}
+                  </a>
+                </div>
+              </div>
+
+              {latitude !== null && longitude !== null ? (
+                <div className="flex-1 h-[35vh] md:h-auto rounded-[2vh] overflow-hidden border-[0.2vh] border-[#2E599C]">
+                  <VenueMap
+                    latitude={latitude}
+                    longitude={longitude}
+                    venueName={venueName}
+                    cityName={cityName}
+                  />
+                </div>
+              ) : (
+                <div className="flex-1 min-h-[20vh] rounded-[2vh] border-[0.2vh] border-[#2E599C] bg-[#FBF6E7cF] flex items-center justify-center p-[2vh]">
+                  <p className="outfit text-[#0E387A] text-[1.8vh] text-center">
+                    Map coming soon once the venue is confirmed!
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Schedule */}
       <div className="relative w-full overflow-hidden">
           <img
@@ -309,28 +397,46 @@ export default async function Page({
               Thank you to our Supporters!
             </h2>
             <div className="grid grid-cols-4 w-[90vw] gap-[3vw] mt-[3vh]">
-              {sponsors.map((sponsor: Sponsor, index: number) => (
-                <div
-                  className="aspect-[1] w-full relative flex flex-col items-center justify-center"
-                  key={index}
-                >
-                  <img
-                    src={`/imgs/${index % 2 === 0 ? "star1" : "star2"}.webp`}
-                    className="w-full absolute top-0 left-0 z-0"
-                    alt=""
-                  />
-                  <div className="flex flex-col relative z-5 items-center justify-center w-[80%] mx-auto">
+              {sponsors.map((sponsor: Sponsor, index: number) => {
+                const cardContent = (
+                  <>
                     <img
-                      src={sponsor.logo}
-                      alt={sponsor.name}
-                      className="w-[45%]"
+                      src={`/imgs/${index % 2 === 0 ? "star1" : "star2"}.webp`}
+                      className="w-full absolute top-0 left-0 z-0"
+                      alt=""
                     />
-                    <p className="text-[#0E387A] stroke-text-idk font-semibold galindo text-[3vh] leading-[3vh] text-center w-[80%] mx-auto">
-                      {sponsor.name}
-                    </p>
+                    <div className="flex flex-col relative z-5 items-center justify-center w-[80%] mx-auto">
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="w-[45%]"
+                      />
+                      <p className="text-[#0E387A] stroke-text-idk font-semibold galindo text-[3vh] leading-[3vh] text-center w-[80%] mx-auto">
+                        {sponsor.name}
+                      </p>
+                    </div>
+                  </>
+                );
+
+                return sponsor.website ? (
+                  <a
+                    key={index}
+                    href={withProtocol(sponsor.website)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="aspect-[1] w-full relative flex flex-col items-center justify-center hover:scale-105 transition-transform duration-200"
+                  >
+                    {cardContent}
+                  </a>
+                ) : (
+                  <div
+                    className="aspect-[1] w-full relative flex flex-col items-center justify-center"
+                    key={index}
+                  >
+                    {cardContent}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
