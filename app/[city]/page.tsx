@@ -139,6 +139,8 @@ export default async function Page({
             >
               parents guide
             </a>
+            <br></br>
+            scroll to find more info on event
           </p>
         </div>
       </div>
